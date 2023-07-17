@@ -1,2 +1,2 @@
 # simple-operating-system-for-RISCV
-Simple multithreaded operating system with time sharing for riscv architecture, varient RV64IMA
+Simple multithreaded operating system with time sharing for riscv architecture, variant RV64IMA
