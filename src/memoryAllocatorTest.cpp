@@ -1,7 +1,7 @@
-#include "../h/memoryTest.hpp"
+#include "../h/memoryAllocatorTest.hpp"
 #include "../lib/hw.h"
 
-bool MemoryTest::runTests() {
+bool MemoryAllocatorTest::runTests() {
     #define SIZE_TEST_NUMBER 5
 
     uint64 sizes[SIZE_TEST_NUMBER];
@@ -12,7 +12,7 @@ bool MemoryTest::runTests() {
     sizes[4] = -37;
 
     for (int i = 0; i < SIZE_TEST_NUMBER; ++i) {
-        void *allocatedMemoryPoiner = nullptr;
+        void * allocatedMemoryPointer = nullptr;
         if (!testMemoryAllocate(sizes[i], &allocatedMemoryPointer)) return false;
         if (!testMemoryFree(sizes[i], allocatedMemoryPointer)) return false;
     }
@@ -23,14 +23,14 @@ bool MemoryTest::runTests() {
     return true;
 }
 
-bool MemoryTest::testMemoryAllocate(uint64 size, void** allocatedMemoryPointer) {
+bool MemoryAllocatorTest::testMemoryAllocate(uint64 size, void** allocatedMemoryPointer) {
     return true;
 }
 
-bool MemoryTest::testMemoryFree(uint64 size, void* allocatedMemoryPointer) {
+bool MemoryAllocatorTest::testMemoryFree(uint64 size, void* allocatedMemoryPointer) {
     return true;
 }
 
-bool MemoryTest::testFirstFit() {
+bool MemoryAllocatorTest::testFirstFit() {
     return true;
 }

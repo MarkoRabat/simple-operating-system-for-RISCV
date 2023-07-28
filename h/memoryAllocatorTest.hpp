@@ -1,7 +1,9 @@
-#ifndef MEMORYTEST_HPP
-#define MEMORYTEST_HPP
+#ifndef MEMORYALLOCATORTEST_HPP
+#define MEMORYALLOCATORTEST_HPP
 
-class MemoryTest {
+#include "../lib/hw.h"
+
+class MemoryAllocatorTest {
 public:
     bool runTests();
 private:
