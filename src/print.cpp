@@ -23,9 +23,9 @@ void printInteger(uint64 integer)
 
     static char digits[] = "0123456789";
     char buf[16]; int i = 0; uint64 x = integer;
-    int neg = (integer & (uint64)1 << 63) != (uint64) 0;
+    int neg = (integer & ((uint64)1 << 63)) != 0;
 
-    if (neg) x = ~integer + (uint64)1;
+    if (neg) x = ~integer + 1;
 
     do buf[i++] = digits[x % 10];
     while ((x /= 10) != 0);

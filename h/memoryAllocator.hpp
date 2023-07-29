@@ -7,19 +7,21 @@
 class MemoryAllocator {
 public:
     static MemoryAllocator* instance();
+    static void printMemorySpaceParamsToConsole();
+
     void* kmem_alloc(size_t size);
     int kmem_free(size_t size);
-    static void printParamsToConsole();
-    static MemoryAllocator* createInstance();
-protected:
+    void printInstanceMemorySpaceParamsToConsole();
+    size_t getTotalFree() { return totalFree; }
+    size_t getTotalTaken() { return totalTaken; }
+    size_t getFreeBlockNo() { return freeBlockNo; }
 private:
+    static MemoryAllocator* createInstance();
     static MemoryAllocator* onlyInstance;
     static uint8* managedMemorySpaceStart;
     static uint8* managedMemorySpaceEnd;
 
-    size_t totalTaken = 0;
-    size_t totalFree = (size_t) (managedMemorySpaceEnd - managedMemorySpaceStart); // free memory in B
-    const size_t freeBlockNo = totalFree / MEM_BLOCK_SIZE;
+    size_t totalFree; size_t freeBlockNo; size_t totalTaken;
 
 };
 
