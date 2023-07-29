@@ -1,5 +1,6 @@
 #include "../h/memoryAllocatorTest.hpp"
 #include "../lib/hw.h"
+#include "../h/memoryAllocator.hpp"
 
 bool MemoryAllocatorTest::runTests() {
     #define SIZE_TEST_NUMBER 5
@@ -18,6 +19,7 @@ bool MemoryAllocatorTest::runTests() {
     }
 
     if (!testFirstFit()) return false;
+    if (!testSegmentDescriptorSize()) return false;
 
 
     return true;
@@ -32,5 +34,10 @@ bool MemoryAllocatorTest::testMemoryFree(uint64 size, void* allocatedMemoryPoint
 }
 
 bool MemoryAllocatorTest::testFirstFit() {
+    return true;
+}
+
+bool MemoryAllocatorTest::testSegmentDescriptorSize() {
+    if (sizeof(MemoryAllocator::SegmentDescriptor) != 16) return false;
     return true;
 }

@@ -3,9 +3,12 @@
 
 int main() {
 
-    MemoryAllocator::printMemorySpaceParamsToConsole();
-    MemoryAllocator::instance()->printInstanceMemorySpaceParamsToConsole();
-    MemoryAllocator::printMemorySpaceParamsToConsole();
+    MemoryAllocator::printMemorySpaceParams();
+    MemoryAllocator::instance()->printInstanceMemorySpaceParams();
+    MemoryAllocator::printMemorySpaceParams();
+
+    MemoryAllocator::instance()->printFreeMemoryHeadData();
+
 
     return 0;
 }

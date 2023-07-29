@@ -16,7 +16,8 @@ MemoryAllocator* MemoryAllocator::createInstance() {
     managedMemorySpaceStart = (uint8*) HEAP_START_ADDR;
     managedMemorySpaceEnd = (uint8*) HEAP_END_ADDR;
 
-    size_t noBlocksForStoringMemoryAllocator = sizeof(MemoryAllocator) / MEM_BLOCK_SIZE + 1;
+    // size_t noBlocksForStoringMemoryAllocator = sizeof(MemoryAllocator) / MEM_BLOCK_SIZE + 1;
+    size_t noBlocksForStoringMemoryAllocator = getMinBlockNumber(sizeof(MemoryAllocator));
     MemoryAllocator* newMemoryAllocator = (MemoryAllocator*)managedMemorySpaceStart;
     managedMemorySpaceStart += noBlocksForStoringMemoryAllocator * MEM_BLOCK_SIZE;
 
@@ -24,15 +25,58 @@ MemoryAllocator* MemoryAllocator::createInstance() {
     newMemoryAllocator->totalFree = (size_t) (managedMemorySpaceEnd - managedMemorySpaceStart); // free memory in Bytes
     newMemoryAllocator->freeBlockNo = newMemoryAllocator->totalFree / MEM_BLOCK_SIZE;
 
+    newMemoryAllocator->freeMemoryHead = (SegmentDescriptor*) managedMemorySpaceStart;
+
+    // size_t minBlockNoForSegmentDesc = (sizeof(SegmentDescriptor) / MEM_BLOCK_SIZE + 1);
+    size_t minBlockNoForSegmentDesc = getMinBlockNumber(sizeof(SegmentDescriptor));
+    newMemoryAllocator->totalTaken +=  minBlockNoForSegmentDesc * MEM_BLOCK_SIZE;
+    newMemoryAllocator->freeBlockNo -= minBlockNoForSegmentDesc;
+    newMemoryAllocator->totalFree -= newMemoryAllocator->totalTaken;
+
+    newMemoryAllocator->freeMemoryHead->noBlocks = newMemoryAllocator->freeBlockNo;
+    newMemoryAllocator->freeMemoryHead->next = nullptr;
+
     return newMemoryAllocator;
 }
 
+size_t MemoryAllocator::getMinBlockNumber(size_t size) {
+    size_t blockNo = size / MEM_BLOCK_SIZE;
+    blockNo = blockNo + (size - blockNo * MEM_BLOCK_SIZE != 0);
+    return blockNo;
+}
 
-void MemoryAllocator::printInstanceMemorySpaceParamsToConsole() {
+// nije ovo dobro
+void* MemoryAllocator::kmem_alloc(size_t size) {
+    size_t minBlockNo = getMinBlockNumber(size);
+
+    if (minBlockNo * MEM_BLOCK_SIZE - size < sizeof(SegmentDescriptor)) ++minBlockNo;
+    SegmentDescriptor* takenSegmentHead = freeMemoryHead;
+    if (freeMemoryHead->next == nullptr) {
+        (uint8*) freeMemoryHead += minBlockNo * MEM_BLOCK_SIZE;
+        freeMemoryHead->noBlocks = takenSegmentHead->noBlocks - minBlockNo;
+        freeMemoryHead->next = takenSegmentHead->next;
+    }
+    else freeMemoryHead = freeMemoryHead->next;
+
+    freeBlockNo -= minBlockNo;
+    totalFree -= minBlockNo * MEM_BLOCK_SIZE;
+    totalTaken += minBlockNo * MEM_BLOCK_SIZE;
+
+    takenSegmentHead->noBlocks = minBlockNo;
+    takenSegmentHead->next = nullptr;
+    return (uint8*) takenSegmentHead + sizeof(SegmentDescriptor);
+}
+
+int MemoryAllocator::kmem_free(size_t size) {
+    return 0;
+}
+
+void MemoryAllocator::printInstanceMemorySpaceParams() {
     printString("##################################\n\n");
     printString("MemoryAllocator address: "); printInteger((uint64)this); printString("\n");
 
-    size_t noBlocksForStoringMemoryAllocator = sizeof(MemoryAllocator) / MEM_BLOCK_SIZE + 1;
+    // size_t noBlocksForStoringMemoryAllocator = sizeof(MemoryAllocator) / MEM_BLOCK_SIZE + 1;
+    size_t noBlocksForStoringMemoryAllocator = getMinBlockNumber(sizeof(MemoryAllocator));
     printString("noBlocksForStoringMemoryAllocator: ");
     printInteger(noBlocksForStoringMemoryAllocator); printString("\n");
     printString("noBlocksForStoringMemoryAllocator * MEM_BLOCK_SIZE: ");
@@ -49,7 +93,7 @@ void MemoryAllocator::printInstanceMemorySpaceParamsToConsole() {
     printString("\n##################################\n");
 }
 
-void MemoryAllocator::printMemorySpaceParamsToConsole() {
+void MemoryAllocator::printMemorySpaceParams() {
     printString("----------------------------------\n\n");
     printString("Size of MemoryAllocator class: ");
     printInteger(sizeof(MemoryAllocator)); printString("\n");
@@ -68,10 +112,15 @@ void MemoryAllocator::printMemorySpaceParamsToConsole() {
     printString("\n----------------------------------\n");
 }
 
-void* MemoryAllocator::kmem_alloc(size_t size) {
-    return nullptr;
-}
-
-int MemoryAllocator::kmem_free(size_t size) {
-    return 0;
+void MemoryAllocator::printFreeMemoryHeadData() {
+    printString("##################################\n\n");
+    printString("freeMemoryHead: ");
+    printInteger((uint64)freeMemoryHead); printString("\n");
+    printString("freeMemoryHead->noBlocks: ");
+    printInteger((uint64)freeMemoryHead->noBlocks); printString("\n");
+    printString("freeMemoryHead->next: ");
+    printInteger((uint64)freeMemoryHead->next); printString("\n");
+    printString("Segment Descriptor size: ");
+    printInteger(sizeof(*freeMemoryHead)); printString("\n");
+    printString("\n##################################\n");
 }
