@@ -54,7 +54,8 @@ private:
     static uint8* managedMemorySpaceStart;
     static uint8* managedMemorySpaceEnd;
 
-    SegmentDesc* firstFit(size_t blockNo);
+    SegmentDescriptor* firstFit(size_t blockNo);
+
     // totalFree|Taken memory in Bytes
     size_t totalFree; size_t totalTaken;
     size_t freeBlockNo;

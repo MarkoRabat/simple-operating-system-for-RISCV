@@ -9,6 +9,11 @@ int main() {
 
     MemoryAllocator::instance()->printFreeMemoryHeadData();
 
+    MemoryAllocator::instance()->kmem_alloc(120);
+    MemoryAllocator::instance()->printFreeMemoryHeadData();
+    MemoryAllocator::instance()->printInstanceMemorySpaceParams();
+
+
 
     return 0;
 }
