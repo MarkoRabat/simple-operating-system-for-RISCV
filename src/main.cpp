@@ -3,14 +3,17 @@
 
 int main() {
 
-    MemoryAllocator::printMemorySpaceParams();
+    //MemoryAllocator::instance()->printFreeMemoryHeadData();
     MemoryAllocator::instance()->printInstanceMemorySpaceParams();
-    MemoryAllocator::printMemorySpaceParams();
 
-    MemoryAllocator::instance()->printFreeMemoryHeadData();
+    printString("ALOCATED:::::::::::::::::::::::::::::::::::");
+    void* p = MemoryAllocator::instance()->kmem_alloc(120);
+    //MemoryAllocator::instance()->printFreeMemoryHeadData();
+    MemoryAllocator::instance()->printInstanceMemorySpaceParams();
 
-    MemoryAllocator::instance()->kmem_alloc(120);
-    MemoryAllocator::instance()->printFreeMemoryHeadData();
+    printString("FREE:::::::::::::::::::::::::::::::::::::::");
+    MemoryAllocator::instance()->kmem_free(p);
+    //MemoryAllocator::instance()->printFreeMemoryHeadData();
     MemoryAllocator::instance()->printInstanceMemorySpaceParams();
 
 
