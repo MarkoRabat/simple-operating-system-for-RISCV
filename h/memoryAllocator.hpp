@@ -5,6 +5,13 @@
 
 class MemoryAllocatorTest;
 
+/*          ^
+ *          |
+ *          |
+ *          |
+ * DELETE THIS CLASS DECLARATION
+ */
+
 // singleton
 class MemoryAllocator {
 public:
@@ -32,12 +39,18 @@ public:
      */
     friend MemoryAllocatorTest;
 
+    /*                         ^
+     *                         |
+     *      DELETE THIS FRIEND |
+     *
+     */
+
     static MemoryAllocator* instance();
     static void printMemorySpaceParams();
     static size_t getMinBlockNumber (size_t size);
 
     void* kmem_alloc(size_t size);
-    int kmem_free(size_t size);
+    int kmem_free(void* newFree);
     void printInstanceMemorySpaceParams();
     void printFreeMemoryHeadData();
     size_t getTotalFree() { return totalFree; }
@@ -53,6 +66,7 @@ private:
     static MemoryAllocator* onlyInstance;
     static uint8* managedMemorySpaceStart;
     static uint8* managedMemorySpaceEnd;
+    static size_t minMemoryFragmentSize;
 
     SegmentDescriptor* firstFit(size_t blockNo);
 
@@ -60,6 +74,7 @@ private:
     size_t totalFree; size_t totalTaken;
     size_t freeBlockNo;
     SegmentDescriptor* freeMemoryHead;
+
 };
 
 #endif

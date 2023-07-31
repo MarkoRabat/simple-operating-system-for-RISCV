@@ -5,6 +5,7 @@
 MemoryAllocator* MemoryAllocator::onlyInstance = nullptr;
 uint8* MemoryAllocator::managedMemorySpaceStart = nullptr;
 uint8* MemoryAllocator::managedMemorySpaceEnd = nullptr;
+size_t MemoryAllocator::minMemoryFragmentSize = 0;
 
 MemoryAllocator* MemoryAllocator::instance() {
     if (onlyInstance == nullptr)
@@ -15,6 +16,7 @@ MemoryAllocator* MemoryAllocator::instance() {
 MemoryAllocator* MemoryAllocator::createInstance() {
     managedMemorySpaceStart = (uint8*) HEAP_START_ADDR;
     managedMemorySpaceEnd = (uint8*) HEAP_END_ADDR;
+    minMemoryFragmentSize = getMinBlockNumber(sizeof(SegmentDescriptor)) + getMinBlockNumber(sizeof(uint64));
 
     size_t noBlocksForStoringMemoryAllocator = getMinBlockNumber(sizeof(MemoryAllocator));
     MemoryAllocator* newMemoryAllocator = (MemoryAllocator*)managedMemorySpaceStart;
@@ -25,11 +27,6 @@ MemoryAllocator* MemoryAllocator::createInstance() {
     newMemoryAllocator->freeBlockNo = newMemoryAllocator->totalFree / MEM_BLOCK_SIZE;
 
     newMemoryAllocator->freeMemoryHead = (SegmentDescriptor*) managedMemorySpaceStart;
-
-    size_t minBlockNoForSegmentDesc = getMinBlockNumber(sizeof(SegmentDescriptor));
-    newMemoryAllocator->totalTaken +=  minBlockNoForSegmentDesc * MEM_BLOCK_SIZE;
-    newMemoryAllocator->freeBlockNo -= minBlockNoForSegmentDesc;
-    newMemoryAllocator->totalFree -= newMemoryAllocator->totalTaken;
 
     newMemoryAllocator->freeMemoryHead->noBlocks = newMemoryAllocator->freeBlockNo;
     newMemoryAllocator->freeMemoryHead->next = nullptr;
@@ -47,14 +44,13 @@ size_t MemoryAllocator::getMinBlockNumber(size_t size) {
 MemoryAllocator::SegmentDescriptor* MemoryAllocator::firstFit(size_t blockNo) {
     SegmentDescriptor* largeEnoughSegment = freeMemoryHead;
     SegmentDescriptor* prevSegment = nullptr;
-    while (largeEnoughSegment && largeEnoughSegment->noBlocks + 1 < blockNo) {
+    while (largeEnoughSegment && largeEnoughSegment->noBlocks < blockNo) {
         prevSegment = largeEnoughSegment;
         largeEnoughSegment = largeEnoughSegment->next;
     }
     if (!largeEnoughSegment) return nullptr;
 
-    size_t minFragmentSize = getMinBlockNumber(sizeof(SegmentDescriptor)) + getMinBlockNumber(sizeof(uint64));
-    if (largeEnoughSegment->noBlocks + 1 - blockNo >= minFragmentSize) {
+    if (largeEnoughSegment->noBlocks - blockNo >= minMemoryFragmentSize) {
         SegmentDescriptor* newSegment = (SegmentDescriptor*) ((uint8*) largeEnoughSegment + blockNo * MEM_BLOCK_SIZE);
         newSegment->noBlocks = largeEnoughSegment->noBlocks - blockNo;
         newSegment->next = largeEnoughSegment->next;
@@ -74,6 +70,7 @@ void* MemoryAllocator::kmem_alloc(size_t size) {
     size_t minBlockNo = getMinBlockNumber(size);
     if (minBlockNo * MEM_BLOCK_SIZE - size < sizeof(SegmentDescriptor)) ++minBlockNo;
     SegmentDescriptor* newTaken = firstFit(minBlockNo);
+    if (!newTaken) return nullptr;
 
     freeBlockNo -= minBlockNo;
     totalFree -= minBlockNo * MEM_BLOCK_SIZE;
@@ -82,7 +79,7 @@ void* MemoryAllocator::kmem_alloc(size_t size) {
     return (uint8*) newTaken + sizeof(SegmentDescriptor);
 }
 
-int MemoryAllocator::kmem_free(size_t size) {
+int MemoryAllocator::kmem_free(void* newFree) {
     return 0;
 }
 
