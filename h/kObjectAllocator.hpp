@@ -20,6 +20,7 @@ public:
     }
     void printInternalMemory();
     void* allocateNewObject();
+    void freeObject(void* objectPointer);
 private:
     size_t objectSize;
     size_t initialObjectNumber = 320;

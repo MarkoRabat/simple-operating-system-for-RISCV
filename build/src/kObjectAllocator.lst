@@ -1,4 +1,4 @@
-GAS LISTING /tmp/ccYLi3oA.s 			page 1
+GAS LISTING /tmp/ccb2zYdj.s 			page 1
 
 
    1              		.file	"kObjectAllocator.cpp"
@@ -9,589 +9,820 @@ GAS LISTING /tmp/ccYLi3oA.s 			page 1
    6              		.section	.rodata.str1.8,"aMS",@progbits,1
    7              		.align	3
    8              	.LC0:
-   9 0000 2000     		.string	" "
-  10 0002 00000000 		.align	3
-  10      0000
+   9 0000 0A626974 		.string	"\nbitVector: "
+   9      56656374 
+   9      6F723A20 
+   9      00
+  10 000d 000000   		.align	3
   11              	.LC1:
-  12 0008 0A00     		.string	"\n"
-  13 000a 00000000 		.align	3
-  13      0000
+  12 0010 0A6F626A 		.string	"\nobjectVector: "
+  12      65637456 
+  12      6563746F 
+  12      723A2000 
+  13              		.align	3
   14              	.LC2:
-  15 0010 2D00     		.string	"-"
-  16              		.text
-  17              		.align	2
-  18              		.globl	_ZN16KObjectAllocator19printInternalMemoryEv
-  20              	_ZN16KObjectAllocator19printInternalMemoryEv:
-  21              	.LFB8:
-  22              		.file 1 "src/kObjectAllocator.cpp"
+  15 0020 0A00     		.string	"\n"
+  16 0022 00000000 		.align	3
+  16      0000
+  17              	.LC3:
+  18 0028 2000     		.string	" "
+  19 002a 00000000 		.align	3
+  19      0000
+  20              	.LC4:
+  21 0030 2D00     		.string	"-"
+  22              		.text
+  23              		.align	2
+  24              		.globl	_ZN16KObjectAllocator19printInternalMemoryEv
+  26              	_ZN16KObjectAllocator19printInternalMemoryEv:
+  27              	.LFB8:
+  28              		.file 1 "src/kObjectAllocator.cpp"
    1:src/kObjectAllocator.cpp **** #include "../h/kObjectAllocator.hpp"
    2:src/kObjectAllocator.cpp **** #include "../h/print.hpp"
    3:src/kObjectAllocator.cpp **** 
    4:src/kObjectAllocator.cpp **** void KObjectAllocator::printInternalMemory() {
-  23              		.loc 1 4 46
-  24              		.cfi_startproc
-  25              	.LVL0:
-  26 0000 130101FD 		addi	sp,sp,-48
-  27              		.cfi_def_cfa_offset 48
-  28 0004 23341102 		sd	ra,40(sp)
-  29 0008 23308102 		sd	s0,32(sp)
-  30 000c 233C9100 		sd	s1,24(sp)
-  31 0010 23382101 		sd	s2,16(sp)
-  32 0014 23343101 		sd	s3,8(sp)
-  33              		.cfi_offset 1, -8
-  34              		.cfi_offset 8, -16
-  35              		.cfi_offset 9, -24
-  36              		.cfi_offset 18, -32
-  37              		.cfi_offset 19, -40
-  38 0018 13040103 		addi	s0,sp,48
-  39              		.cfi_def_cfa 8, 0
-  40 001c 93040500 		mv	s1,a0
-   5:src/kObjectAllocator.cpp ****     for (size_t i = 0; i < memoryForBits + initialObjectNumber * objectSize; ++i) {
-  41              		.loc 1 5 5
-  42              	.LVL1:
-  43              	.LBB2:
-  44              		.loc 1 5 17 is_stmt 0
-  45 0020 13090000 		li	s2,0
-  46 0024 6F000007 		j	.L2
-  47              	.LVL2:
-  48              	.L10:
-  49              	.LBB3:
-   6:src/kObjectAllocator.cpp ****         if (bitVector[i] / 100 == 0) printInteger((uint8) 0);
-  50              		.loc 1 6 38 is_stmt 1 discriminator 1
-GAS LISTING /tmp/ccYLi3oA.s 			page 2
+  29              		.loc 1 4 46
+  30              		.cfi_startproc
+  31              	.LVL0:
+  32 0000 130101FD 		addi	sp,sp,-48
+  33              		.cfi_def_cfa_offset 48
+  34 0004 23341102 		sd	ra,40(sp)
+  35 0008 23308102 		sd	s0,32(sp)
+  36 000c 233C9100 		sd	s1,24(sp)
+  37 0010 23382101 		sd	s2,16(sp)
+  38 0014 23343101 		sd	s3,8(sp)
+  39              		.cfi_offset 1, -8
+  40              		.cfi_offset 8, -16
+  41              		.cfi_offset 9, -24
+  42              		.cfi_offset 18, -32
+  43              		.cfi_offset 19, -40
+  44 0018 13040103 		addi	s0,sp,48
+  45              		.cfi_def_cfa 8, 0
+  46 001c 93040500 		mv	s1,a0
+GAS LISTING /tmp/ccb2zYdj.s 			page 2
 
 
-  51              		.loc 1 6 50 is_stmt 0 discriminator 1
-  52 0028 13050000 		li	a0,0
-  53 002c 97000000 		call	_Z12printIntegerm@plt
-  53      E7800000 
-  54              	.LVL3:
-  55 0034 6F00C008 		j	.L4
-  56              	.L11:
-   7:src/kObjectAllocator.cpp ****         if (bitVector[i] / 10 == 0) printInteger((uint8) 0);
-  57              		.loc 1 7 37 is_stmt 1 discriminator 1
-  58              		.loc 1 7 49 is_stmt 0 discriminator 1
-  59 0038 13050000 		li	a0,0
-  60 003c 97000000 		call	_Z12printIntegerm@plt
-  60      E7800000 
-  61              	.LVL4:
-  62 0044 6F000009 		j	.L5
-  63              	.LVL5:
-  64              	.L12:
-  65              	.LBB4:
-  66              	.LBB5:
-   8:src/kObjectAllocator.cpp ****         printInteger(bitVector[i]);
-   9:src/kObjectAllocator.cpp ****         printString(" ");
-  10:src/kObjectAllocator.cpp ****         if (i + 1 == memoryForBits) {
-  11:src/kObjectAllocator.cpp ****             printString("\n"); for (size_t j = 0; j < memoryForBits * 4 - 1; ++j) printString("-");
-  67              		.loc 1 11 13 is_stmt 1
-  68              		.loc 1 11 24 is_stmt 0
-  69 0048 17050000 		lla	a0,.LC1
-  69      13050500 
-  70 0050 97000000 		call	_Z11printStringPKc@plt
-  70      E7800000 
-  71              	.LVL6:
-  72              		.loc 1 11 32 is_stmt 1
-  73              	.LBB6:
-  74              		.loc 1 11 44 is_stmt 0
-  75 0058 93090000 		li	s3,0
-  76              	.LVL7:
-  77              	.L7:
-  78              		.loc 1 11 53 is_stmt 1 discriminator 3
-  79              		.loc 1 11 55 is_stmt 0 discriminator 3
-  80 005c 83B70401 		ld	a5,16(s1)
-  81              		.loc 1 11 69 discriminator 3
-  82 0060 93972700 		slli	a5,a5,2
-  83              		.loc 1 11 73 discriminator 3
-  84 0064 9387F7FF 		addi	a5,a5,-1
-  85              		.loc 1 11 53 discriminator 3
-  86 0068 63FEF908 		bleu	a5,s3,.L6
-  87              		.loc 1 11 83 is_stmt 1 discriminator 2
-  88              		.loc 1 11 94 is_stmt 0 discriminator 2
-  89 006c 17050000 		lla	a0,.LC2
-  89      13050500 
-  90 0074 97000000 		call	_Z11printStringPKc@plt
-  90      E7800000 
-  91              	.LVL8:
-  92              		.loc 1 11 32 is_stmt 1 discriminator 2
-  93 007c 93891900 		addi	s3,s3,1
-  94              	.LVL9:
-  95 0080 6FF0DFFD 		j	.L7
-  96              	.LVL10:
-GAS LISTING /tmp/ccYLi3oA.s 			page 3
+   5:src/kObjectAllocator.cpp ****     printString("\nbitVector: ");
+  47              		.loc 1 5 5
+  48              		.loc 1 5 16 is_stmt 0
+  49 0020 17050000 		lla	a0,.LC0
+  49      13050500 
+  50              	.LVL1:
+  51 0028 97000000 		call	_Z11printStringPKc@plt
+  51      E7800000 
+  52              	.LVL2:
+   6:src/kObjectAllocator.cpp ****     printInteger((uint64)bitVector);
+  53              		.loc 1 6 5 is_stmt 1
+  54              		.loc 1 6 17 is_stmt 0
+  55 0030 03B50402 		ld	a0,32(s1)
+  56 0034 97000000 		call	_Z12printIntegerm@plt
+  56      E7800000 
+  57              	.LVL3:
+   7:src/kObjectAllocator.cpp ****     printString("\nobjectVector: ");
+  58              		.loc 1 7 5 is_stmt 1
+  59              		.loc 1 7 16 is_stmt 0
+  60 003c 17050000 		lla	a0,.LC1
+  60      13050500 
+  61 0044 97000000 		call	_Z11printStringPKc@plt
+  61      E7800000 
+  62              	.LVL4:
+   8:src/kObjectAllocator.cpp ****     printInteger((uint64)objectVector);
+  63              		.loc 1 8 5 is_stmt 1
+  64              		.loc 1 8 17 is_stmt 0
+  65 004c 03B58401 		ld	a0,24(s1)
+  66 0050 97000000 		call	_Z12printIntegerm@plt
+  66      E7800000 
+  67              	.LVL5:
+   9:src/kObjectAllocator.cpp ****     printString("\n");
+  68              		.loc 1 9 5 is_stmt 1
+  69              		.loc 1 9 16 is_stmt 0
+  70 0058 17050000 		lla	a0,.LC2
+  70      13050500 
+  71 0060 97000000 		call	_Z11printStringPKc@plt
+  71      E7800000 
+  72              	.LVL6:
+  10:src/kObjectAllocator.cpp ****     for (size_t i = 0; i < memoryForBits + initialObjectNumber * objectSize; ++i) {
+  73              		.loc 1 10 5 is_stmt 1
+  74              	.LBB2:
+  75              		.loc 1 10 17 is_stmt 0
+  76 0068 13090000 		li	s2,0
+  77 006c 6F000007 		j	.L2
+  78              	.LVL7:
+  79              	.L10:
+  80              	.LBB3:
+  11:src/kObjectAllocator.cpp ****         if (bitVector[i] / 100 == 0) printInteger((uint8) 0);
+  81              		.loc 1 11 38 is_stmt 1 discriminator 1
+  82              		.loc 1 11 50 is_stmt 0 discriminator 1
+  83 0070 13050000 		li	a0,0
+  84 0074 97000000 		call	_Z12printIntegerm@plt
+  84      E7800000 
+  85              	.LVL8:
+  86 007c 6F00C008 		j	.L4
+  87              	.L11:
+GAS LISTING /tmp/ccb2zYdj.s 			page 3
 
 
-  97              	.L13:
-  98              	.LBE6:
-  99              	.LBE5:
- 100              	.LBE4:
-  12:src/kObjectAllocator.cpp ****         if ((i + 1) % memoryForBits == 0) printString("\n");
- 101              		.loc 1 12 43 discriminator 1
- 102              		.loc 1 12 54 is_stmt 0 discriminator 1
- 103 0084 17050000 		lla	a0,.LC1
- 103      13050500 
- 104 008c 97000000 		call	_Z11printStringPKc@plt
- 104      E7800000 
- 105              	.LVL11:
- 106              	.L2:
- 107              	.LBE3:
-   5:src/kObjectAllocator.cpp ****         if (bitVector[i] / 100 == 0) printInteger((uint8) 0);
- 108              		.loc 1 5 26 is_stmt 1 discriminator 1
-   5:src/kObjectAllocator.cpp ****         if (bitVector[i] / 100 == 0) printInteger((uint8) 0);
- 109              		.loc 1 5 28 is_stmt 0 discriminator 1
- 110 0094 83B70401 		ld	a5,16(s1)
-   5:src/kObjectAllocator.cpp ****         if (bitVector[i] / 100 == 0) printInteger((uint8) 0);
- 111              		.loc 1 5 44 discriminator 1
- 112 0098 03B78400 		ld	a4,8(s1)
-   5:src/kObjectAllocator.cpp ****         if (bitVector[i] / 100 == 0) printInteger((uint8) 0);
- 113              		.loc 1 5 66 discriminator 1
- 114 009c 83B60400 		ld	a3,0(s1)
-   5:src/kObjectAllocator.cpp ****         if (bitVector[i] / 100 == 0) printInteger((uint8) 0);
- 115              		.loc 1 5 64 discriminator 1
- 116 00a0 3307D702 		mul	a4,a4,a3
-   5:src/kObjectAllocator.cpp ****         if (bitVector[i] / 100 == 0) printInteger((uint8) 0);
- 117              		.loc 1 5 42 discriminator 1
- 118 00a4 B387E700 		add	a5,a5,a4
-   5:src/kObjectAllocator.cpp ****         if (bitVector[i] / 100 == 0) printInteger((uint8) 0);
- 119              		.loc 1 5 26 discriminator 1
- 120 00a8 6376F906 		bleu	a5,s2,.L1
- 121              	.LBB8:
-   6:src/kObjectAllocator.cpp ****         if (bitVector[i] / 10 == 0) printInteger((uint8) 0);
- 122              		.loc 1 6 9 is_stmt 1
-   6:src/kObjectAllocator.cpp ****         if (bitVector[i] / 10 == 0) printInteger((uint8) 0);
- 123              		.loc 1 6 13 is_stmt 0
- 124 00ac 83B70402 		ld	a5,32(s1)
-   6:src/kObjectAllocator.cpp ****         if (bitVector[i] / 10 == 0) printInteger((uint8) 0);
- 125              		.loc 1 6 24
- 126 00b0 B3872701 		add	a5,a5,s2
- 127 00b4 03C70700 		lbu	a4,0(a5)
-   6:src/kObjectAllocator.cpp ****         if (bitVector[i] / 10 == 0) printInteger((uint8) 0);
- 128              		.loc 1 6 9
- 129 00b8 93073006 		li	a5,99
- 130 00bc E3F6E7F6 		bleu	a4,a5,.L10
- 131              	.L4:
-   7:src/kObjectAllocator.cpp ****         printInteger(bitVector[i]);
- 132              		.loc 1 7 9 is_stmt 1
-   7:src/kObjectAllocator.cpp ****         printInteger(bitVector[i]);
- 133              		.loc 1 7 13 is_stmt 0
- 134 00c0 83B70402 		ld	a5,32(s1)
-   7:src/kObjectAllocator.cpp ****         printInteger(bitVector[i]);
- 135              		.loc 1 7 24
- 136 00c4 B3872701 		add	a5,a5,s2
-GAS LISTING /tmp/ccYLi3oA.s 			page 4
+  12:src/kObjectAllocator.cpp ****         if (bitVector[i] / 10 == 0) printInteger((uint8) 0);
+  88              		.loc 1 12 37 is_stmt 1 discriminator 1
+  89              		.loc 1 12 49 is_stmt 0 discriminator 1
+  90 0080 13050000 		li	a0,0
+  91 0084 97000000 		call	_Z12printIntegerm@plt
+  91      E7800000 
+  92              	.LVL9:
+  93 008c 6F000009 		j	.L5
+  94              	.LVL10:
+  95              	.L12:
+  96              	.LBB4:
+  97              	.LBB5:
+  13:src/kObjectAllocator.cpp ****         printInteger((uint64) bitVector[i]);
+  14:src/kObjectAllocator.cpp ****         printString(" ");
+  15:src/kObjectAllocator.cpp ****         if (i + 1 == memoryForBits) {
+  16:src/kObjectAllocator.cpp ****             printString("\n"); for (size_t j = 0; j < memoryForBits * 4 - 1; ++j) printString("-");
+  98              		.loc 1 16 13 is_stmt 1
+  99              		.loc 1 16 24 is_stmt 0
+ 100 0090 17050000 		lla	a0,.LC2
+ 100      13050500 
+ 101 0098 97000000 		call	_Z11printStringPKc@plt
+ 101      E7800000 
+ 102              	.LVL11:
+ 103              		.loc 1 16 32 is_stmt 1
+ 104              	.LBB6:
+ 105              		.loc 1 16 44 is_stmt 0
+ 106 00a0 93090000 		li	s3,0
+ 107              	.LVL12:
+ 108              	.L7:
+ 109              		.loc 1 16 53 is_stmt 1 discriminator 3
+ 110              		.loc 1 16 55 is_stmt 0 discriminator 3
+ 111 00a4 83B70401 		ld	a5,16(s1)
+ 112              		.loc 1 16 69 discriminator 3
+ 113 00a8 93972700 		slli	a5,a5,2
+ 114              		.loc 1 16 73 discriminator 3
+ 115 00ac 9387F7FF 		addi	a5,a5,-1
+ 116              		.loc 1 16 53 discriminator 3
+ 117 00b0 63FEF908 		bleu	a5,s3,.L6
+ 118              		.loc 1 16 83 is_stmt 1 discriminator 2
+ 119              		.loc 1 16 94 is_stmt 0 discriminator 2
+ 120 00b4 17050000 		lla	a0,.LC4
+ 120      13050500 
+ 121 00bc 97000000 		call	_Z11printStringPKc@plt
+ 121      E7800000 
+ 122              	.LVL13:
+ 123              		.loc 1 16 32 is_stmt 1 discriminator 2
+ 124 00c4 93891900 		addi	s3,s3,1
+ 125              	.LVL14:
+ 126 00c8 6FF0DFFD 		j	.L7
+ 127              	.LVL15:
+ 128              	.L13:
+ 129              	.LBE6:
+ 130              	.LBE5:
+ 131              	.LBE4:
+  17:src/kObjectAllocator.cpp ****         if ((i + 1) % memoryForBits == 0) printString("\n");
+ 132              		.loc 1 17 43 discriminator 1
+ 133              		.loc 1 17 54 is_stmt 0 discriminator 1
+GAS LISTING /tmp/ccb2zYdj.s 			page 4
 
 
- 137 00c8 03C70700 		lbu	a4,0(a5)
-   7:src/kObjectAllocator.cpp ****         printInteger(bitVector[i]);
- 138              		.loc 1 7 9
- 139 00cc 93079000 		li	a5,9
- 140 00d0 E3F4E7F6 		bleu	a4,a5,.L11
- 141              	.L5:
-   8:src/kObjectAllocator.cpp ****         printString(" ");
- 142              		.loc 1 8 9 is_stmt 1
-   8:src/kObjectAllocator.cpp ****         printString(" ");
- 143              		.loc 1 8 22 is_stmt 0
- 144 00d4 83B70402 		ld	a5,32(s1)
-   8:src/kObjectAllocator.cpp ****         printString(" ");
- 145              		.loc 1 8 33
- 146 00d8 B3872701 		add	a5,a5,s2
-   8:src/kObjectAllocator.cpp ****         printString(" ");
- 147              		.loc 1 8 21
- 148 00dc 03C50700 		lbu	a0,0(a5)
- 149 00e0 97000000 		call	_Z12printIntegerm@plt
- 149      E7800000 
- 150              	.LVL12:
-   9:src/kObjectAllocator.cpp ****         if (i + 1 == memoryForBits) {
- 151              		.loc 1 9 9 is_stmt 1
-   9:src/kObjectAllocator.cpp ****         if (i + 1 == memoryForBits) {
- 152              		.loc 1 9 20 is_stmt 0
- 153 00e8 17050000 		lla	a0,.LC0
- 153      13050500 
- 154 00f0 97000000 		call	_Z11printStringPKc@plt
- 154      E7800000 
- 155              	.LVL13:
-  10:src/kObjectAllocator.cpp ****             printString("\n"); for (size_t j = 0; j < memoryForBits * 4 - 1; ++j) printString("-");
- 156              		.loc 1 10 9 is_stmt 1
- 157              	.LBB7:
-  10:src/kObjectAllocator.cpp ****             printString("\n"); for (size_t j = 0; j < memoryForBits * 4 - 1; ++j) printString("-");
- 158              		.loc 1 10 15 is_stmt 0
- 159 00f8 13091900 		addi	s2,s2,1
- 160              	.LVL14:
-  10:src/kObjectAllocator.cpp ****             printString("\n"); for (size_t j = 0; j < memoryForBits * 4 - 1; ++j) printString("-");
- 161              		.loc 1 10 22
- 162 00fc 83B70401 		ld	a5,16(s1)
-  10:src/kObjectAllocator.cpp ****             printString("\n"); for (size_t j = 0; j < memoryForBits * 4 - 1; ++j) printString("-");
- 163              		.loc 1 10 9
- 164 0100 E304F9F4 		beq	s2,a5,.L12
- 165              	.L6:
- 166              	.LBE7:
- 167              		.loc 1 12 9 is_stmt 1
- 168              		.loc 1 12 23 is_stmt 0
- 169 0104 83B70401 		ld	a5,16(s1)
- 170              		.loc 1 12 21
- 171 0108 B377F902 		remu	a5,s2,a5
- 172              		.loc 1 12 9
- 173 010c E39407F8 		bnez	a5,.L2
- 174 0110 6FF05FF7 		j	.L13
- 175              	.LVL15:
- 176              	.L1:
- 177              	.LBE8:
- 178              	.LBE2:
-  13:src/kObjectAllocator.cpp ****     }
-GAS LISTING /tmp/ccYLi3oA.s 			page 5
+ 134 00cc 17050000 		lla	a0,.LC2
+ 134      13050500 
+ 135 00d4 97000000 		call	_Z11printStringPKc@plt
+ 135      E7800000 
+ 136              	.LVL16:
+ 137              	.L2:
+ 138              	.LBE3:
+  10:src/kObjectAllocator.cpp ****         if (bitVector[i] / 100 == 0) printInteger((uint8) 0);
+ 139              		.loc 1 10 26 is_stmt 1 discriminator 1
+  10:src/kObjectAllocator.cpp ****         if (bitVector[i] / 100 == 0) printInteger((uint8) 0);
+ 140              		.loc 1 10 28 is_stmt 0 discriminator 1
+ 141 00dc 83B70401 		ld	a5,16(s1)
+  10:src/kObjectAllocator.cpp ****         if (bitVector[i] / 100 == 0) printInteger((uint8) 0);
+ 142              		.loc 1 10 44 discriminator 1
+ 143 00e0 03B78400 		ld	a4,8(s1)
+  10:src/kObjectAllocator.cpp ****         if (bitVector[i] / 100 == 0) printInteger((uint8) 0);
+ 144              		.loc 1 10 66 discriminator 1
+ 145 00e4 83B60400 		ld	a3,0(s1)
+  10:src/kObjectAllocator.cpp ****         if (bitVector[i] / 100 == 0) printInteger((uint8) 0);
+ 146              		.loc 1 10 64 discriminator 1
+ 147 00e8 3307D702 		mul	a4,a4,a3
+  10:src/kObjectAllocator.cpp ****         if (bitVector[i] / 100 == 0) printInteger((uint8) 0);
+ 148              		.loc 1 10 42 discriminator 1
+ 149 00ec B387E700 		add	a5,a5,a4
+  10:src/kObjectAllocator.cpp ****         if (bitVector[i] / 100 == 0) printInteger((uint8) 0);
+ 150              		.loc 1 10 26 discriminator 1
+ 151 00f0 6376F906 		bleu	a5,s2,.L1
+ 152              	.LBB8:
+  11:src/kObjectAllocator.cpp ****         if (bitVector[i] / 10 == 0) printInteger((uint8) 0);
+ 153              		.loc 1 11 9 is_stmt 1
+  11:src/kObjectAllocator.cpp ****         if (bitVector[i] / 10 == 0) printInteger((uint8) 0);
+ 154              		.loc 1 11 13 is_stmt 0
+ 155 00f4 83B70402 		ld	a5,32(s1)
+  11:src/kObjectAllocator.cpp ****         if (bitVector[i] / 10 == 0) printInteger((uint8) 0);
+ 156              		.loc 1 11 24
+ 157 00f8 B3872701 		add	a5,a5,s2
+ 158 00fc 03C70700 		lbu	a4,0(a5)
+  11:src/kObjectAllocator.cpp ****         if (bitVector[i] / 10 == 0) printInteger((uint8) 0);
+ 159              		.loc 1 11 9
+ 160 0100 93073006 		li	a5,99
+ 161 0104 E3F6E7F6 		bleu	a4,a5,.L10
+ 162              	.L4:
+  12:src/kObjectAllocator.cpp ****         printInteger((uint64) bitVector[i]);
+ 163              		.loc 1 12 9 is_stmt 1
+  12:src/kObjectAllocator.cpp ****         printInteger((uint64) bitVector[i]);
+ 164              		.loc 1 12 13 is_stmt 0
+ 165 0108 83B70402 		ld	a5,32(s1)
+  12:src/kObjectAllocator.cpp ****         printInteger((uint64) bitVector[i]);
+ 166              		.loc 1 12 24
+ 167 010c B3872701 		add	a5,a5,s2
+ 168 0110 03C70700 		lbu	a4,0(a5)
+  12:src/kObjectAllocator.cpp ****         printInteger((uint64) bitVector[i]);
+ 169              		.loc 1 12 9
+ 170 0114 93079000 		li	a5,9
+ 171 0118 E3F4E7F6 		bleu	a4,a5,.L11
+ 172              	.L5:
+  13:src/kObjectAllocator.cpp ****         printString(" ");
+GAS LISTING /tmp/ccb2zYdj.s 			page 5
 
 
-  14:src/kObjectAllocator.cpp **** }
- 179              		.loc 1 14 1
- 180 0114 83308102 		ld	ra,40(sp)
- 181              		.cfi_restore 1
- 182 0118 03340102 		ld	s0,32(sp)
- 183              		.cfi_restore 8
- 184              		.cfi_def_cfa 2, 48
- 185 011c 83348101 		ld	s1,24(sp)
- 186              		.cfi_restore 9
- 187              	.LVL16:
- 188 0120 03390101 		ld	s2,16(sp)
- 189              		.cfi_restore 18
- 190              	.LVL17:
- 191 0124 83398100 		ld	s3,8(sp)
- 192              		.cfi_restore 19
- 193 0128 13010103 		addi	sp,sp,48
- 194              		.cfi_def_cfa_offset 0
- 195 012c 67800000 		jr	ra
- 196              		.cfi_endproc
- 197              	.LFE8:
- 199              		.align	2
- 200              		.globl	_ZN16KObjectAllocator17allocateNewObjectEv
- 202              	_ZN16KObjectAllocator17allocateNewObjectEv:
- 203              	.LFB9:
-  15:src/kObjectAllocator.cpp **** 
-  16:src/kObjectAllocator.cpp **** void* KObjectAllocator::allocateNewObject() {
- 204              		.loc 1 16 45 is_stmt 1
- 205              		.cfi_startproc
- 206              	.LVL18:
- 207 0130 130101FF 		addi	sp,sp,-16
- 208              		.cfi_def_cfa_offset 16
- 209 0134 23348100 		sd	s0,8(sp)
- 210              		.cfi_offset 8, -8
- 211 0138 13040101 		addi	s0,sp,16
- 212              		.cfi_def_cfa 8, 0
-  17:src/kObjectAllocator.cpp ****     for (size_t i = 0; i < memoryForBits; ++i)
- 213              		.loc 1 17 5
- 214              	.LVL19:
- 215              	.LBB9:
- 216              		.loc 1 17 26
- 217              		.loc 1 17 28 is_stmt 0
- 218 013c 83370501 		ld	a5,16(a0)
- 219              		.loc 1 17 26
- 220 0140 638A0704 		beqz	a5,.L18
- 221              	.LBB10:
-  18:src/kObjectAllocator.cpp ****         for (size_t j = 7; j >= 0; --j)
- 222              		.loc 1 18 21
- 223 0144 93077000 		li	a5,7
- 224              	.L17:
- 225              	.LVL20:
-  19:src/kObjectAllocator.cpp ****             if ((bitVector[i] >> j & (uint8) 1) == 0) {
- 226              		.loc 1 19 13 is_stmt 1
- 227              		.loc 1 19 18 is_stmt 0
- 228 0148 03360502 		ld	a2,32(a0)
- 229              		.loc 1 19 29
- 230 014c 83460600 		lbu	a3,0(a2)
- 231              		.loc 1 19 31
-GAS LISTING /tmp/ccYLi3oA.s 			page 6
+ 173              		.loc 1 13 9 is_stmt 1
+  13:src/kObjectAllocator.cpp ****         printString(" ");
+ 174              		.loc 1 13 31 is_stmt 0
+ 175 011c 83B70402 		ld	a5,32(s1)
+  13:src/kObjectAllocator.cpp ****         printString(" ");
+ 176              		.loc 1 13 42
+ 177 0120 B3872701 		add	a5,a5,s2
+  13:src/kObjectAllocator.cpp ****         printString(" ");
+ 178              		.loc 1 13 21
+ 179 0124 03C50700 		lbu	a0,0(a5)
+ 180 0128 97000000 		call	_Z12printIntegerm@plt
+ 180      E7800000 
+ 181              	.LVL17:
+  14:src/kObjectAllocator.cpp ****         if (i + 1 == memoryForBits) {
+ 182              		.loc 1 14 9 is_stmt 1
+  14:src/kObjectAllocator.cpp ****         if (i + 1 == memoryForBits) {
+ 183              		.loc 1 14 20 is_stmt 0
+ 184 0130 17050000 		lla	a0,.LC3
+ 184      13050500 
+ 185 0138 97000000 		call	_Z11printStringPKc@plt
+ 185      E7800000 
+ 186              	.LVL18:
+  15:src/kObjectAllocator.cpp ****             printString("\n"); for (size_t j = 0; j < memoryForBits * 4 - 1; ++j) printString("-");
+ 187              		.loc 1 15 9 is_stmt 1
+ 188              	.LBB7:
+  15:src/kObjectAllocator.cpp ****             printString("\n"); for (size_t j = 0; j < memoryForBits * 4 - 1; ++j) printString("-");
+ 189              		.loc 1 15 15 is_stmt 0
+ 190 0140 13091900 		addi	s2,s2,1
+ 191              	.LVL19:
+  15:src/kObjectAllocator.cpp ****             printString("\n"); for (size_t j = 0; j < memoryForBits * 4 - 1; ++j) printString("-");
+ 192              		.loc 1 15 22
+ 193 0144 83B70401 		ld	a5,16(s1)
+  15:src/kObjectAllocator.cpp ****             printString("\n"); for (size_t j = 0; j < memoryForBits * 4 - 1; ++j) printString("-");
+ 194              		.loc 1 15 9
+ 195 0148 E304F9F4 		beq	s2,a5,.L12
+ 196              	.L6:
+ 197              	.LBE7:
+ 198              		.loc 1 17 9 is_stmt 1
+ 199              		.loc 1 17 23 is_stmt 0
+ 200 014c 83B70401 		ld	a5,16(s1)
+ 201              		.loc 1 17 21
+ 202 0150 B377F902 		remu	a5,s2,a5
+ 203              		.loc 1 17 9
+ 204 0154 E39407F8 		bnez	a5,.L2
+ 205 0158 6FF05FF7 		j	.L13
+ 206              	.LVL20:
+ 207              	.L1:
+ 208              	.LBE8:
+ 209              	.LBE2:
+  18:src/kObjectAllocator.cpp ****     }
+  19:src/kObjectAllocator.cpp **** }
+ 210              		.loc 1 19 1
+ 211 015c 83308102 		ld	ra,40(sp)
+ 212              		.cfi_restore 1
+ 213 0160 03340102 		ld	s0,32(sp)
+ 214              		.cfi_restore 8
+ 215              		.cfi_def_cfa 2, 48
+GAS LISTING /tmp/ccb2zYdj.s 			page 6
 
 
- 232 0150 9B850700 		sext.w	a1,a5
- 233 0154 3BD7F640 		sraw	a4,a3,a5
- 234              		.loc 1 19 36
- 235 0158 13771700 		andi	a4,a4,1
- 236              		.loc 1 19 13
- 237 015c 63060700 		beqz	a4,.L20
-  18:src/kObjectAllocator.cpp ****         for (size_t j = 7; j >= 0; --j)
- 238              		.loc 1 18 9 is_stmt 1
- 239 0160 9387F7FF 		addi	a5,a5,-1
- 240              	.LVL21:
-  18:src/kObjectAllocator.cpp ****         for (size_t j = 7; j >= 0; --j)
- 241              		.loc 1 18 9
- 242              		.loc 1 19 13 is_stmt 0
- 243 0164 6FF05FFE 		j	.L17
- 244              	.L20:
-  20:src/kObjectAllocator.cpp ****                 bitVector[i] |= (uint8) 1 << j;
- 245              		.loc 1 20 17 is_stmt 1
- 246              		.loc 1 20 43 is_stmt 0
- 247 0168 13071000 		li	a4,1
- 248 016c BB15B700 		sllw	a1,a4,a1
- 249              		.loc 1 20 30
- 250 0170 B3E6B600 		or	a3,a3,a1
- 251 0174 2300D600 		sb	a3,0(a2)
-  21:src/kObjectAllocator.cpp ****                 return &objectVector[i * 8 + 8 - j];
- 252              		.loc 1 21 17 is_stmt 1
- 253              		.loc 1 21 25 is_stmt 0
- 254 0178 03358501 		ld	a0,24(a0)
- 255              	.LVL22:
- 256              		.loc 1 21 48
- 257 017c 13078000 		li	a4,8
- 258 0180 B307F740 		sub	a5,a4,a5
- 259              	.LVL23:
- 260              		.loc 1 21 51
- 261 0184 3305F500 		add	a0,a0,a5
- 262              	.L14:
- 263              	.LBE10:
- 264              	.LBE9:
-  22:src/kObjectAllocator.cpp ****             }
-  23:src/kObjectAllocator.cpp ****     return nullptr;
-  24:src/kObjectAllocator.cpp **** }
- 265              		.loc 1 24 1
- 266 0188 03348100 		ld	s0,8(sp)
- 267              		.cfi_remember_state
- 268              		.cfi_restore 8
- 269              		.cfi_def_cfa 2, 16
- 270 018c 13010101 		addi	sp,sp,16
- 271              		.cfi_def_cfa_offset 0
- 272 0190 67800000 		jr	ra
- 273              	.LVL24:
- 274              	.L18:
- 275              		.cfi_restore_state
-  23:src/kObjectAllocator.cpp **** }
- 276              		.loc 1 23 12
- 277 0194 13050000 		li	a0,0
- 278              	.LVL25:
- 279 0198 6FF01FFF 		j	.L14
- 280              		.cfi_endproc
-GAS LISTING /tmp/ccYLi3oA.s 			page 7
+ 216 0164 83348101 		ld	s1,24(sp)
+ 217              		.cfi_restore 9
+ 218              	.LVL21:
+ 219 0168 03390101 		ld	s2,16(sp)
+ 220              		.cfi_restore 18
+ 221              	.LVL22:
+ 222 016c 83398100 		ld	s3,8(sp)
+ 223              		.cfi_restore 19
+ 224 0170 13010103 		addi	sp,sp,48
+ 225              		.cfi_def_cfa_offset 0
+ 226 0174 67800000 		jr	ra
+ 227              		.cfi_endproc
+ 228              	.LFE8:
+ 230              		.align	2
+ 231              		.globl	_ZN16KObjectAllocator17allocateNewObjectEv
+ 233              	_ZN16KObjectAllocator17allocateNewObjectEv:
+ 234              	.LFB9:
+  20:src/kObjectAllocator.cpp **** 
+  21:src/kObjectAllocator.cpp **** void* KObjectAllocator::allocateNewObject() {
+ 235              		.loc 1 21 45 is_stmt 1
+ 236              		.cfi_startproc
+ 237              	.LVL23:
+ 238 0178 130101FF 		addi	sp,sp,-16
+ 239              		.cfi_def_cfa_offset 16
+ 240 017c 23348100 		sd	s0,8(sp)
+ 241              		.cfi_offset 8, -8
+ 242 0180 13040101 		addi	s0,sp,16
+ 243              		.cfi_def_cfa 8, 0
+  22:src/kObjectAllocator.cpp ****     for (size_t byte = 0; byte < memoryForBits; ++byte)
+ 244              		.loc 1 22 5
+ 245              	.LVL24:
+ 246              	.LBB9:
+ 247              		.loc 1 22 17 is_stmt 0
+ 248 0184 13080000 		li	a6,0
+ 249 0188 6F008003 		j	.L19
+ 250              	.LVL25:
+ 251              	.L22:
+ 252              	.LBB10:
+  23:src/kObjectAllocator.cpp ****         for (size_t bit = 8; bit != 0; --bit)
+  24:src/kObjectAllocator.cpp ****             if ((bitVector[byte] >> (bit - 1) & (uint8) 1) == 0) {
+  25:src/kObjectAllocator.cpp ****                 bitVector[byte] |= (uint8) 1 << (bit - 1);
+ 253              		.loc 1 25 17 is_stmt 1
+ 254              		.loc 1 25 46 is_stmt 0
+ 255 018c 93061000 		li	a3,1
+ 256 0190 BB95B600 		sllw	a1,a3,a1
+ 257              		.loc 1 25 33
+ 258 0194 3366B600 		or	a2,a2,a1
+ 259 0198 2300C700 		sb	a2,0(a4)
+  26:src/kObjectAllocator.cpp ****                 return &objectVector[byte * 8 + 8 - bit];
+ 260              		.loc 1 26 17 is_stmt 1
+ 261              		.loc 1 26 25 is_stmt 0
+ 262 019c 03358501 		ld	a0,24(a0)
+ 263              	.LVL26:
+ 264              		.loc 1 26 47
+ 265 01a0 13081800 		addi	a6,a6,1
+ 266              	.LVL27:
+ 267 01a4 13183800 		slli	a6,a6,3
+GAS LISTING /tmp/ccb2zYdj.s 			page 7
 
 
- 281              	.LFE9:
- 283              	.Letext0:
- 284              		.file 2 "src/../h/../h/../lib/hw.h"
- 285              		.file 3 "src/../h/kObjectAllocator.hpp"
- 286              		.file 4 "src/../h/print.hpp"
-GAS LISTING /tmp/ccYLi3oA.s 			page 8
+ 268              	.LVL28:
+ 269              		.loc 1 26 51
+ 270 01a8 B307F840 		sub	a5,a6,a5
+ 271              	.LVL29:
+ 272              		.loc 1 26 56
+ 273 01ac 3305F500 		add	a0,a0,a5
+ 274              	.L14:
+ 275              	.LBE10:
+ 276              	.LBE9:
+  27:src/kObjectAllocator.cpp ****             }
+  28:src/kObjectAllocator.cpp ****     return nullptr;
+  29:src/kObjectAllocator.cpp **** }
+ 277              		.loc 1 29 1
+ 278 01b0 03348100 		ld	s0,8(sp)
+ 279              		.cfi_remember_state
+ 280              		.cfi_restore 8
+ 281              		.cfi_def_cfa 2, 16
+ 282 01b4 13010101 		addi	sp,sp,16
+ 283              		.cfi_def_cfa_offset 0
+ 284 01b8 67800000 		jr	ra
+ 285              	.LVL30:
+ 286              	.L16:
+ 287              		.cfi_restore_state
+ 288              	.LBB12:
+  22:src/kObjectAllocator.cpp ****         for (size_t bit = 8; bit != 0; --bit)
+ 289              		.loc 1 22 5 is_stmt 1 discriminator 2
+ 290 01bc 13081800 		addi	a6,a6,1
+ 291              	.LVL31:
+ 292              	.L19:
+  22:src/kObjectAllocator.cpp ****         for (size_t bit = 8; bit != 0; --bit)
+ 293              		.loc 1 22 32 discriminator 1
+  22:src/kObjectAllocator.cpp ****         for (size_t bit = 8; bit != 0; --bit)
+ 294              		.loc 1 22 34 is_stmt 0 discriminator 1
+ 295 01c0 83370501 		ld	a5,16(a0)
+  22:src/kObjectAllocator.cpp ****         for (size_t bit = 8; bit != 0; --bit)
+ 296              		.loc 1 22 32 discriminator 1
+ 297 01c4 6378F802 		bleu	a5,a6,.L20
+ 298              	.LBB11:
+  23:src/kObjectAllocator.cpp ****             if ((bitVector[byte] >> (bit - 1) & (uint8) 1) == 0) {
+ 299              		.loc 1 23 21
+ 300 01c8 93078000 		li	a5,8
+ 301              	.L18:
+ 302              	.LVL32:
+  23:src/kObjectAllocator.cpp ****             if ((bitVector[byte] >> (bit - 1) & (uint8) 1) == 0) {
+ 303              		.loc 1 23 34 is_stmt 1 discriminator 1
+ 304 01cc E38807FE 		beqz	a5,.L16
+  24:src/kObjectAllocator.cpp ****                 bitVector[byte] |= (uint8) 1 << (bit - 1);
+ 305              		.loc 1 24 13
+  24:src/kObjectAllocator.cpp ****                 bitVector[byte] |= (uint8) 1 << (bit - 1);
+ 306              		.loc 1 24 18 is_stmt 0
+ 307 01d0 03370502 		ld	a4,32(a0)
+  24:src/kObjectAllocator.cpp ****                 bitVector[byte] |= (uint8) 1 << (bit - 1);
+ 308              		.loc 1 24 32
+ 309 01d4 33070701 		add	a4,a4,a6
+ 310 01d8 03460700 		lbu	a2,0(a4)
+  24:src/kObjectAllocator.cpp ****                 bitVector[byte] |= (uint8) 1 << (bit - 1);
+ 311              		.loc 1 24 42
+GAS LISTING /tmp/ccb2zYdj.s 			page 8
+
+
+ 312 01dc 9B85F7FF 		addiw	a1,a5,-1
+  24:src/kObjectAllocator.cpp ****                 bitVector[byte] |= (uint8) 1 << (bit - 1);
+ 313              		.loc 1 24 34
+ 314 01e0 BB56B640 		sraw	a3,a2,a1
+  24:src/kObjectAllocator.cpp ****                 bitVector[byte] |= (uint8) 1 << (bit - 1);
+ 315              		.loc 1 24 47
+ 316 01e4 93F61600 		andi	a3,a3,1
+  24:src/kObjectAllocator.cpp ****                 bitVector[byte] |= (uint8) 1 << (bit - 1);
+ 317              		.loc 1 24 13
+ 318 01e8 E38206FA 		beqz	a3,.L22
+  23:src/kObjectAllocator.cpp ****             if ((bitVector[byte] >> (bit - 1) & (uint8) 1) == 0) {
+ 319              		.loc 1 23 9 is_stmt 1 discriminator 2
+ 320 01ec 9387F7FF 		addi	a5,a5,-1
+ 321              	.LVL33:
+ 322 01f0 6FF0DFFD 		j	.L18
+ 323              	.LVL34:
+ 324              	.L20:
+ 325              	.LBE11:
+ 326              	.LBE12:
+  28:src/kObjectAllocator.cpp **** }
+ 327              		.loc 1 28 12 is_stmt 0
+ 328 01f4 13050000 		li	a0,0
+ 329              	.LVL35:
+ 330 01f8 6FF09FFB 		j	.L14
+ 331              		.cfi_endproc
+ 332              	.LFE9:
+ 334              		.align	2
+ 335              		.globl	_ZN16KObjectAllocator10freeObjectEPv
+ 337              	_ZN16KObjectAllocator10freeObjectEPv:
+ 338              	.LFB10:
+  30:src/kObjectAllocator.cpp **** 
+  31:src/kObjectAllocator.cpp **** void KObjectAllocator::freeObject(void* objectPointer) {
+ 339              		.loc 1 31 56 is_stmt 1
+ 340              		.cfi_startproc
+ 341              	.LVL36:
+ 342 01fc 130101FF 		addi	sp,sp,-16
+ 343              		.cfi_def_cfa_offset 16
+ 344 0200 23348100 		sd	s0,8(sp)
+ 345              		.cfi_offset 8, -8
+ 346 0204 13040101 		addi	s0,sp,16
+ 347              		.cfi_def_cfa 8, 0
+  32:src/kObjectAllocator.cpp ****     size_t diff = (size_t) ((uint8*) objectPointer - objectVector);
+ 348              		.loc 1 32 5
+ 349              		.loc 1 32 54 is_stmt 0
+ 350 0208 83378501 		ld	a5,24(a0)
+ 351              		.loc 1 32 52
+ 352 020c B385F540 		sub	a1,a1,a5
+ 353              	.LVL37:
+  33:src/kObjectAllocator.cpp ****     size_t byte = diff / 8;
+ 354              		.loc 1 33 5 is_stmt 1
+ 355              		.loc 1 33 12 is_stmt 0
+ 356 0210 93D73500 		srli	a5,a1,3
+ 357              	.LVL38:
+  34:src/kObjectAllocator.cpp ****     size_t bit = diff - byte * 8;
+ 358              		.loc 1 34 5 is_stmt 1
+  35:src/kObjectAllocator.cpp ****     bitVector[byte] &= ~((uint8) 1 << (7 - bit));
+ 359              		.loc 1 35 5
+GAS LISTING /tmp/ccb2zYdj.s 			page 9
+
+
+ 360 0214 03370502 		ld	a4,32(a0)
+ 361              		.loc 1 35 21 is_stmt 0
+ 362 0218 3307F700 		add	a4,a4,a5
+ 363              		.loc 1 35 42
+ 364 021c 93F57500 		andi	a1,a1,7
+ 365              	.LVL39:
+ 366 0220 93077000 		li	a5,7
+ 367              	.LVL40:
+ 368 0224 BB85B740 		subw	a1,a5,a1
+ 369              	.LVL41:
+ 370              		.loc 1 35 36
+ 371 0228 93071000 		li	a5,1
+ 372 022c BB97B700 		sllw	a5,a5,a1
+ 373              		.loc 1 35 21
+ 374 0230 93C7F7FF 		not	a5,a5
+ 375 0234 83460700 		lbu	a3,0(a4)
+ 376 0238 B3F7D700 		and	a5,a5,a3
+ 377 023c 2300F700 		sb	a5,0(a4)
+ 378              	.LVL42:
+  36:src/kObjectAllocator.cpp **** }
+ 379              		.loc 1 36 1
+ 380 0240 03348100 		ld	s0,8(sp)
+ 381              		.cfi_restore 8
+ 382              		.cfi_def_cfa 2, 16
+ 383 0244 13010101 		addi	sp,sp,16
+ 384              		.cfi_def_cfa_offset 0
+ 385 0248 67800000 		jr	ra
+ 386              		.cfi_endproc
+ 387              	.LFE10:
+ 389              	.Letext0:
+ 390              		.file 2 "src/../h/../h/../lib/hw.h"
+ 391              		.file 3 "src/../h/kObjectAllocator.hpp"
+ 392              		.file 4 "src/../h/print.hpp"
+GAS LISTING /tmp/ccb2zYdj.s 			page 10
 
 
 DEFINED SYMBOLS
                             *ABS*:0000000000000000 kObjectAllocator.cpp
-     /tmp/ccYLi3oA.s:20     .text:0000000000000000 _ZN16KObjectAllocator19printInternalMemoryEv
-     /tmp/ccYLi3oA.s:24     .text:0000000000000000 .L0 
-     /tmp/ccYLi3oA.s:26     .text:0000000000000000 .L0 
-     /tmp/ccYLi3oA.s:27     .text:0000000000000004 .L0 
-     /tmp/ccYLi3oA.s:33     .text:0000000000000018 .L0 
-     /tmp/ccYLi3oA.s:34     .text:0000000000000018 .L0 
-     /tmp/ccYLi3oA.s:35     .text:0000000000000018 .L0 
-     /tmp/ccYLi3oA.s:36     .text:0000000000000018 .L0 
-     /tmp/ccYLi3oA.s:37     .text:0000000000000018 .L0 
-     /tmp/ccYLi3oA.s:39     .text:000000000000001c .L0 
-     /tmp/ccYLi3oA.s:44     .text:0000000000000020 .L0 
-     /tmp/ccYLi3oA.s:45     .text:0000000000000020 .L0 
-     /tmp/ccYLi3oA.s:51     .text:0000000000000028 .L0 
-     /tmp/ccYLi3oA.s:52     .text:0000000000000028 .L0 
-     /tmp/ccYLi3oA.s:58     .text:0000000000000038 .L0 
-     /tmp/ccYLi3oA.s:59     .text:0000000000000038 .L0 
-     /tmp/ccYLi3oA.s:68     .text:0000000000000048 .L0 
-     /tmp/ccYLi3oA.s:69     .text:0000000000000048 .L0 
-     /tmp/ccYLi3oA.s:74     .text:0000000000000058 .L0 
-     /tmp/ccYLi3oA.s:75     .text:0000000000000058 .L0 
-     /tmp/ccYLi3oA.s:79     .text:000000000000005c .L0 
-     /tmp/ccYLi3oA.s:80     .text:000000000000005c .L0 
-     /tmp/ccYLi3oA.s:82     .text:0000000000000060 .L0 
-     /tmp/ccYLi3oA.s:84     .text:0000000000000064 .L0 
-     /tmp/ccYLi3oA.s:86     .text:0000000000000068 .L0 
-     /tmp/ccYLi3oA.s:88     .text:000000000000006c .L0 
-     /tmp/ccYLi3oA.s:89     .text:000000000000006c .L0 
-     /tmp/ccYLi3oA.s:93     .text:000000000000007c .L0 
-     /tmp/ccYLi3oA.s:102    .text:0000000000000084 .L0 
-     /tmp/ccYLi3oA.s:103    .text:0000000000000084 .L0 
-     /tmp/ccYLi3oA.s:109    .text:0000000000000094 .L0 
-     /tmp/ccYLi3oA.s:110    .text:0000000000000094 .L0 
-     /tmp/ccYLi3oA.s:112    .text:0000000000000098 .L0 
-     /tmp/ccYLi3oA.s:114    .text:000000000000009c .L0 
-     /tmp/ccYLi3oA.s:116    .text:00000000000000a0 .L0 
-     /tmp/ccYLi3oA.s:118    .text:00000000000000a4 .L0 
-     /tmp/ccYLi3oA.s:120    .text:00000000000000a8 .L0 
-     /tmp/ccYLi3oA.s:123    .text:00000000000000ac .L0 
-     /tmp/ccYLi3oA.s:124    .text:00000000000000ac .L0 
-     /tmp/ccYLi3oA.s:126    .text:00000000000000b0 .L0 
-     /tmp/ccYLi3oA.s:129    .text:00000000000000b8 .L0 
-     /tmp/ccYLi3oA.s:133    .text:00000000000000c0 .L0 
-     /tmp/ccYLi3oA.s:134    .text:00000000000000c0 .L0 
-     /tmp/ccYLi3oA.s:136    .text:00000000000000c4 .L0 
-     /tmp/ccYLi3oA.s:139    .text:00000000000000cc .L0 
-     /tmp/ccYLi3oA.s:143    .text:00000000000000d4 .L0 
-     /tmp/ccYLi3oA.s:144    .text:00000000000000d4 .L0 
-     /tmp/ccYLi3oA.s:146    .text:00000000000000d8 .L0 
-     /tmp/ccYLi3oA.s:148    .text:00000000000000dc .L0 
-     /tmp/ccYLi3oA.s:152    .text:00000000000000e8 .L0 
-     /tmp/ccYLi3oA.s:153    .text:00000000000000e8 .L0 
-     /tmp/ccYLi3oA.s:158    .text:00000000000000f8 .L0 
-     /tmp/ccYLi3oA.s:159    .text:00000000000000f8 .L0 
-     /tmp/ccYLi3oA.s:162    .text:00000000000000fc .L0 
-     /tmp/ccYLi3oA.s:164    .text:0000000000000100 .L0 
-GAS LISTING /tmp/ccYLi3oA.s 			page 9
+     /tmp/ccb2zYdj.s:26     .text:0000000000000000 _ZN16KObjectAllocator19printInternalMemoryEv
+     /tmp/ccb2zYdj.s:30     .text:0000000000000000 .L0 
+     /tmp/ccb2zYdj.s:32     .text:0000000000000000 .L0 
+     /tmp/ccb2zYdj.s:33     .text:0000000000000004 .L0 
+     /tmp/ccb2zYdj.s:39     .text:0000000000000018 .L0 
+     /tmp/ccb2zYdj.s:40     .text:0000000000000018 .L0 
+     /tmp/ccb2zYdj.s:41     .text:0000000000000018 .L0 
+     /tmp/ccb2zYdj.s:42     .text:0000000000000018 .L0 
+     /tmp/ccb2zYdj.s:43     .text:0000000000000018 .L0 
+     /tmp/ccb2zYdj.s:45     .text:000000000000001c .L0 
+     /tmp/ccb2zYdj.s:48     .text:0000000000000020 .L0 
+     /tmp/ccb2zYdj.s:49     .text:0000000000000020 .L0 
+     /tmp/ccb2zYdj.s:54     .text:0000000000000030 .L0 
+     /tmp/ccb2zYdj.s:55     .text:0000000000000030 .L0 
+     /tmp/ccb2zYdj.s:59     .text:000000000000003c .L0 
+     /tmp/ccb2zYdj.s:60     .text:000000000000003c .L0 
+     /tmp/ccb2zYdj.s:64     .text:000000000000004c .L0 
+     /tmp/ccb2zYdj.s:65     .text:000000000000004c .L0 
+     /tmp/ccb2zYdj.s:69     .text:0000000000000058 .L0 
+     /tmp/ccb2zYdj.s:70     .text:0000000000000058 .L0 
+     /tmp/ccb2zYdj.s:75     .text:0000000000000068 .L0 
+     /tmp/ccb2zYdj.s:76     .text:0000000000000068 .L0 
+     /tmp/ccb2zYdj.s:82     .text:0000000000000070 .L0 
+     /tmp/ccb2zYdj.s:83     .text:0000000000000070 .L0 
+     /tmp/ccb2zYdj.s:89     .text:0000000000000080 .L0 
+     /tmp/ccb2zYdj.s:90     .text:0000000000000080 .L0 
+     /tmp/ccb2zYdj.s:99     .text:0000000000000090 .L0 
+     /tmp/ccb2zYdj.s:100    .text:0000000000000090 .L0 
+     /tmp/ccb2zYdj.s:105    .text:00000000000000a0 .L0 
+     /tmp/ccb2zYdj.s:106    .text:00000000000000a0 .L0 
+     /tmp/ccb2zYdj.s:110    .text:00000000000000a4 .L0 
+     /tmp/ccb2zYdj.s:111    .text:00000000000000a4 .L0 
+     /tmp/ccb2zYdj.s:113    .text:00000000000000a8 .L0 
+     /tmp/ccb2zYdj.s:115    .text:00000000000000ac .L0 
+     /tmp/ccb2zYdj.s:117    .text:00000000000000b0 .L0 
+     /tmp/ccb2zYdj.s:119    .text:00000000000000b4 .L0 
+     /tmp/ccb2zYdj.s:120    .text:00000000000000b4 .L0 
+     /tmp/ccb2zYdj.s:124    .text:00000000000000c4 .L0 
+     /tmp/ccb2zYdj.s:133    .text:00000000000000cc .L0 
+     /tmp/ccb2zYdj.s:134    .text:00000000000000cc .L0 
+     /tmp/ccb2zYdj.s:140    .text:00000000000000dc .L0 
+     /tmp/ccb2zYdj.s:141    .text:00000000000000dc .L0 
+     /tmp/ccb2zYdj.s:143    .text:00000000000000e0 .L0 
+     /tmp/ccb2zYdj.s:145    .text:00000000000000e4 .L0 
+     /tmp/ccb2zYdj.s:147    .text:00000000000000e8 .L0 
+     /tmp/ccb2zYdj.s:149    .text:00000000000000ec .L0 
+     /tmp/ccb2zYdj.s:151    .text:00000000000000f0 .L0 
+     /tmp/ccb2zYdj.s:154    .text:00000000000000f4 .L0 
+     /tmp/ccb2zYdj.s:155    .text:00000000000000f4 .L0 
+     /tmp/ccb2zYdj.s:157    .text:00000000000000f8 .L0 
+     /tmp/ccb2zYdj.s:160    .text:0000000000000100 .L0 
+     /tmp/ccb2zYdj.s:164    .text:0000000000000108 .L0 
+     /tmp/ccb2zYdj.s:165    .text:0000000000000108 .L0 
+     /tmp/ccb2zYdj.s:167    .text:000000000000010c .L0 
+     /tmp/ccb2zYdj.s:170    .text:0000000000000114 .L0 
+GAS LISTING /tmp/ccb2zYdj.s 			page 11
 
 
-     /tmp/ccYLi3oA.s:168    .text:0000000000000104 .L0 
-     /tmp/ccYLi3oA.s:169    .text:0000000000000104 .L0 
-     /tmp/ccYLi3oA.s:171    .text:0000000000000108 .L0 
-     /tmp/ccYLi3oA.s:173    .text:000000000000010c .L0 
-     /tmp/ccYLi3oA.s:180    .text:0000000000000114 .L0 
-     /tmp/ccYLi3oA.s:181    .text:0000000000000118 .L0 
-     /tmp/ccYLi3oA.s:183    .text:000000000000011c .L0 
-     /tmp/ccYLi3oA.s:184    .text:000000000000011c .L0 
-     /tmp/ccYLi3oA.s:186    .text:0000000000000120 .L0 
-     /tmp/ccYLi3oA.s:189    .text:0000000000000124 .L0 
-     /tmp/ccYLi3oA.s:192    .text:0000000000000128 .L0 
-     /tmp/ccYLi3oA.s:194    .text:000000000000012c .L0 
-     /tmp/ccYLi3oA.s:196    .text:0000000000000130 .L0 
-     /tmp/ccYLi3oA.s:202    .text:0000000000000130 _ZN16KObjectAllocator17allocateNewObjectEv
-     /tmp/ccYLi3oA.s:205    .text:0000000000000130 .L0 
-     /tmp/ccYLi3oA.s:207    .text:0000000000000130 .L0 
-     /tmp/ccYLi3oA.s:208    .text:0000000000000134 .L0 
-     /tmp/ccYLi3oA.s:210    .text:0000000000000138 .L0 
-     /tmp/ccYLi3oA.s:212    .text:000000000000013c .L0 
-     /tmp/ccYLi3oA.s:216    .text:000000000000013c .L0 
-     /tmp/ccYLi3oA.s:217    .text:000000000000013c .L0 
-     /tmp/ccYLi3oA.s:218    .text:000000000000013c .L0 
-     /tmp/ccYLi3oA.s:220    .text:0000000000000140 .L0 
-     /tmp/ccYLi3oA.s:223    .text:0000000000000144 .L0 
-     /tmp/ccYLi3oA.s:227    .text:0000000000000148 .L0 
-     /tmp/ccYLi3oA.s:228    .text:0000000000000148 .L0 
-     /tmp/ccYLi3oA.s:230    .text:000000000000014c .L0 
-     /tmp/ccYLi3oA.s:232    .text:0000000000000150 .L0 
-     /tmp/ccYLi3oA.s:235    .text:0000000000000158 .L0 
-     /tmp/ccYLi3oA.s:237    .text:000000000000015c .L0 
-     /tmp/ccYLi3oA.s:239    .text:0000000000000160 .L0 
-     /tmp/ccYLi3oA.s:242    .text:0000000000000164 .L0 
-     /tmp/ccYLi3oA.s:243    .text:0000000000000164 .L0 
-     /tmp/ccYLi3oA.s:246    .text:0000000000000168 .L0 
-     /tmp/ccYLi3oA.s:247    .text:0000000000000168 .L0 
-     /tmp/ccYLi3oA.s:250    .text:0000000000000170 .L0 
-     /tmp/ccYLi3oA.s:253    .text:0000000000000178 .L0 
-     /tmp/ccYLi3oA.s:254    .text:0000000000000178 .L0 
-     /tmp/ccYLi3oA.s:257    .text:000000000000017c .L0 
-     /tmp/ccYLi3oA.s:261    .text:0000000000000184 .L0 
-     /tmp/ccYLi3oA.s:266    .text:0000000000000188 .L0 
-     /tmp/ccYLi3oA.s:267    .text:000000000000018c .L0 
-     /tmp/ccYLi3oA.s:268    .text:000000000000018c .L0 
-     /tmp/ccYLi3oA.s:269    .text:000000000000018c .L0 
-     /tmp/ccYLi3oA.s:271    .text:0000000000000190 .L0 
-     /tmp/ccYLi3oA.s:275    .text:0000000000000194 .L0 
-     /tmp/ccYLi3oA.s:277    .text:0000000000000194 .L0 
-     /tmp/ccYLi3oA.s:280    .text:000000000000019c .L0 
-     /tmp/ccYLi3oA.s:287    .text:000000000000019c .L0 
-     /tmp/ccYLi3oA.s:11     .rodata.str1.8:0000000000000008 .LC1
-     /tmp/ccYLi3oA.s:69     .text:0000000000000048 .L0 
-     /tmp/ccYLi3oA.s:14     .rodata.str1.8:0000000000000010 .LC2
-     /tmp/ccYLi3oA.s:89     .text:000000000000006c .L0 
-     /tmp/ccYLi3oA.s:103    .text:0000000000000084 .L0 
-     /tmp/ccYLi3oA.s:8      .rodata.str1.8:0000000000000000 .LC0
-     /tmp/ccYLi3oA.s:153    .text:00000000000000e8 .L0 
-     /tmp/ccYLi3oA.s:106    .text:0000000000000094 .L2
-GAS LISTING /tmp/ccYLi3oA.s 			page 10
+     /tmp/ccb2zYdj.s:174    .text:000000000000011c .L0 
+     /tmp/ccb2zYdj.s:175    .text:000000000000011c .L0 
+     /tmp/ccb2zYdj.s:177    .text:0000000000000120 .L0 
+     /tmp/ccb2zYdj.s:179    .text:0000000000000124 .L0 
+     /tmp/ccb2zYdj.s:183    .text:0000000000000130 .L0 
+     /tmp/ccb2zYdj.s:184    .text:0000000000000130 .L0 
+     /tmp/ccb2zYdj.s:189    .text:0000000000000140 .L0 
+     /tmp/ccb2zYdj.s:190    .text:0000000000000140 .L0 
+     /tmp/ccb2zYdj.s:193    .text:0000000000000144 .L0 
+     /tmp/ccb2zYdj.s:195    .text:0000000000000148 .L0 
+     /tmp/ccb2zYdj.s:199    .text:000000000000014c .L0 
+     /tmp/ccb2zYdj.s:200    .text:000000000000014c .L0 
+     /tmp/ccb2zYdj.s:202    .text:0000000000000150 .L0 
+     /tmp/ccb2zYdj.s:204    .text:0000000000000154 .L0 
+     /tmp/ccb2zYdj.s:211    .text:000000000000015c .L0 
+     /tmp/ccb2zYdj.s:212    .text:0000000000000160 .L0 
+     /tmp/ccb2zYdj.s:214    .text:0000000000000164 .L0 
+     /tmp/ccb2zYdj.s:215    .text:0000000000000164 .L0 
+     /tmp/ccb2zYdj.s:217    .text:0000000000000168 .L0 
+     /tmp/ccb2zYdj.s:220    .text:000000000000016c .L0 
+     /tmp/ccb2zYdj.s:223    .text:0000000000000170 .L0 
+     /tmp/ccb2zYdj.s:225    .text:0000000000000174 .L0 
+     /tmp/ccb2zYdj.s:227    .text:0000000000000178 .L0 
+     /tmp/ccb2zYdj.s:233    .text:0000000000000178 _ZN16KObjectAllocator17allocateNewObjectEv
+     /tmp/ccb2zYdj.s:236    .text:0000000000000178 .L0 
+     /tmp/ccb2zYdj.s:238    .text:0000000000000178 .L0 
+     /tmp/ccb2zYdj.s:239    .text:000000000000017c .L0 
+     /tmp/ccb2zYdj.s:241    .text:0000000000000180 .L0 
+     /tmp/ccb2zYdj.s:243    .text:0000000000000184 .L0 
+     /tmp/ccb2zYdj.s:247    .text:0000000000000184 .L0 
+     /tmp/ccb2zYdj.s:248    .text:0000000000000184 .L0 
+     /tmp/ccb2zYdj.s:254    .text:000000000000018c .L0 
+     /tmp/ccb2zYdj.s:255    .text:000000000000018c .L0 
+     /tmp/ccb2zYdj.s:258    .text:0000000000000194 .L0 
+     /tmp/ccb2zYdj.s:261    .text:000000000000019c .L0 
+     /tmp/ccb2zYdj.s:262    .text:000000000000019c .L0 
+     /tmp/ccb2zYdj.s:265    .text:00000000000001a0 .L0 
+     /tmp/ccb2zYdj.s:270    .text:00000000000001a8 .L0 
+     /tmp/ccb2zYdj.s:273    .text:00000000000001ac .L0 
+     /tmp/ccb2zYdj.s:278    .text:00000000000001b0 .L0 
+     /tmp/ccb2zYdj.s:279    .text:00000000000001b4 .L0 
+     /tmp/ccb2zYdj.s:280    .text:00000000000001b4 .L0 
+     /tmp/ccb2zYdj.s:281    .text:00000000000001b4 .L0 
+     /tmp/ccb2zYdj.s:283    .text:00000000000001b8 .L0 
+     /tmp/ccb2zYdj.s:287    .text:00000000000001bc .L0 
+     /tmp/ccb2zYdj.s:290    .text:00000000000001bc .L0 
+     /tmp/ccb2zYdj.s:294    .text:00000000000001c0 .L0 
+     /tmp/ccb2zYdj.s:295    .text:00000000000001c0 .L0 
+     /tmp/ccb2zYdj.s:297    .text:00000000000001c4 .L0 
+     /tmp/ccb2zYdj.s:300    .text:00000000000001c8 .L0 
+     /tmp/ccb2zYdj.s:304    .text:00000000000001cc .L0 
+     /tmp/ccb2zYdj.s:306    .text:00000000000001d0 .L0 
+     /tmp/ccb2zYdj.s:307    .text:00000000000001d0 .L0 
+     /tmp/ccb2zYdj.s:309    .text:00000000000001d4 .L0 
+     /tmp/ccb2zYdj.s:312    .text:00000000000001dc .L0 
+     /tmp/ccb2zYdj.s:314    .text:00000000000001e0 .L0 
+     /tmp/ccb2zYdj.s:316    .text:00000000000001e4 .L0 
+GAS LISTING /tmp/ccb2zYdj.s 			page 12
 
 
-     /tmp/ccYLi3oA.s:131    .text:00000000000000c0 .L4
-     /tmp/ccYLi3oA.s:141    .text:00000000000000d4 .L5
-     /tmp/ccYLi3oA.s:165    .text:0000000000000104 .L6
-     /tmp/ccYLi3oA.s:77     .text:000000000000005c .L7
-     /tmp/ccYLi3oA.s:176    .text:0000000000000114 .L1
-     /tmp/ccYLi3oA.s:48     .text:0000000000000028 .L10
-     /tmp/ccYLi3oA.s:56     .text:0000000000000038 .L11
-     /tmp/ccYLi3oA.s:64     .text:0000000000000048 .L12
-     /tmp/ccYLi3oA.s:97     .text:0000000000000084 .L13
-     /tmp/ccYLi3oA.s:274    .text:0000000000000194 .L18
-     /tmp/ccYLi3oA.s:244    .text:0000000000000168 .L20
-     /tmp/ccYLi3oA.s:224    .text:0000000000000148 .L17
-     /tmp/ccYLi3oA.s:262    .text:0000000000000188 .L14
-     /tmp/ccYLi3oA.s:691    .debug_abbrev:0000000000000000 .Ldebug_abbrev0
-     /tmp/ccYLi3oA.s:1311   .debug_str:00000000000001c8 .LASF34
-     /tmp/ccYLi3oA.s:1299   .debug_str:0000000000000131 .LASF35
-     /tmp/ccYLi3oA.s:1307   .debug_str:000000000000017b .LASF36
-     /tmp/ccYLi3oA.s:5      .text:0000000000000000 .Ltext0
-     /tmp/ccYLi3oA.s:283    .text:000000000000019c .Letext0
-     /tmp/ccYLi3oA.s:1265   .debug_line:0000000000000000 .Ldebug_line0
-     /tmp/ccYLi3oA.s:1313   .debug_str:000000000000028c .LASF0
-     /tmp/ccYLi3oA.s:1303   .debug_str:000000000000015c .LASF1
-     /tmp/ccYLi3oA.s:1295   .debug_str:000000000000011e .LASF2
-     /tmp/ccYLi3oA.s:1333   .debug_str:0000000000000328 .LASF3
-     /tmp/ccYLi3oA.s:1279   .debug_str:000000000000009b .LASF4
-     /tmp/ccYLi3oA.s:1301   .debug_str:000000000000014a .LASF5
-     /tmp/ccYLi3oA.s:1269   .debug_str:0000000000000013 .LASF6
-     /tmp/ccYLi3oA.s:1267   .debug_str:0000000000000000 .LASF7
-     /tmp/ccYLi3oA.s:1287   .debug_str:00000000000000d7 .LASF8
-     /tmp/ccYLi3oA.s:1323   .debug_str:00000000000002ce .LASF9
-     /tmp/ccYLi3oA.s:1275   .debug_str:0000000000000062 .LASF10
-     /tmp/ccYLi3oA.s:1347   .debug_str:0000000000000391 .LASF11
-     /tmp/ccYLi3oA.s:1291   .debug_str:00000000000000fc .LASF12
-     /tmp/ccYLi3oA.s:1335   .debug_str:000000000000032e .LASF13
-     /tmp/ccYLi3oA.s:1329   .debug_str:00000000000002fe .LASF14
-     /tmp/ccYLi3oA.s:1305   .debug_str:000000000000016f .LASF15
-     /tmp/ccYLi3oA.s:1283   .debug_str:00000000000000b0 .LASF16
-     /tmp/ccYLi3oA.s:1327   .debug_str:00000000000002e8 .LASF17
-     /tmp/ccYLi3oA.s:1285   .debug_str:00000000000000c6 .LASF18
-     /tmp/ccYLi3oA.s:1309   .debug_str:00000000000001ae .LASF20
-     /tmp/ccYLi3oA.s:1339   .debug_str:0000000000000352 .LASF19
-     /tmp/ccYLi3oA.s:1331   .debug_str:000000000000030e .LASF21
-     /tmp/ccYLi3oA.s:1315   .debug_str:0000000000000299 .LASF37
-     /tmp/ccYLi3oA.s:1271   .debug_str:000000000000001a .LASF38
-     /tmp/ccYLi3oA.s:1337   .debug_str:000000000000033e .LASF22
-     /tmp/ccYLi3oA.s:1273   .debug_str:0000000000000035 .LASF23
-     /tmp/ccYLi3oA.s:1289   .debug_str:00000000000000ea .LASF39
-     /tmp/ccYLi3oA.s:1277   .debug_str:0000000000000070 .LASF40
-     /tmp/ccYLi3oA.s:1319   .debug_str:00000000000002b6 .LASF24
-     /tmp/ccYLi3oA.s:1343   .debug_str:0000000000000371 .LASF25
-     /tmp/ccYLi3oA.s:1281   .debug_str:00000000000000a2 .LASF26
-     /tmp/ccYLi3oA.s:1317   .debug_str:00000000000002a9 .LASF27
-     /tmp/ccYLi3oA.s:1325   .debug_str:00000000000002de .LASF28
-     /tmp/ccYLi3oA.s:203    .text:0000000000000130 .LFB9
-     /tmp/ccYLi3oA.s:281    .text:000000000000019c .LFE9
-     /tmp/ccYLi3oA.s:1297   .debug_str:000000000000012c .LASF29
-     /tmp/ccYLi3oA.s:1158   .debug_loc:0000000000000000 .LLST3
-GAS LISTING /tmp/ccYLi3oA.s 			page 11
+     /tmp/ccb2zYdj.s:318    .text:00000000000001e8 .L0 
+     /tmp/ccb2zYdj.s:320    .text:00000000000001ec .L0 
+     /tmp/ccb2zYdj.s:328    .text:00000000000001f4 .L0 
+     /tmp/ccb2zYdj.s:331    .text:00000000000001fc .L0 
+     /tmp/ccb2zYdj.s:337    .text:00000000000001fc _ZN16KObjectAllocator10freeObjectEPv
+     /tmp/ccb2zYdj.s:340    .text:00000000000001fc .L0 
+     /tmp/ccb2zYdj.s:342    .text:00000000000001fc .L0 
+     /tmp/ccb2zYdj.s:343    .text:0000000000000200 .L0 
+     /tmp/ccb2zYdj.s:345    .text:0000000000000204 .L0 
+     /tmp/ccb2zYdj.s:347    .text:0000000000000208 .L0 
+     /tmp/ccb2zYdj.s:349    .text:0000000000000208 .L0 
+     /tmp/ccb2zYdj.s:350    .text:0000000000000208 .L0 
+     /tmp/ccb2zYdj.s:352    .text:000000000000020c .L0 
+     /tmp/ccb2zYdj.s:355    .text:0000000000000210 .L0 
+     /tmp/ccb2zYdj.s:356    .text:0000000000000210 .L0 
+     /tmp/ccb2zYdj.s:359    .text:0000000000000214 .L0 
+     /tmp/ccb2zYdj.s:360    .text:0000000000000214 .L0 
+     /tmp/ccb2zYdj.s:362    .text:0000000000000218 .L0 
+     /tmp/ccb2zYdj.s:364    .text:000000000000021c .L0 
+     /tmp/ccb2zYdj.s:371    .text:0000000000000228 .L0 
+     /tmp/ccb2zYdj.s:374    .text:0000000000000230 .L0 
+     /tmp/ccb2zYdj.s:380    .text:0000000000000240 .L0 
+     /tmp/ccb2zYdj.s:381    .text:0000000000000244 .L0 
+     /tmp/ccb2zYdj.s:382    .text:0000000000000244 .L0 
+     /tmp/ccb2zYdj.s:384    .text:0000000000000248 .L0 
+     /tmp/ccb2zYdj.s:386    .text:000000000000024c .L0 
+     /tmp/ccb2zYdj.s:393    .text:000000000000024c .L0 
+     /tmp/ccb2zYdj.s:8      .rodata.str1.8:0000000000000000 .LC0
+     /tmp/ccb2zYdj.s:49     .text:0000000000000020 .L0 
+     /tmp/ccb2zYdj.s:11     .rodata.str1.8:0000000000000010 .LC1
+     /tmp/ccb2zYdj.s:60     .text:000000000000003c .L0 
+     /tmp/ccb2zYdj.s:14     .rodata.str1.8:0000000000000020 .LC2
+     /tmp/ccb2zYdj.s:70     .text:0000000000000058 .L0 
+     /tmp/ccb2zYdj.s:100    .text:0000000000000090 .L0 
+     /tmp/ccb2zYdj.s:20     .rodata.str1.8:0000000000000030 .LC4
+     /tmp/ccb2zYdj.s:120    .text:00000000000000b4 .L0 
+     /tmp/ccb2zYdj.s:134    .text:00000000000000cc .L0 
+     /tmp/ccb2zYdj.s:17     .rodata.str1.8:0000000000000028 .LC3
+     /tmp/ccb2zYdj.s:184    .text:0000000000000130 .L0 
+     /tmp/ccb2zYdj.s:137    .text:00000000000000dc .L2
+     /tmp/ccb2zYdj.s:162    .text:0000000000000108 .L4
+     /tmp/ccb2zYdj.s:172    .text:000000000000011c .L5
+     /tmp/ccb2zYdj.s:196    .text:000000000000014c .L6
+     /tmp/ccb2zYdj.s:108    .text:00000000000000a4 .L7
+     /tmp/ccb2zYdj.s:207    .text:000000000000015c .L1
+     /tmp/ccb2zYdj.s:79     .text:0000000000000070 .L10
+     /tmp/ccb2zYdj.s:87     .text:0000000000000080 .L11
+     /tmp/ccb2zYdj.s:95     .text:0000000000000090 .L12
+     /tmp/ccb2zYdj.s:128    .text:00000000000000cc .L13
+     /tmp/ccb2zYdj.s:292    .text:00000000000001c0 .L19
+     /tmp/ccb2zYdj.s:324    .text:00000000000001f4 .L20
+     /tmp/ccb2zYdj.s:286    .text:00000000000001bc .L16
+     /tmp/ccb2zYdj.s:251    .text:000000000000018c .L22
+     /tmp/ccb2zYdj.s:301    .text:00000000000001cc .L18
+     /tmp/ccb2zYdj.s:274    .text:00000000000001b0 .L14
+     /tmp/ccb2zYdj.s:893    .debug_abbrev:0000000000000000 .Ldebug_abbrev0
+     /tmp/ccb2zYdj.s:1671   .debug_str:0000000000000200 .LASF38
+GAS LISTING /tmp/ccb2zYdj.s 			page 13
 
 
-     /tmp/ccYLi3oA.s:215    .text:000000000000013c .LBB9
-     /tmp/ccYLi3oA.s:264    .text:0000000000000188 .LBE9
-     /tmp/ccYLi3oA.s:221    .text:0000000000000144 .LBB10
-     /tmp/ccYLi3oA.s:263    .text:0000000000000188 .LBE10
-     /tmp/ccYLi3oA.s:1183   .debug_loc:0000000000000062 .LLST4
-     /tmp/ccYLi3oA.s:21     .text:0000000000000000 .LFB8
-     /tmp/ccYLi3oA.s:197    .text:0000000000000130 .LFE8
-     /tmp/ccYLi3oA.s:1190   .debug_loc:0000000000000085 .LLST0
-     /tmp/ccYLi3oA.s:43     .text:0000000000000020 .LBB2
-     /tmp/ccYLi3oA.s:178    .text:0000000000000114 .LBE2
-     /tmp/ccYLi3oA.s:1208   .debug_loc:00000000000000d1 .LLST1
-     /tmp/ccYLi3oA.s:73     .text:0000000000000058 .LBB6
-     /tmp/ccYLi3oA.s:98     .text:0000000000000084 .LBE6
-     /tmp/ccYLi3oA.s:1240   .debug_loc:0000000000000158 .LLST2
-     /tmp/ccYLi3oA.s:91     .text:000000000000007c .LVL8
-     /tmp/ccYLi3oA.s:54     .text:0000000000000034 .LVL3
-     /tmp/ccYLi3oA.s:61     .text:0000000000000044 .LVL4
-     /tmp/ccYLi3oA.s:71     .text:0000000000000058 .LVL6
-     /tmp/ccYLi3oA.s:105    .text:0000000000000094 .LVL11
-     /tmp/ccYLi3oA.s:150    .text:00000000000000e8 .LVL12
-     /tmp/ccYLi3oA.s:155    .text:00000000000000f8 .LVL13
-     /tmp/ccYLi3oA.s:1293   .debug_str:000000000000010b .LASF30
-     /tmp/ccYLi3oA.s:1345   .debug_str:0000000000000385 .LASF32
-     /tmp/ccYLi3oA.s:1341   .debug_str:000000000000035f .LASF31
-     /tmp/ccYLi3oA.s:1321   .debug_str:00000000000002c1 .LASF33
-     /tmp/ccYLi3oA.s:206    .text:0000000000000130 .LVL18
-     /tmp/ccYLi3oA.s:255    .text:000000000000017c .LVL22
-     /tmp/ccYLi3oA.s:273    .text:0000000000000194 .LVL24
-     /tmp/ccYLi3oA.s:278    .text:0000000000000198 .LVL25
-     /tmp/ccYLi3oA.s:225    .text:0000000000000148 .LVL20
-     /tmp/ccYLi3oA.s:259    .text:0000000000000184 .LVL23
-     /tmp/ccYLi3oA.s:25     .text:0000000000000000 .LVL0
-     /tmp/ccYLi3oA.s:47     .text:0000000000000028 .LVL2
-     /tmp/ccYLi3oA.s:187    .text:0000000000000120 .LVL16
-     /tmp/ccYLi3oA.s:42     .text:0000000000000020 .LVL1
-     /tmp/ccYLi3oA.s:63     .text:0000000000000048 .LVL5
-     /tmp/ccYLi3oA.s:160    .text:00000000000000fc .LVL14
-     /tmp/ccYLi3oA.s:175    .text:0000000000000114 .LVL15
-     /tmp/ccYLi3oA.s:190    .text:0000000000000124 .LVL17
-     /tmp/ccYLi3oA.s:76     .text:000000000000005c .LVL7
-     /tmp/ccYLi3oA.s:96     .text:0000000000000084 .LVL10
-     /tmp/ccYLi3oA.s:288    .debug_info:0000000000000000 .Ldebug_info0
+     /tmp/ccb2zYdj.s:1655   .debug_str:000000000000013f .LASF39
+     /tmp/ccb2zYdj.s:1665   .debug_str:00000000000001ae .LASF40
+     /tmp/ccb2zYdj.s:5      .text:0000000000000000 .Ltext0
+     /tmp/ccb2zYdj.s:389    .text:000000000000024c .Letext0
+     /tmp/ccb2zYdj.s:1619   .debug_line:0000000000000000 .Ldebug_line0
+     /tmp/ccb2zYdj.s:1673   .debug_str:00000000000002c4 .LASF0
+     /tmp/ccb2zYdj.s:1661   .debug_str:000000000000018f .LASF1
+     /tmp/ccb2zYdj.s:1651   .debug_str:000000000000012c .LASF2
+     /tmp/ccb2zYdj.s:1697   .debug_str:0000000000000370 .LASF3
+     /tmp/ccb2zYdj.s:1635   .debug_str:00000000000000a9 .LASF4
+     /tmp/ccb2zYdj.s:1657   .debug_str:0000000000000158 .LASF5
+     /tmp/ccb2zYdj.s:1623   .debug_str:0000000000000013 .LASF6
+     /tmp/ccb2zYdj.s:1621   .debug_str:0000000000000000 .LASF7
+     /tmp/ccb2zYdj.s:1643   .debug_str:00000000000000e5 .LASF8
+     /tmp/ccb2zYdj.s:1683   .debug_str:0000000000000306 .LASF9
+     /tmp/ccb2zYdj.s:1631   .debug_str:0000000000000070 .LASF10
+     /tmp/ccb2zYdj.s:1711   .debug_str:00000000000003d9 .LASF11
+     /tmp/ccb2zYdj.s:1647   .debug_str:000000000000010a .LASF12
+     /tmp/ccb2zYdj.s:1699   .debug_str:0000000000000376 .LASF13
+     /tmp/ccb2zYdj.s:1689   .debug_str:0000000000000336 .LASF14
+     /tmp/ccb2zYdj.s:1663   .debug_str:00000000000001a2 .LASF15
+     /tmp/ccb2zYdj.s:1639   .debug_str:00000000000000be .LASF16
+     /tmp/ccb2zYdj.s:1687   .debug_str:0000000000000320 .LASF17
+     /tmp/ccb2zYdj.s:1641   .debug_str:00000000000000d4 .LASF18
+     /tmp/ccb2zYdj.s:1669   .debug_str:00000000000001e6 .LASF20
+     /tmp/ccb2zYdj.s:1703   .debug_str:000000000000039a .LASF19
+     /tmp/ccb2zYdj.s:1693   .debug_str:0000000000000351 .LASF21
+     /tmp/ccb2zYdj.s:1675   .debug_str:00000000000002d1 .LASF41
+     /tmp/ccb2zYdj.s:1625   .debug_str:000000000000001a .LASF42
+     /tmp/ccb2zYdj.s:1701   .debug_str:0000000000000386 .LASF22
+     /tmp/ccb2zYdj.s:1629   .debug_str:0000000000000043 .LASF23
+     /tmp/ccb2zYdj.s:1645   .debug_str:00000000000000f8 .LASF43
+     /tmp/ccb2zYdj.s:1633   .debug_str:000000000000007e .LASF44
+     /tmp/ccb2zYdj.s:1691   .debug_str:0000000000000346 .LASF24
+     /tmp/ccb2zYdj.s:1659   .debug_str:000000000000016a .LASF25
+     /tmp/ccb2zYdj.s:1679   .debug_str:00000000000002ee .LASF26
+     /tmp/ccb2zYdj.s:1707   .debug_str:00000000000003b9 .LASF27
+     /tmp/ccb2zYdj.s:1637   .debug_str:00000000000000b0 .LASF28
+     /tmp/ccb2zYdj.s:1677   .debug_str:00000000000002e1 .LASF29
+     /tmp/ccb2zYdj.s:1685   .debug_str:0000000000000316 .LASF30
+     /tmp/ccb2zYdj.s:338    .text:00000000000001fc .LFB10
+     /tmp/ccb2zYdj.s:387    .text:000000000000024c .LFE10
+     /tmp/ccb2zYdj.s:1653   .debug_str:000000000000013a .LASF33
+     /tmp/ccb2zYdj.s:1627   .debug_str:0000000000000035 .LASF45
+     /tmp/ccb2zYdj.s:1388   .debug_loc:0000000000000000 .LLST6
+     /tmp/ccb2zYdj.s:1667   .debug_str:00000000000001e1 .LASF31
+     /tmp/ccb2zYdj.s:1402   .debug_loc:0000000000000039 .LLST7
+     /tmp/ccb2zYdj.s:1695   .debug_str:000000000000036b .LASF32
+     /tmp/ccb2zYdj.s:1420   .debug_loc:0000000000000076 .LLST8
+     /tmp/ccb2zYdj.s:1440   .debug_loc:00000000000000b5 .LLST9
+     /tmp/ccb2zYdj.s:234    .text:0000000000000178 .LFB9
+     /tmp/ccb2zYdj.s:332    .text:00000000000001fc .LFE9
+     /tmp/ccb2zYdj.s:1468   .debug_loc:000000000000010b .LLST3
+     /tmp/ccb2zYdj.s:1605   .debug_ranges:0000000000000000 .Ldebug_ranges0
+     /tmp/ccb2zYdj.s:1493   .debug_loc:000000000000016d .LLST4
+     /tmp/ccb2zYdj.s:1515   .debug_loc:00000000000001cc .LLST5
+     /tmp/ccb2zYdj.s:27     .text:0000000000000000 .LFB8
+GAS LISTING /tmp/ccb2zYdj.s 			page 14
+
+
+     /tmp/ccb2zYdj.s:228    .text:0000000000000178 .LFE8
+     /tmp/ccb2zYdj.s:1530   .debug_loc:0000000000000215 .LLST0
+     /tmp/ccb2zYdj.s:74     .text:0000000000000068 .LBB2
+     /tmp/ccb2zYdj.s:209    .text:000000000000015c .LBE2
+     /tmp/ccb2zYdj.s:1548   .debug_loc:0000000000000261 .LLST1
+     /tmp/ccb2zYdj.s:104    .text:00000000000000a0 .LBB6
+     /tmp/ccb2zYdj.s:129    .text:00000000000000cc .LBE6
+     /tmp/ccb2zYdj.s:1580   .debug_loc:00000000000002e8 .LLST2
+     /tmp/ccb2zYdj.s:122    .text:00000000000000c4 .LVL13
+     /tmp/ccb2zYdj.s:85     .text:000000000000007c .LVL8
+     /tmp/ccb2zYdj.s:92     .text:000000000000008c .LVL9
+     /tmp/ccb2zYdj.s:102    .text:00000000000000a0 .LVL11
+     /tmp/ccb2zYdj.s:136    .text:00000000000000dc .LVL16
+     /tmp/ccb2zYdj.s:181    .text:0000000000000130 .LVL17
+     /tmp/ccb2zYdj.s:186    .text:0000000000000140 .LVL18
+     /tmp/ccb2zYdj.s:52     .text:0000000000000030 .LVL2
+     /tmp/ccb2zYdj.s:57     .text:000000000000003c .LVL3
+     /tmp/ccb2zYdj.s:62     .text:000000000000004c .LVL4
+     /tmp/ccb2zYdj.s:67     .text:0000000000000058 .LVL5
+     /tmp/ccb2zYdj.s:72     .text:0000000000000068 .LVL6
+     /tmp/ccb2zYdj.s:1649   .debug_str:0000000000000119 .LASF34
+     /tmp/ccb2zYdj.s:1709   .debug_str:00000000000003cd .LASF36
+     /tmp/ccb2zYdj.s:1705   .debug_str:00000000000003a7 .LASF35
+     /tmp/ccb2zYdj.s:1681   .debug_str:00000000000002f9 .LASF37
+     /tmp/ccb2zYdj.s:341    .text:00000000000001fc .LVL36
+     /tmp/ccb2zYdj.s:353    .text:0000000000000210 .LVL37
+     /tmp/ccb2zYdj.s:365    .text:0000000000000220 .LVL39
+     /tmp/ccb2zYdj.s:378    .text:0000000000000240 .LVL42
+     /tmp/ccb2zYdj.s:357    .text:0000000000000214 .LVL38
+     /tmp/ccb2zYdj.s:367    .text:0000000000000224 .LVL40
+     /tmp/ccb2zYdj.s:369    .text:0000000000000228 .LVL41
+     /tmp/ccb2zYdj.s:237    .text:0000000000000178 .LVL23
+     /tmp/ccb2zYdj.s:263    .text:00000000000001a0 .LVL26
+     /tmp/ccb2zYdj.s:285    .text:00000000000001bc .LVL30
+     /tmp/ccb2zYdj.s:329    .text:00000000000001f8 .LVL35
+     /tmp/ccb2zYdj.s:245    .text:0000000000000184 .LVL24
+     /tmp/ccb2zYdj.s:250    .text:000000000000018c .LVL25
+     /tmp/ccb2zYdj.s:266    .text:00000000000001a4 .LVL27
+     /tmp/ccb2zYdj.s:268    .text:00000000000001a8 .LVL28
+     /tmp/ccb2zYdj.s:271    .text:00000000000001ac .LVL29
+     /tmp/ccb2zYdj.s:291    .text:00000000000001c0 .LVL31
+     /tmp/ccb2zYdj.s:302    .text:00000000000001cc .LVL32
+     /tmp/ccb2zYdj.s:323    .text:00000000000001f4 .LVL34
+     /tmp/ccb2zYdj.s:31     .text:0000000000000000 .LVL0
+     /tmp/ccb2zYdj.s:50     .text:0000000000000028 .LVL1
+     /tmp/ccb2zYdj.s:218    .text:0000000000000168 .LVL21
+     /tmp/ccb2zYdj.s:78     .text:0000000000000070 .LVL7
+     /tmp/ccb2zYdj.s:94     .text:0000000000000090 .LVL10
+     /tmp/ccb2zYdj.s:191    .text:0000000000000144 .LVL19
+     /tmp/ccb2zYdj.s:206    .text:000000000000015c .LVL20
+     /tmp/ccb2zYdj.s:221    .text:000000000000016c .LVL22
+     /tmp/ccb2zYdj.s:107    .text:00000000000000a4 .LVL12
+     /tmp/ccb2zYdj.s:127    .text:00000000000000cc .LVL15
+     /tmp/ccb2zYdj.s:394    .debug_info:0000000000000000 .Ldebug_info0
+     /tmp/ccb2zYdj.s:246    .text:0000000000000184 .LBB9
+     /tmp/ccb2zYdj.s:276    .text:00000000000001b0 .LBE9
+     /tmp/ccb2zYdj.s:288    .text:00000000000001bc .LBB12
+GAS LISTING /tmp/ccb2zYdj.s 			page 15
+
+
+     /tmp/ccb2zYdj.s:326    .text:00000000000001f4 .LBE12
+     /tmp/ccb2zYdj.s:252    .text:000000000000018c .LBB10
+     /tmp/ccb2zYdj.s:275    .text:00000000000001b0 .LBE10
+     /tmp/ccb2zYdj.s:298    .text:00000000000001c8 .LBB11
+     /tmp/ccb2zYdj.s:325    .text:00000000000001f4 .LBE11
 
 UNDEFINED SYMBOLS
-_Z12printIntegerm
 _Z11printStringPKc
+_Z12printIntegerm
