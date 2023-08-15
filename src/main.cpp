@@ -1,21 +1,20 @@
 #include "../h/print.hpp"
 #include "../h/memoryAllocator.hpp"
 #include "../h/memoryAllocatorTest.hpp"
+#include "../h/kObjectAllocator.hpp"
 
 int main() {
 
-    //MemoryAllocator::instance()->printFreeMemoryHeadData();
-    MemoryAllocator::instance()->printInstanceMemorySpaceParams();
+    uint64* arr = (uint64*) MemoryAllocator::instance()->kmem_alloc(64 * 100);
+    for (int i = 0; i < 100; ++i) arr[i] = (uint64) -1;
+    MemoryAllocator::instance()->kmem_free(arr);
 
-    printString("ALOCATED:::::::::::::::::::::::::::::::::::");
-    void* p = MemoryAllocator::instance()->kmem_alloc(120);
-    //MemoryAllocator::instance()->printFreeMemoryHeadData();
-    MemoryAllocator::instance()->printInstanceMemorySpaceParams();
+    KObjectAllocator* newObj = new KObjectAllocator(10);
+    newObj->printInternalMemory();
+    delete newObj;
 
-    printString("FREE:::::::::::::::::::::::::::::::::::::::");
-    MemoryAllocator::instance()->kmem_free(p);
-    //MemoryAllocator::instance()->printFreeMemoryHeadData();
-    MemoryAllocator::instance()->printInstanceMemorySpaceParams();
+    printString("\n");
+    printInteger((uint8) -1 >> 4 & (uint8) 1);
 
     printString("\nMemory tests:\n");
     MemoryAllocatorTest t1;

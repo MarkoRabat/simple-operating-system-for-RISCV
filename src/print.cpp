@@ -35,3 +35,9 @@ void printInteger(uint64 integer)
 
     Riscv::ms_sstatus(sstatus & Riscv::SSTATUS_SIE ? Riscv::SSTATUS_SIE : 0);
 }
+
+
+void printInteger(uint8 integer)
+{
+    printInteger((uint64)integer);
+}
