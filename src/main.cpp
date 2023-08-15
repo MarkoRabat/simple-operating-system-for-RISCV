@@ -1,5 +1,6 @@
 #include "../h/print.hpp"
 #include "../h/memoryAllocator.hpp"
+#include "../h/memoryAllocatorTest.hpp"
 
 int main() {
 
@@ -16,6 +17,9 @@ int main() {
     //MemoryAllocator::instance()->printFreeMemoryHeadData();
     MemoryAllocator::instance()->printInstanceMemorySpaceParams();
 
+    printString("\nMemory tests:\n");
+    MemoryAllocatorTest t1;
+    t1.runTests();
 
 
     return 0;

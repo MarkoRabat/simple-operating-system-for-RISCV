@@ -80,6 +80,7 @@ void* MemoryAllocator::kmem_alloc(size_t size) {
 }
 
 int MemoryAllocator::kmem_free(void* newFree) {
+    if (newFree == nullptr) return 0;
     SegmentDescriptor* newFreeSegment = (SegmentDescriptor*) ((uint8*) newFree - sizeof(SegmentDescriptor));
     freeBlockNo += newFreeSegment->noBlocks;
     totalFree += newFreeSegment->noBlocks * MEM_BLOCK_SIZE;
