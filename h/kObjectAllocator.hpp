@@ -48,15 +48,15 @@ public:
 
     KObjectAllocator(size_t objectSize) : KObjectAllocator(objectSize, 320) {}
     KObjectAllocator(size_t objectSize, size_t initialObjectNumber)
-            : initialNumberOfObject(initialObjectNumber), numberOfObjects(initialObjectNumber),  objectSize(objectSize) {
+            : initialNumberOfObjects(initialObjectNumber), numberOfObjects(initialObjectNumber),  objectSize(objectSize) {
         bitVectors = (uint8**) MemoryAllocator::instance()->kmem_alloc(numberOfAllocations * sizeof(uint8*));
-        objectVectors = (uint8**) MemoryAllocator::instance()->kmem_alloc(numberOfAllocations * sizeof(uint**));
-        initialNumberOfObject = numberOfObjects = numberOfObjects / 8 * 8 + 8 * (numberOfObjects / 8 * 8 != numberOfObjects);
+        objectVectors = (uint8**) MemoryAllocator::instance()->kmem_alloc(numberOfAllocations * sizeof(uint8*));
+        initialNumberOfObjects = numberOfObjects = numberOfObjects / 8 * 8 + 8 * (numberOfObjects / 8 * 8 != numberOfObjects);
         // one bit for each object which indicates whether memory
         // corresponding to that object is allocated or free
         memorySizeForBits = numberOfObjects / 8;
         bitVectors[0] = (uint8*) MemoryAllocator::instance()->kmem_alloc(
-                memorySizeForBits + numberOfObjects * objectSize
+                memorySizeForBits + initialNumberOfObjects * objectSize
         );
         objectVectors[0] = bitVectors[0] + memorySizeForBits;   // start of memory for objects
         for (size_t i = 0; i < memorySizeForBits; bitVectors[0][i++] = 0);
@@ -73,7 +73,7 @@ public:
     }
     void printInternalMemory();
     size_t getObjectSize() { return objectSize; }
-    size_t getInitialNumberOfObjects() { return initialNumberOfObject; }
+    size_t getInitialNumberOfObjects() { return initialNumberOfObjects; }
     size_t getNumberOfObjects() { return numberOfObjects; }
     size_t getMemorySizeForBits() { return memorySizeForBits; }
     size_t getNumberOfAllocations() { return numberOfAllocations; }
@@ -82,7 +82,7 @@ public:
 private:
     bool handleNotEnoughMemoryProblem();
     void* allocateFreeObject();
-    size_t initialNumberOfObject;
+    size_t initialNumberOfObjects;
     size_t numberOfObjects;
     size_t memorySizeForBits;
     size_t objectSize;

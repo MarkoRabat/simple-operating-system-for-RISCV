@@ -19,11 +19,18 @@ void KObjectAllocator::printInternalMemory() {
 
 void* KObjectAllocator::allocateNewObject() {
     void* returnedObject = allocateFreeObject();
+    printString("\nreturnedObject before: ");
+    printInteger((uint64)returnedObject);
+    printString("\n");
     if (returnedObject) return returnedObject;
 
     nextNonTakenByte = 0;   // start search from start
     returnedObject = allocateFreeObject();
+    printString("\nreturnedObject: ");
+    printInteger((uint64)returnedObject);
+    printString("\n");
     if (returnedObject) return returnedObject;
+    printString("\nHere\n");
 
     if (handleNotEnoughMemoryProblem()) {
         returnedObject = allocateFreeObject();
@@ -62,22 +69,27 @@ void KObjectAllocator::freeObject(void* objectPointer) {
 
 bool KObjectAllocator::handleNotEnoughMemoryProblem() {
     size_t newNumberOfAllocations = 2 * numberOfAllocations;
+    size_t newNumberOfObjects = 2 * numberOfObjects;
     uint8** newBitVectors = (uint8**) MemoryAllocator::instance()->kmem_alloc(
             newNumberOfAllocations * sizeof(uint8*)
     );
     uint8** newObjectVectors = (uint8**) MemoryAllocator::instance()->kmem_alloc(
-            newNumberOfAllocations * sizeof(uint**)
+            newNumberOfAllocations * sizeof(uint8*)
     );
 
     for (size_t i = 0; i < numberOfAllocations; ++i) newBitVectors[i] = bitVectors[i];
+    for (size_t i = numberOfAllocations; i < newNumberOfAllocations; ++i) {
+        newBitVectors[i] = (uint8*) MemoryAllocator::instance()->kmem_alloc(
+        memorySizeForBits + initialNumberOfObjects * objectSize );
+    }
     for (size_t i = 0; i < newNumberOfAllocations; ++i) newObjectVectors[i] = newBitVectors[i] + memorySizeForBits;
     for (size_t i = numberOfAllocations; i < newNumberOfAllocations; ++i)
-        for (size_t j = 0; j < initialMemorySizeForBits; newBitVectors[i][j++] = 0);
+        for (size_t j = 0; j < memorySizeForBits; newBitVectors[i][j++] = 0);
     MemoryAllocator::instance()->kmem_free(bitVectors);
     MemoryAllocator::instance()->kmem_free(objectVectors);
 
-    size_t newNumberOfObjects = 2 * numberOfObjects;
-    size_t nextNonTakenByte = numberOfAllocations * memorySizeForBits;
+    numberOfObjects = newNumberOfObjects;
+    nextNonTakenByte = numberOfAllocations * memorySizeForBits;
     numberOfAllocations = newNumberOfAllocations;
     bitVectors = newBitVectors;
     objectVectors = newObjectVectors;

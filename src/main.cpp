@@ -12,17 +12,15 @@ int main() {
     for (int i = 0; i < 100; ++i) arr[i] = (uint64) -1;
     MemoryAllocator::instance()->kmem_free(arr);
 
-    KObjectAllocator* newObj = new KObjectAllocator(sizeof(uint8), 4);
-    printString("objectNumber: "); printInteger(newObj->getNumberOfObjects()); printString("\n");
-    printString("memoryForBits: "); printInteger(newObj->getMemorySizeForBits()); printString("\n");
-    //newObj->printInternalMemory();
+    //KObjectAllocator* newObj = new KObjectAllocator(sizeof(uint8), 4);
+    KObjectAllocator* newObj = new KObjectAllocator(sizeof(uint64), 4);
 
-    void* objArr[10];
-    for (int i = 0; i < 10; ++i) {
+    void* objArr[200];
+    for (int i = 0; i < 200; ++i) {
         objArr[i] = newObj->allocateNewObject();
-        if (i == 3 || i == 7 || i == 8 ) {
-            printString("\n\n\nobjectNumber: "); printInteger(newObj->getNumberOfObjects()); printString("\n");
-            printString("memoryForBits: "); printInteger(newObj->getMemorySizeForBits()); printString("\n");
+        if (i % 10 == 0) {
+            printString("objectNumber: "); printInteger(newObj->getNumberOfObjects()); printString("\n");
+            printString("numberOfAllocations: "); printInteger(newObj->getNumberOfAllocations()); printString("\n");
             //newObj->printInternalMemory();
         }
     }
