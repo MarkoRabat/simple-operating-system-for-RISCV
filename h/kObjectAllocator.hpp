@@ -67,9 +67,9 @@ public:
         MemoryAllocator::instance()->kmem_free(p);
     }
     void printInternalMemory();
-    int getObjectSize() { return objectSize; }
-    int getNumberOfObjects() { return numberOfObjects; }
-    int getMemorySizeForBits() { return memorySizeForBits; }
+    size_t getObjectSize() { return objectSize; }
+    size_t getNumberOfObjects() { return numberOfObjects; }
+    size_t getMemorySizeForBits() { return memorySizeForBits; }
     void* allocateNewObject();
     void freeObject(void* objectPointer);
 private:
@@ -80,7 +80,7 @@ private:
     size_t objectSize;
     uint8* objectVector;
     uint8* bitVector;
-    size_t usedBytesCounter = 0;
+    size_t nextNonTakenByte = 0;
 };
 
 #endif

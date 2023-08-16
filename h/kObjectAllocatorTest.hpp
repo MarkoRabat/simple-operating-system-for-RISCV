@@ -15,7 +15,7 @@ public:
     }
     bool runTests();
 private:
-    bool getValueOfBitAt(size_t byte, size_t bit);
+    bool getValueOfBitAt(size_t byte, size_t bit, KObjectAllocator* objAlloc);
     size_t getByteOfObject(void* obj, KObjectAllocator* objAlloc);
     size_t getBitOfObject(void* obj, KObjectAllocator* objAlloc);
     void* getObjectAt(size_t byte, size_t bit, KObjectAllocator* objAlloc);

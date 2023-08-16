@@ -30,8 +30,8 @@ bool KObjectAllocatorTest::test(size_t i, size_t size) {
     return false;
 }
 
-bool KObjectAllocatorTest::getValueOfBitAt(size_t byte, size_t bit) {
-    return (bitVector[byte] >> bit & (uint8) 1) != 0;
+bool KObjectAllocatorTest::getValueOfBitAt(size_t byte, size_t bit, KObjectAllocator* objAlloc) {
+    return (objAlloc->bitVector[byte] >> bit & (uint8) 1) != 0;
 }
 
 size_t KObjectAllocatorTest::getByteOfObject(void* obj, KObjectAllocator* objAlloc) {
@@ -53,22 +53,109 @@ void* KObjectAllocatorTest::getObjectAt(size_t byte, size_t bit, KObjectAllocato
 
 bool KObjectAllocatorTest::test0(size_t size) {
     KObjectAllocator* objAlloc = new KObjectAllocator(size, 9);
-    if (objAlloc->getNumberOfObjects() != 16) return false;
-    if (objAlloc->getMemorySizeForBits() != 2) return false;
-    if (objAlloc->getObjectSize() != size) return false;
-    void* objArr[10]; for (size_t i = 0; i < 9; objArr[i++] = objAlloc->allocateNewObject());
-    size_t byte = 0; size_t bit = 0;
+    if (objAlloc->getNumberOfObjects() != 16) { delete objAlloc; return false; }
+    if (objAlloc->getMemorySizeForBits() != 2) { delete objAlloc; return false; }
+    if (objAlloc->getObjectSize() != size) { delete objAlloc; return false; }
+    void* objArr[10]; for (size_t i = 0; i < 10; objArr[i++] = objAlloc->allocateNewObject());
+    size_t byte = 0; size_t bit = 7;
     for (size_t i = 0; i < 10; ++i) {
-        if (objArr[i] != getObjectAt(byte, bit, objAlloc)) return false;
-
+        if (objArr[i] != getObjectAt(byte, bit, objAlloc)) { delete objAlloc; return false; }
+        size_t objByte = getByteOfObject(objArr[i], objAlloc);
+        size_t objBit = getBitOfObject(objArr[i], objAlloc);
+        if (objByte != byte || objBit != bit) { delete objAlloc; return false; }
+        if (!getValueOfBitAt(byte, bit, objAlloc)) { delete objAlloc; return false; }
+        if (bit == 0) { ++byte; bit = 8; } --bit;
     }
-
-
+    for (size_t i = 0; i < 6; ++i) {
+        if (getValueOfBitAt(byte, bit, objAlloc)) { delete objAlloc; return false; }
+        if (bit == 0) { ++byte; bit = 8; } --bit;
+    }
+    objAlloc->freeObject(objArr[4]);
+    objAlloc->freeObject(objArr[7]);
+    objAlloc->freeObject(objArr[8]);
+    objArr[4] = objAlloc->allocateNewObject();
+    if (objArr[4] != getObjectAt(1, 7, objAlloc)) { delete objAlloc; return false; }
+    byte = getByteOfObject(objArr[4], objAlloc);
+    bit = getBitOfObject(objArr[4], objAlloc);
+    if (byte != 1 || bit != 7) { delete objAlloc; return false; }
+    bool expectedBitValues[16] = {
+            true, true, true, true, false, true, true, false,
+            true, true, false, false, false, false, false, false
+    };
+    byte = 0; bit = 7;
+    for (size_t i = 0; i < 16; ++i) {
+        if (expectedBitValues[i] != getValueOfBitAt(byte, bit, objAlloc))
+            { delete objAlloc; return false; } if (bit == 0) { ++byte; bit = 8; } --bit;
+    }
     delete objAlloc;
     return true;
 }
 
 bool KObjectAllocatorTest::test1(size_t size) {
+    KObjectAllocator* objAlloc = new KObjectAllocator(size);
+    if (objAlloc->getNumberOfObjects() != 320) { delete objAlloc; return false; }
+    if (objAlloc->getMemorySizeForBits() != 40) { delete objAlloc; return false; }
+    if (objAlloc->getObjectSize() != size) { delete objAlloc; return false; }
+    void* objArr[320]; for (size_t i = 0; i < 32; objArr[i++] = objAlloc->allocateNewObject());
+    if (getByteOfObject(objArr[31], objAlloc) != 3
+        || getBitOfObject(objArr[31], objAlloc) != 0)
+        { delete objAlloc; return false; }
+
+    if (objAlloc->nextNonTakenByte != 4) { delete objAlloc; return false; }
+    for (size_t i = 32; i < 320; objArr[i++] = objAlloc->allocateNewObject());
+    if (objAlloc->nextNonTakenByte != 40) { delete objAlloc; return false; }
+
+    objAlloc->freeObject(objArr[7 * 8]);
+    objArr[7 * 8] = objAlloc->allocateNewObject();
+    if (getByteOfObject(objArr[7 * 8], objAlloc) != 7
+        || getBitOfObject(objArr[7 * 8], objAlloc) != 7)
+        { delete objAlloc; return false; }
+    if (objAlloc->nextNonTakenByte != 7) { delete objAlloc; return false; }
+
+    objAlloc->freeObject(objArr[6 * 8 + 3]);
+    objAlloc->freeObject(objArr[7 * 8 + 4]);
+    objAlloc->freeObject(objArr[38 * 8 + 5]);
+
+    objArr[7 * 8 + 4] = objAlloc->allocateNewObject();
+    if (getByteOfObject(objArr[7 * 8 + 4], objAlloc) != 7
+        || getBitOfObject(objArr[7 * 8 + 4], objAlloc) != 3)
+        { delete objAlloc; return false; }
+    if (objAlloc->nextNonTakenByte != 7) { delete objAlloc; return false; }
+    objAlloc->freeObject(objArr[3 * 8 + 5]);
+
+    objArr[38 * 8 + 5] = objAlloc->allocateNewObject();
+    if (getByteOfObject(objArr[38 * 8 + 5], objAlloc) != 38
+        || getBitOfObject(objArr[38 * 8 + 5], objAlloc) != 2)
+    { delete objAlloc; return false; }
+    if (objAlloc->nextNonTakenByte != 38) { delete objAlloc; return false; }
+
+
+    objArr[3 * 8 + 5] = objAlloc->allocateNewObject();
+    if (getByteOfObject(objArr[3 * 8 + 5], objAlloc) != 3 || getBitOfObject(objArr[3 * 8 + 5], objAlloc) != 2)
+    if (objAlloc->nextNonTakenByte != 3) { delete objAlloc; return false; }
+
+    objArr[6 * 8 + 3] = objAlloc->allocateNewObject();
+    if (getByteOfObject(objArr[6 * 8 + 3], objAlloc) != 6
+        || getBitOfObject(objArr[6 * 8 + 3], objAlloc) != 4)
+    { delete objAlloc; return false; }
+    if (objAlloc->nextNonTakenByte != 6) { delete objAlloc; return false; }
+
+    for (int i = 0; i < 3; ++i) {
+        objAlloc->freeObject(objArr[319]);
+        objArr[319] = objAlloc->allocateNewObject();
+        if (getByteOfObject(objArr[319], objAlloc) != 39
+            || getBitOfObject(objArr[319], objAlloc) != 0)
+        { delete objAlloc; return false; }
+        if (objAlloc->nextNonTakenByte != 40) { delete objAlloc; return false; }
+
+        objAlloc->freeObject(objArr[1]);
+        objArr[1] = objAlloc->allocateNewObject();
+        if (getByteOfObject(objArr[1], objAlloc) != 0
+            || getBitOfObject(objArr[1], objAlloc) != 6)
+        { delete objAlloc; return false; }
+        if (objAlloc->nextNonTakenByte != 0) { delete objAlloc; return false; }
+    }
+    delete objAlloc;
     return true;
 }
 

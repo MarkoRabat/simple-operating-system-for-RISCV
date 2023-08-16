@@ -24,9 +24,9 @@ void* KObjectAllocator::allocateNewObject() {
 
     // optimization - search till the place prev search started from:
     size_t tmp = memorySizeForBits;
-    memorySizeForBits = usedBytesCounter;
+    memorySizeForBits = nextNonTakenByte;
 
-    usedBytesCounter = 0;   // start search from start
+    nextNonTakenByte = 0;   // start search from start
     returnedObject = allocateFreeObject();
     memorySizeForBits = tmp;    // revert back to original memory size for bits
     if (returnedObject) return returnedObject;
@@ -39,10 +39,10 @@ void* KObjectAllocator::allocateNewObject() {
 }
 
 void* KObjectAllocator::allocateFreeObject() {
-    for (size_t byte = usedBytesCounter; byte < memorySizeForBits; ++byte)
+    for (size_t byte = nextNonTakenByte; byte < memorySizeForBits; ++byte)
         for (size_t bit = 8; bit != 0; --bit)
             if ((bitVector[byte] >> (bit - 1) & (uint8) 1) == 0) {
-                usedBytesCounter = byte;
+                nextNonTakenByte = byte + (bit == 1);
                 bitVector[byte] |= (uint8) 1 << (bit - 1);
                 return &objectVector[(byte * 8 + 8 - bit) * objectSize];
             }
