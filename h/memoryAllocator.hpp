@@ -4,6 +4,7 @@
 #include "../lib/hw.h"
 
 class MemoryAllocatorTest;
+class KObjectAllocatorTest;
 
 /*          ^
  *          |
@@ -38,6 +39,7 @@ public:
      *
      */
     friend MemoryAllocatorTest;
+    friend KObjectAllocatorTest;
 
     /*                         ^
      *                         |
