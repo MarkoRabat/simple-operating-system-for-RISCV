@@ -48,38 +48,47 @@ public:
 
     KObjectAllocator(size_t objectSize) : KObjectAllocator(objectSize, 320) {}
     KObjectAllocator(size_t objectSize, size_t initialObjectNumber)
-            : numberOfObjects(initialObjectNumber), objectSize(objectSize) {
-        numberOfObjects = numberOfObjects / 8 * 8 + 8 * (numberOfObjects / 8 * 8 != numberOfObjects);
+            : initialNumberOfObject(initialObjectNumber), numberOfObjects(initialObjectNumber),  objectSize(objectSize) {
+        bitVectors = (uint8**) MemoryAllocator::instance()->kmem_alloc(numberOfAllocations * sizeof(uint8*));
+        objectVectors = (uint8**) MemoryAllocator::instance()->kmem_alloc(numberOfAllocations * sizeof(uint**));
+        initialNumberOfObject = numberOfObjects = numberOfObjects / 8 * 8 + 8 * (numberOfObjects / 8 * 8 != numberOfObjects);
         // one bit for each object which indicates whether memory
         // corresponding to that object is allocated or free
         memorySizeForBits = numberOfObjects / 8;
-        bitVector = (uint8*) MemoryAllocator::instance()->kmem_alloc(
+        bitVectors[0] = (uint8*) MemoryAllocator::instance()->kmem_alloc(
                 memorySizeForBits + numberOfObjects * objectSize
         );
-        objectVector = bitVector + memorySizeForBits;   // start of memory for objects
-        for (size_t i = 0; i < memorySizeForBits; bitVector[i++] = 0);
+        objectVectors[0] = bitVectors[0] + memorySizeForBits;   // start of memory for objects
+        for (size_t i = 0; i < memorySizeForBits; bitVectors[0][i++] = 0);
     }
     void* operator new(size_t size) {
         return MemoryAllocator::instance()->kmem_alloc(size);
     }
     void operator delete(void* p) {
-        MemoryAllocator::instance()->kmem_free(((KObjectAllocator*) p)->bitVector);
+        for (size_t i = 0; i < ((KObjectAllocator*) p)->numberOfAllocations; ++i)
+            MemoryAllocator::instance()->kmem_free(((KObjectAllocator*) p)->bitVectors[i]);
+        MemoryAllocator::instance()->kmem_free(((KObjectAllocator*) p)->bitVectors);
+        MemoryAllocator::instance()->kmem_free(((KObjectAllocator*) p)->objectVectors);
         MemoryAllocator::instance()->kmem_free(p);
     }
     void printInternalMemory();
     size_t getObjectSize() { return objectSize; }
+    size_t getInitialNumberOfObjects() { return initialNumberOfObject; }
     size_t getNumberOfObjects() { return numberOfObjects; }
     size_t getMemorySizeForBits() { return memorySizeForBits; }
+    size_t getNumberOfAllocations() { return numberOfAllocations; }
     void* allocateNewObject();
     void freeObject(void* objectPointer);
 private:
     bool handleNotEnoughMemoryProblem();
     void* allocateFreeObject();
+    size_t initialNumberOfObject;
     size_t numberOfObjects;
     size_t memorySizeForBits;
     size_t objectSize;
-    uint8* objectVector;
-    uint8* bitVector;
+    uint8** objectVectors;
+    uint8** bitVectors;
+    size_t numberOfAllocations = 1;
     size_t nextNonTakenByte = 0;
 };
 

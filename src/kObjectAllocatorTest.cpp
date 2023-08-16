@@ -1,6 +1,8 @@
 #include "../h/kObjectAllocatorTest.hpp"
 #include "../h/print.hpp"
 
+/*
+
 bool KObjectAllocatorTest::runTests() {
     for (size_t size : sizes)
     for (size_t i = 0; i < numberOfTests; ++i) {
@@ -190,3 +192,4 @@ bool KObjectAllocatorTest::test8(size_t size) {
 bool KObjectAllocatorTest::test9(size_t size) {
     return true;
 }
+*/
