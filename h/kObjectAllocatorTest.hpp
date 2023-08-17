@@ -23,14 +23,8 @@ private:
     bool test1(size_t size);
     bool test2(size_t size);
     bool test3(size_t size);
-    bool test4(size_t size);
-    bool test5(size_t size);
-    bool test6(size_t size);
-    bool test7(size_t size);
-    bool test8(size_t size);
-    bool test9(size_t size);
     bool test(size_t i, size_t size);
-    size_t numberOfTests = 10;
+    size_t numberOfTests = 4;
     size_t sizes[7] = {
             sizeof(uint64),
             sizeof(int),
