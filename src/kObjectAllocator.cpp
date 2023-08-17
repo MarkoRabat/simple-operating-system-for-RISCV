@@ -2,11 +2,11 @@
 #include "../h/print.hpp"
 
 void KObjectAllocator::printInternalMemory() {
-    size_t segmentSize = 10, printedBytes = 0;
+    size_t segmentSize = 16, printedBytes = 0;
     while (printedBytes < memorySizeForBits) {
         for (size_t i = 0; i < numberOfAllocations; ++i) {
             for (size_t j = 0; j < segmentSize; ++j) {
-                if (j >= memorySizeForBits % segmentSize) printString("    ");
+                if (j + printedBytes >= memorySizeForBits) printString("    ");
                 else {
                     if (bitVectors[i][j + printedBytes] / 100 == 0) printInteger((uint8) 0);
                     if (bitVectors[i][j + printedBytes] / 10 == 0) printInteger((uint8) 0);
@@ -31,7 +31,7 @@ void KObjectAllocator::printInternalMemory() {
     while(printedBytes < initialNumberOfObjects * objectSize) {
         for (size_t i = 0; i < numberOfAllocations; ++i) {
             for (size_t j = 0; j < segmentSize; ++j) {
-                if (j >= (initialNumberOfObjects * objectSize) % segmentSize) printString("    ");
+                if (j + printedBytes - memorySizeForBits >= initialNumberOfObjects * objectSize) printString("    ");
                 else {
                     if (bitVectors[i][j + printedBytes] / 100 == 0) printInteger((uint8) 0);
                     if (bitVectors[i][j + printedBytes] / 10 == 0) printInteger((uint8) 0);
@@ -49,16 +49,16 @@ void KObjectAllocator::printInternalMemory() {
 void* KObjectAllocator::allocateNewObject() {
     void* returnedObject = allocateFreeObject();
     if (returnedObject) {
-        printString("\nreturn1: ");
-        printInteger((uint64) returnedObject);
+        //printString("\nreturn1: ");
+        //printInteger((uint64) returnedObject);
         return returnedObject;
     }
 
     nextNonTakenByte = 0;   // start search from start
     returnedObject = allocateFreeObject();
     if (returnedObject) {
-        printString("\nreturn2: ");
-        printInteger((uint64) returnedObject);
+        //printString("\nreturn2: ");
+        //printInteger((uint64) returnedObject);
         return returnedObject;
     }
 
@@ -66,8 +66,8 @@ void* KObjectAllocator::allocateNewObject() {
     if (handleNotEnoughMemoryProblem()) {
         returnedObject = allocateFreeObject();
         if (returnedObject) {
-            printString("\nreturn3: ");
-            printInteger((uint64) returnedObject);
+            //printString("\nreturn3: ");
+            //printInteger((uint64) returnedObject);
             return returnedObject;
         }
     }
@@ -89,14 +89,14 @@ void* KObjectAllocator::allocateFreeObject() {
                 printString("ifCondition: ");
                 printInteger((bitVectors[i][byte] >> (bit - 1) & (uint8) 1) == 0); printString("\n");*/
                 if ((bitVectors[i][byte] >> (bit - 1) & (uint8) 1) == 0) {
-                    printString("========================");
+                    /*printString("========================");
                     printString("\nSUCCESS:\n");
                     printString("i: "); printInteger(i); printString("\n");
                     printString("j: "); printInteger(j); printString("\n");
                     printString("nextNonTakenByte: "); printInteger(nextNonTakenByte); printString("\n");
                     printString("Byte: "); printInteger(byte); printString("\n");
                     printString("Bit: "); printInteger(bit); printString("\n");
-                    printString("========================");
+                    printString("========================");*/
                     nextNonTakenByte = j + (bit == 1);
                     bitVectors[i][byte] |= (uint8) 1 << (bit - 1);
                     return &objectVectors[i][(byte * 8 + 8 - bit) * objectSize];
