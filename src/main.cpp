@@ -3,6 +3,7 @@
 #include "../h/kObjectAllocator.hpp"
 #include "../h/syscall_c.hpp"
 #include "../h/riscv.hpp"
+#include "../h/tcb.hpp"
 
 // tests delete this before submition !!!!!!!!!!!
 #include "../h/memoryAllocatorTest.hpp"
@@ -20,7 +21,10 @@ int main() {
     printString("\n");
     __asm__ volatile ("ecall");*/
 
-    Riscv::popSppSpie();
+    Riscv::w_stvec((uint64) &Riscv::supervisorTrap);
+    Riscv::ms_sstatus(Riscv::SSTATUS_SIE);
+    //Riscv::popSppSpie();
+    printString("\nHello there\n");
     mem_alloc(12);
 
 

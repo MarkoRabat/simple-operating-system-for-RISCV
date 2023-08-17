@@ -16,9 +16,9 @@ void Riscv::popSppSpie()
 void Riscv::handleSupervisorTrap()
 {
     uint64 scause = r_scause();
-    printString("I am here\n");
     if (scause == 0x0000000000000008UL || scause == 0x0000000000000009UL)
     {
+        printString("Here");
         // interrupt: no; cause code: environment call from U-mode(8) or S-mode(9)
         uint64 volatile sepc = r_sepc() + 4;
         uint64 volatile sstatus = r_sstatus();
