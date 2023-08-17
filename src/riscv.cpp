@@ -18,30 +18,26 @@ void Riscv::handleSupervisorTrap()
     uint64 scause = r_scause();
     if (scause == 0x0000000000000008UL || scause == 0x0000000000000009UL)
     {
-        printString("Here");
         // interrupt: no; cause code: environment call from U-mode(8) or S-mode(9)
         uint64 volatile sepc = r_sepc() + 4;
         uint64 volatile sstatus = r_sstatus();
 
-        uint64 volatile sysCallNum;
-        __asm__ volatile("sd a0, %0" : "=m" (sysCallNum));
+        uint64 volatile sysCallNum; __asm__ volatile("sd a0, %0" : "=m" (sysCallNum));
+        uint64 volatile arg1; __asm__ volatile("sd a1, %0" : "=m" (arg1));
+
         printString("\na0 = "); printInteger(sysCallNum);
-        uint64 volatile arg1;
-        __asm__ volatile("sd a0, %0" : "=m" (arg1));
-        printString("\na1 = "); printInteger(arg1);
+        printString("\na1 = "); printInteger(arg1); printString("\n");
 
         TCB::timeSliceCounter = 0;
-        TCB::dispatch();
+        // TCB::dispatch();
         w_sstatus(sstatus);
         w_sepc(sepc);
     }
-    else if (scause == 0x8000000000000001UL)
-    {
+    else if (scause == 0x8000000000000001UL) {
         // interrupt: yes; cause code: supervisor software interrupt (CLINT; machine timer interrupt)
         mc_sip(SIP_SSIP);
         TCB::timeSliceCounter++;
-        if (TCB::timeSliceCounter >= TCB::running->getTimeSlice())
-        {
+        if (TCB::timeSliceCounter >= TCB::running->getTimeSlice()) {
             uint64 volatile sepc = r_sepc();
             uint64 volatile sstatus = r_sstatus();
             TCB::timeSliceCounter = 0;
@@ -50,13 +46,13 @@ void Riscv::handleSupervisorTrap()
             w_sepc(sepc);
         }
     }
-    else if (scause == 0x8000000000000009UL)
-    {
+    else if (scause == 0x8000000000000009UL) {
         // interrupt: yes; cause code: supervisor external interrupt (PLIC; could be keyboard)
         console_handler();
     }
-    else
-    {
-        // unexpected trap cause
+    else {
+        printString("sepc: "); printInteger(r_sepc()); printString("\n");
+        printString("scause: "); printInteger(scause); printString("\n");
+        printString("ERROR: unexpected trap cause"); printString("\n");
     }
 }

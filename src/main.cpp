@@ -22,9 +22,8 @@ int main() {
     __asm__ volatile ("ecall");*/
 
     Riscv::w_stvec((uint64) &Riscv::supervisorTrap);
-    Riscv::ms_sstatus(Riscv::SSTATUS_SIE);
-    //Riscv::popSppSpie();
     printString("\nHello there\n");
+    //Riscv::popSppSpie();
     mem_alloc(12);
 
 

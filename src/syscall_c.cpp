@@ -1,5 +1,6 @@
 #include "../h/syscall_c.hpp"
 #include "../h/riscv.hpp"
+#include "../h/print.hpp"
 #include "../lib/hw.h"
 
 void* mem_alloc(size_t size) {
@@ -7,6 +8,7 @@ void* mem_alloc(size_t size) {
 
     x = (uint64) size;
     __asm__ volatile("ld a1, %0" :: "m" (x));
+    __asm__ volatile("sd a1, %0" :: "m" (x));
     x = 0x01;
     __asm__ volatile("ld a0, %0" :: "m" (x));
     __asm__ volatile ("ecall");
