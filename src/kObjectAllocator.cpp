@@ -88,6 +88,7 @@ void* KObjectAllocator::allocateFreeObject() {
                 printString("Bit: "); printInteger(bit); printString("\n");
                 printString("ifCondition: ");
                 printInteger((bitVectors[i][byte] >> (bit - 1) & (uint8) 1) == 0); printString("\n");*/
+                nextNonTakenByte = j + (bit == 1);
                 if ((bitVectors[i][byte] >> (bit - 1) & (uint8) 1) == 0) {
                     /*printString("========================");
                     printString("\nSUCCESS:\n");
@@ -97,7 +98,6 @@ void* KObjectAllocator::allocateFreeObject() {
                     printString("Byte: "); printInteger(byte); printString("\n");
                     printString("Bit: "); printInteger(bit); printString("\n");
                     printString("========================");*/
-                    nextNonTakenByte = j + (bit == 1);
                     bitVectors[i][byte] |= (uint8) 1 << (bit - 1);
                     return &objectVectors[i][(byte * 8 + 8 - bit) * objectSize];
                 }

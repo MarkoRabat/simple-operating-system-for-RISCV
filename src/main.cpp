@@ -23,8 +23,8 @@ int main() {
             //printString("\nobjectNumber: "); printInteger(newObj->getNumberOfObjects()); printString("\n");
             //printString("numberOfAllocations: "); printInteger(newObj->getNumberOfAllocations()); printString("\n");
             //printString("\n\n");
-            newObj->printInternalMemory();
-            printString("\n");
+            //newObj->printInternalMemory();
+            //printString("\n");
         }
     }
 

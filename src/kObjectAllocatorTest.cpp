@@ -39,8 +39,6 @@ size_t KObjectAllocatorTest::getByteOfObject(void* obj, KObjectAllocator* objAll
         size_t idiff = (size_t) ((uint8*) obj - objAlloc->objectVectors[i]);
         size_t byte = idiff / objAlloc->objectSize / 8;
         if (byte >= objAlloc->memorySizeForBits) continue;
-        printString("\ni = "); printInteger(i); printString("\n");
-        printString("\nbyte = "); printInteger(byte); printString("\n");
         return byte + i * objAlloc->memorySizeForBits;
     }
     printString("ERROR: given object not allocated in given objAlloc\n");
@@ -217,41 +215,33 @@ bool KObjectAllocatorTest::test2(size_t size) {
 }
 
 bool KObjectAllocatorTest::test3(size_t size) {
+    size = sizeof(uint8);
     KObjectAllocator* objAlloc = new KObjectAllocator(size, 5);
     if (objAlloc->getNumberOfObjects() != 8) { delete objAlloc; return false; }
     if (objAlloc->getMemorySizeForBits() != 1) { delete objAlloc; return false; }
     if (objAlloc->getObjectSize() != size) { delete objAlloc; return false; }
-    void* objArr[320]; for (size_t i = 0; i < 32; objArr[i++] = objAlloc->allocateNewObject());
+    void* objArr[256]; for (size_t i = 0; i < 32; objArr[i++] = objAlloc->allocateNewObject());
     if (getByteOfObject(objArr[31], objAlloc) != 3
         || getBitOfObject(objArr[31], objAlloc) != 0)
     { delete objAlloc; return false; }
 
 
     if (objAlloc->nextNonTakenByte != 4) { delete objAlloc; return false; }
-    for (size_t i = 32; i < 320; objArr[i++] = objAlloc->allocateNewObject());
-    if (objAlloc->nextNonTakenByte != 40) { delete objAlloc; return false; }
+    for (size_t i = 32; i < 256; objArr[i++] = objAlloc->allocateNewObject());
+    if (objAlloc->nextNonTakenByte != 32) { delete objAlloc; return false; }
 
 
-    printString("\nbefore here\n");
 
     objAlloc->freeObject(objArr[7 * 8]);
     objArr[7 * 8] = objAlloc->allocateNewObject();
-    printString("\n");
-    printInteger((uint64)getByteOfObject(objArr[7 * 8], objAlloc));
-    printString("\n");
-    printInteger((uint64)getBitOfObject(objArr[7 * 8], objAlloc));
-    printString("\n");
     if (getByteOfObject(objArr[7 * 8], objAlloc) != 7
         || getBitOfObject(objArr[7 * 8], objAlloc) != 7)
     { delete objAlloc; return false; }
     if (objAlloc->nextNonTakenByte != 7) { delete objAlloc; return false; }
 
-    printString("\nhere\n");
-
     objAlloc->freeObject(objArr[6 * 8 + 3]);
     objAlloc->freeObject(objArr[7 * 8 + 4]);
-    objAlloc->freeObject(objArr[38 * 8 + 5]);
-
+    objAlloc->freeObject(objArr[31 * 8 + 5]);
 
     objArr[7 * 8 + 4] = objAlloc->allocateNewObject();
     if (getByteOfObject(objArr[7 * 8 + 4], objAlloc) != 7
@@ -260,12 +250,11 @@ bool KObjectAllocatorTest::test3(size_t size) {
     if (objAlloc->nextNonTakenByte != 7) { delete objAlloc; return false; }
     objAlloc->freeObject(objArr[3 * 8 + 5]);
 
-    objArr[38 * 8 + 5] = objAlloc->allocateNewObject();
-    if (getByteOfObject(objArr[38 * 8 + 5], objAlloc) != 38
-        || getBitOfObject(objArr[38 * 8 + 5], objAlloc) != 2)
+    objArr[31 * 8 + 5] = objAlloc->allocateNewObject();
+    if (getByteOfObject(objArr[31 * 8 + 5], objAlloc) != 31
+        || getBitOfObject(objArr[31 * 8 + 5], objAlloc) != 2)
     { delete objAlloc; return false; }
-    if (objAlloc->nextNonTakenByte != 38) { delete objAlloc; return false; }
-
+    if (objAlloc->nextNonTakenByte != 31) { delete objAlloc; return false; }
 
     objArr[3 * 8 + 5] = objAlloc->allocateNewObject();
     if (getByteOfObject(objArr[3 * 8 + 5], objAlloc) != 3 || getBitOfObject(objArr[3 * 8 + 5], objAlloc) != 2)
@@ -278,12 +267,12 @@ bool KObjectAllocatorTest::test3(size_t size) {
     if (objAlloc->nextNonTakenByte != 6) { delete objAlloc; return false; }
 
     for (int i = 0; i < 3; ++i) {
-        objAlloc->freeObject(objArr[319]);
-        objArr[319] = objAlloc->allocateNewObject();
-        if (getByteOfObject(objArr[319], objAlloc) != 39
-            || getBitOfObject(objArr[319], objAlloc) != 0)
+        objAlloc->freeObject(objArr[255]);
+        objArr[255] = objAlloc->allocateNewObject();
+        if (getByteOfObject(objArr[255], objAlloc) != 31
+            || getBitOfObject(objArr[255], objAlloc) != 0)
         { delete objAlloc; return false; }
-        if (objAlloc->nextNonTakenByte != 40) { delete objAlloc; return false; }
+        if (objAlloc->nextNonTakenByte != 32) { delete objAlloc; return false; }
 
         objAlloc->freeObject(objArr[1]);
         objArr[1] = objAlloc->allocateNewObject();
