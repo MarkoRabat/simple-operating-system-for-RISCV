@@ -1,8 +1,6 @@
 #include "../h/kObjectAllocatorTest.hpp"
 #include "../h/print.hpp"
 
-/*
-
 bool KObjectAllocatorTest::runTests() {
     for (size_t size : sizes)
     for (size_t i = 0; i < numberOfTests; ++i) {
@@ -33,24 +31,45 @@ bool KObjectAllocatorTest::test(size_t i, size_t size) {
 }
 
 bool KObjectAllocatorTest::getValueOfBitAt(size_t byte, size_t bit, KObjectAllocator* objAlloc) {
-    return (objAlloc->bitVector[byte] >> bit & (uint8) 1) != 0;
+    for (size_t i = 0; i < objAlloc->numberOfAllocations; ++i) {
+        if (i * objAlloc->memorySizeForBits <= byte && byte < (i + 1) * objAlloc->memorySizeForBits)
+            return (objAlloc->bitVectors[i][byte] >> bit & (uint8) 1) != 0;
+    }
+    printString("ERROR: byte not in given objAlloc\n");
+    return false;
 }
 
 size_t KObjectAllocatorTest::getByteOfObject(void* obj, KObjectAllocator* objAlloc) {
-    size_t diff = (size_t) ((uint8*) obj - objAlloc->objectVector);
-    size_t byte = diff / objAlloc->objectSize / 8;
-    return byte;
+    for (size_t i = 0; i < objAlloc->numberOfAllocations; ++i) {
+        if ((uint8*) obj < objAlloc->objectVectors[i]) continue;
+        size_t idiff = (size_t) ((uint8*) obj - objAlloc->objectVectors[i]);
+        size_t byte = idiff / objAlloc->objectSize / 8;
+        if (byte >= objAlloc->memorySizeForBits) continue;
+        return byte;
+    }
+    printString("ERROR: given object not allocated in given objAlloc\n");
+    return 0;
 }
 
 size_t KObjectAllocatorTest::getBitOfObject(void* obj, KObjectAllocator* objAlloc) {
-    size_t diff = (size_t) ((uint8*) obj - objAlloc->objectVector);
-    size_t byte = diff / objAlloc->objectSize / 8;
-    size_t bit = diff / objAlloc->objectSize - byte * 8;
-    return 7 - bit;
+    for (size_t i = 0; i < objAlloc->numberOfAllocations; ++i) {
+        if ((uint8*) obj < objAlloc->objectVectors[i]) continue;
+        size_t idiff = (size_t) ((uint8*) obj - objAlloc->objectVectors[i]);
+        size_t byte = idiff / objAlloc->objectSize / 8;
+        if (byte >= objAlloc->memorySizeForBits) continue;
+        size_t bit = idiff / objAlloc->objectSize - byte * 8;
+        return 7 - bit;
+    }
+    printString("ERROR: given object not allocated in given objAlloc\n");
+    return 0;
 }
 
 void* KObjectAllocatorTest::getObjectAt(size_t byte, size_t bit, KObjectAllocator* objAlloc) {
-    return &objAlloc->objectVector[(byte * 8 + 7 - bit) * objAlloc->objectSize];
+    for (size_t i = 0; i < objAlloc->numberOfAllocations; ++i)
+        if (i * objAlloc->memorySizeForBits <= byte && byte < (i + 1) * objAlloc->memorySizeForBits)
+            return &objAlloc->objectVectors[i][(byte * 8 + 7 - bit) * objAlloc->objectSize];
+    printString("ERROR: given object not allocated in given objAlloc\n");
+    return nullptr;
 }
 
 bool KObjectAllocatorTest::test0(size_t size) {
@@ -192,4 +211,3 @@ bool KObjectAllocatorTest::test8(size_t size) {
 bool KObjectAllocatorTest::test9(size_t size) {
     return true;
 }
-*/

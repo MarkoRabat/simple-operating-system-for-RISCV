@@ -9,11 +9,11 @@
 int main() {
 
     //KObjectAllocator* newObj = new KObjectAllocator(sizeof(uint8), 4);
-    KObjectAllocator* newObj = new KObjectAllocator(sizeof(uint8));
+    KObjectAllocator* newObj = new KObjectAllocator(sizeof(uint8), 20);
 
-    void* objArr[400];
+    void* objArr[100];
     size_t objNumber = 0; //newObj->getNumberOfObjects();
-    for (int i = 0; i < 400; ++i) {
+    for (int i = 0; i < 100; ++i) {
         objArr[i] = newObj->allocateNewObject();
         if (i == 14) newObj->freeObject(objArr[4]);
         if (i == 14) newObj->freeObject(objArr[9]);
@@ -30,13 +30,12 @@ int main() {
 
     for (int i = 0; i < 10; ++i) newObj->freeObject(objArr[i]);
 
-
     delete newObj;
 
-    /*printString("\nKObjectAllocator tests:\n");
+    printString("\nKObjectAllocator tests:\n");
     KObjectAllocatorTest* t2 = new KObjectAllocatorTest;
     t2->runTests();
-    delete t2;*/
+    delete t2;
 
     printString("\nMemory tests:\n");
     MemoryAllocatorTest t1;
