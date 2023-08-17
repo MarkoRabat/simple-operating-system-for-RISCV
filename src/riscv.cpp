@@ -5,6 +5,7 @@
 #include "../h/riscv.hpp"
 #include "../h/tcb.hpp"
 #include "../lib/console.h"
+#include "../h/print.hpp"
 
 void Riscv::popSppSpie()
 {
@@ -15,11 +16,20 @@ void Riscv::popSppSpie()
 void Riscv::handleSupervisorTrap()
 {
     uint64 scause = r_scause();
+    printString("I am here\n");
     if (scause == 0x0000000000000008UL || scause == 0x0000000000000009UL)
     {
         // interrupt: no; cause code: environment call from U-mode(8) or S-mode(9)
         uint64 volatile sepc = r_sepc() + 4;
         uint64 volatile sstatus = r_sstatus();
+
+        uint64 volatile sysCallNum;
+        __asm__ volatile("sd a0, %0" : "=m" (sysCallNum));
+        printString("\na0 = "); printInteger(sysCallNum);
+        uint64 volatile arg1;
+        __asm__ volatile("sd a0, %0" : "=m" (arg1));
+        printString("\na1 = "); printInteger(arg1);
+
         TCB::timeSliceCounter = 0;
         TCB::dispatch();
         w_sstatus(sstatus);

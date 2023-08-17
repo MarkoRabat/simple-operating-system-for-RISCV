@@ -2,13 +2,15 @@
 #include "../h/print.hpp"
 
 bool KObjectAllocatorTest::runTests() {
+    size_t testCnt = 0;
     for (size_t size : sizes)
     for (size_t i = 0; i < numberOfTests; ++i) {
         if (!test(i, size)) {
             printString("Failed KObjectAllocator test ");
             printInteger(i); printString("\n"); return false;
         } else printString("Passed ");
-        if (i != 0 && (i + 1) % 10 == 0) printString("\n");
+        ++testCnt;
+        if (testCnt % 10 == 0) printString("\n");
     }
     return true;
 }
@@ -215,7 +217,6 @@ bool KObjectAllocatorTest::test2(size_t size) {
 }
 
 bool KObjectAllocatorTest::test3(size_t size) {
-    size = sizeof(uint8);
     KObjectAllocator* objAlloc = new KObjectAllocator(size, 5);
     if (objAlloc->getNumberOfObjects() != 8) { delete objAlloc; return false; }
     if (objAlloc->getMemorySizeForBits() != 1) { delete objAlloc; return false; }
@@ -229,8 +230,6 @@ bool KObjectAllocatorTest::test3(size_t size) {
     if (objAlloc->nextNonTakenByte != 4) { delete objAlloc; return false; }
     for (size_t i = 32; i < 256; objArr[i++] = objAlloc->allocateNewObject());
     if (objAlloc->nextNonTakenByte != 32) { delete objAlloc; return false; }
-
-
 
     objAlloc->freeObject(objArr[7 * 8]);
     objArr[7 * 8] = objAlloc->allocateNewObject();

@@ -1,6 +1,8 @@
 #include "../h/print.hpp"
 #include "../h/memoryAllocator.hpp"
 #include "../h/kObjectAllocator.hpp"
+#include "../h/syscall_c.hpp"
+#include "../h/riscv.hpp"
 
 // tests delete this before submition !!!!!!!!!!!
 #include "../h/memoryAllocatorTest.hpp"
@@ -8,29 +10,19 @@
 
 int main() {
 
-    //KObjectAllocator* newObj = new KObjectAllocator(sizeof(uint8), 4);
-    KObjectAllocator* newObj = new KObjectAllocator(sizeof(uint8), 20);
+    //mem_alloc(12);
 
-    void* objArr[100];
-    size_t objNumber = 0; //newObj->getNumberOfObjects();
-    for (int i = 0; i < 100; ++i) {
-        objArr[i] = newObj->allocateNewObject();
-        if (i == 14) newObj->freeObject(objArr[4]);
-        if (i == 14) newObj->freeObject(objArr[9]);
-        *(uint8*) objArr[i] = 128;
-        if (objNumber != newObj->getNumberOfObjects() || i % 100 == 0) {
-            objNumber = newObj->getNumberOfObjects();
-            //printString("\nobjectNumber: "); printInteger(newObj->getNumberOfObjects()); printString("\n");
-            //printString("numberOfAllocations: "); printInteger(newObj->getNumberOfAllocations()); printString("\n");
-            //printString("\n\n");
-            //newObj->printInternalMemory();
-            //printString("\n");
-        }
-    }
+    /*__asm__ volatile ("ld a0, #0x01");
+    uint64 volatile x;
+    __asm__ volatile ("sd a0, %0" : "=m" (x));
+    printString("\nx= ");
+    printInteger(x);
+    printString("\n");
+    __asm__ volatile ("ecall");*/
 
-    for (int i = 0; i < 10; ++i) newObj->freeObject(objArr[i]);
+    Riscv::popSppSpie();
+    mem_alloc(12);
 
-    delete newObj;
 
     printString("\nKObjectAllocator tests:\n");
     KObjectAllocatorTest* t2 = new KObjectAllocatorTest;
