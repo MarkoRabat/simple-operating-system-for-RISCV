@@ -26,6 +26,10 @@ int main() {
     //Riscv::popSppSpie();
     mem_alloc(12);
 
+    printString("Unsigned long size: ");
+    printInteger(sizeof(unsigned long));
+    printString("\n");
+
 
     printString("\nKObjectAllocator tests:\n");
     KObjectAllocatorTest* t2 = new KObjectAllocatorTest;
