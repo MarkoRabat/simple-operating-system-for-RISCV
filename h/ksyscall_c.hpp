@@ -1,6 +1,8 @@
 #ifndef KSYSCALL_C_HPP
 #define KSYSCALL_C_HPP
 
+#include "../lib/hw.h"
+
 void* kmem_alloc(size_t size);
 int kmem_free(void*);
 

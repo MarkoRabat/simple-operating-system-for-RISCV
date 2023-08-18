@@ -21,7 +21,7 @@ int main() {
     printString("\n");
     __asm__ volatile ("ecall");*/
 
-    Riscv::w_stvec((uint64) &Riscv::supervisorTrap);
+    Riscv::w_stvec((uint64) Riscv::supervisorTrap);
     printString("\nHello there\n");
     //Riscv::popSppSpie();
     mem_alloc(12);

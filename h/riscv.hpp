@@ -77,8 +77,11 @@ public:
 
 private:
 
-    // supervisor trap handler
-    static void handleSupervisorTrap();
+    // synchronous supervisor trap handler
+    static void handleSyncSupervisorTrap();
+
+    // asynchronous supervisor trap handler
+    static void handleAsyncSupervisorTrap();
 
 };
 

@@ -5,33 +5,35 @@
 .type _ZN5Riscv14supervisorTrapEv, @function
 _ZN5Riscv14supervisorTrapEv:
 
-    .irp index, 8,9,18,19,20,21,22,23,24,25,26,27
-    sd x\index, \index * 8(sp)
-
-    csrr s2, scause
-    addi s2, s2, -8
-    bnez s2, async:
-    csrr s2, scause
-    addi s2, s2, -9
-    bnez s2, async:
-
-    .irp index, 8,9,18,19,20,21,22,23,24,25,26,27
-    ld x\index, \index * 8(sp)
-
-async:
-
-    # push all registers to stack
     addi sp, sp, -256
-    .irp index, 1,2,3,4,5,6,7,10,11,12,13,14,15,16,17,28,29,30,31
+    .irp index, 1,2,3,4,5,6,7,8,9,10,11,12,13,14,15,16,17,18,19,20,21,22,23,24,25,26,27,28,29,30,31
     sd x\index, \index * 8(sp)
     .endr
 
-    call _ZN5Riscv20handleSupervisorTrapEv
+    csrr s2, scause
+    addi s2, s2, -8
+    //bnez s2, async:
+    csrr s2, scause
+    addi s2, s2, -9
+    //bnez s2, async:
+
+    call _ZN5Riscv24handleSyncSupervisorTrapEv
 
     # pop all registers from stack
     .irp index, 1,2,3,4,5,6,7,8,9,10,11,12,13,14,15,16,17,18,19,20,21,22,23,24,25,26,27,28,29,30,31
     ld x\index, \index * 8(sp)
     .endr
-    addi sp, sp, 256
+
+    sret
+
+async:
+
+    call _ZN5Riscv25handleAsyncSupervisorTrapEv
+    //call _ZN5Riscv20handleSupervisorTrapEv
+
+    # pop all registers from stack
+    .irp index, 1,2,3,4,5,6,7,8,9,10,11,12,13,14,15,16,17,18,19,20,21,22,23,24,25,26,27,28,29,30,31
+    ld x\index, \index * 8(sp)
+    .endr
 
     sret

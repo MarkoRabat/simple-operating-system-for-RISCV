@@ -30,19 +30,22 @@ int thread_create (thread_t* handle, void (*start_routine) (void*), void* arg) {
 }
 
 int thread_exit() {
+    uint64 volatile x;
     x = 0x12; __asm__ volatile("ld a0, %0" :: "m" (x));
     __asm__ volatile ("ecall");
     __asm__ volatile("sd a0, %0" : "=m" (x)); return (int) x;
 }
 
 void thread_dispatch() {
+    uint64 volatile x;
     x = 0x13; __asm__ volatile("ld a0, %0" :: "m" (x));
     __asm__ volatile ("ecall");
 }
 
 void thread_join (thread_t handle) {
+    uint64 volatile x;
     x = 0x14; __asm__ volatile("ld a0, %0" :: "m" (x));
-    __asm__ volatile ("ecall")
+    __asm__ volatile ("ecall");
 }
 
 int sem_open ( sem_t* handle, unsigned init ) {
@@ -78,9 +81,9 @@ int sem_signal(sem_t id) {
     __asm__ volatile("sd a0, %0" : "=m" (x)); return (int) x;
 }
 
-int time_sleep(time_t) {
+int time_sleep(time_t id) {
     uint64 volatile x;
-    x = (uint64) time_t; __asm__ volatile("ld a1, %0" :: "m" (x));
+    x = (uint64) id; __asm__ volatile("ld a1, %0" :: "m" (x));
     x = 0x31; __asm__ volatile("ld a0, %0" :: "m" (x));
     __asm__ volatile ("ecall");
     __asm__ volatile("sd a0, %0" : "=m" (x)); return (int) x;
