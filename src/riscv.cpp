@@ -42,10 +42,6 @@ void Riscv::handleSyncSupervisorTrap() {
     // TCB::dispatch();
     w_sstatus(sstatus);
     w_sepc(sepc);
-    printString("\nHere\n");
-    printString("sepc: ");
-    printInteger(sepc);
-    printString("\n");
 }
 
 void Riscv::handleAsyncSupervisorTrap()
