@@ -3,7 +3,7 @@
 #include "../lib/hw.h"
 
 void* kmem_alloc(size_t size) {
-    //printString("\nkmem_alloc\n");
+    printString("\nkmem_alloc\n");
 
     return nullptr;
 }
