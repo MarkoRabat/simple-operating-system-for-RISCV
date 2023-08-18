@@ -39,10 +39,13 @@ void Riscv::handleSyncSupervisorTrap() {
         case 0x31: __asm__ volatile("call %0" :: "i" (kgetc)); break;
         case 0x32: __asm__ volatile("call %0" :: "i" (kputc)); break;
     }
+    uint64 volatile a0; __asm__ volatile("sd a0, %0" : "=m" (a0));
     TCB::timeSliceCounter = 0;
     // TCB::dispatch();
+
     w_sstatus(sstatus);
     w_sepc(sepc);
+    __asm__ volatile("ld a0, %0" :: "m" (a0));
     __asm__ volatile ("ld ra, %0" :: "m" (ra));
 }
 

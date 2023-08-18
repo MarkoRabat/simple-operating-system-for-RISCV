@@ -22,12 +22,9 @@ int main() {
     __asm__ volatile ("ecall");*/
 
     Riscv::w_stvec((uint64) Riscv::supervisorTrap);
-    printString("\nHello there\n");
-    //Riscv::popSppSpie();
-    mem_alloc(12);
-
-    printString("Unsigned long size: ");
-    printInteger(sizeof(unsigned long));
+    Riscv::popSppSpie();
+    printString("\nret:");
+    printInteger((uint64)mem_alloc(12));
     printString("\n");
 
 

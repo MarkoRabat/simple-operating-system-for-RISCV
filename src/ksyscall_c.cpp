@@ -5,7 +5,7 @@
 void* kmem_alloc(size_t size) {
     printString("\nkmem_alloc\n");
 
-    return nullptr;
+    return (uint64*) 14;
 }
 
 int kmem_free(void*) {
