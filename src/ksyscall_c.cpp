@@ -8,9 +8,7 @@ void* kmem_alloc(size_t size) {
 }
 
 int kmem_free(void* p) {
-    printString("Here1\n");
     int val = MemoryAllocator::instance()->kmem_free(p);
-    printString("Here2\n");
     return val;
 }
 

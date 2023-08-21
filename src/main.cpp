@@ -23,7 +23,7 @@ int main() {
 
     Riscv::w_stvec((uint64) Riscv::supervisorTrap);
     //Riscv::popSppSpie((uint64)&&continueFrom);
-    //Riscv::enterUserMode();
+    Riscv::enterUserMode();
     void* p = mem_alloc(1);
     printString("p = "); printInteger((uint64)p); printString("\nsegm: ");
     printString("\nmem_free:");

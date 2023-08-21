@@ -21,24 +21,24 @@ void Riscv::handleSyncSupervisorTrap() {
 
     uint64 volatile ra; __asm__ volatile("sd ra, %0" : "=m" (ra));
     uint64 volatile sysCallNum; __asm__ volatile("sd a0, %0" : "=m" (sysCallNum));
-    //uint64 volatile arg1; __asm__ volatile("sd a1, %0" : "=m" (arg1));
-    //uint64 volatile arg2; __asm__ volatile("sd a1, %0" : "=m" (arg2));
-    //uint64 volatile arg3; __asm__ volatile("sd a1, %0" : "=m" (arg3));
+    uint64 volatile arg1; __asm__ volatile("sd a1, %0" : "=m" (arg1));
+    uint64 volatile arg2; __asm__ volatile("sd a1, %0" : "=m" (arg2));
+    uint64 volatile arg3; __asm__ volatile("sd a1, %0" : "=m" (arg3));
 
     switch(sysCallNum) {
-        case 0x01: __asm__ volatile("call %0" :: "i" (kmem_alloc)); break;
-        case 0x02: __asm__ volatile("call %0" :: "i" (kmem_free)); break;
-        case 0x11: __asm__ volatile("call %0" :: "i" (kthread_create)); break;
-        case 0x12: __asm__ volatile("call %0" :: "i" (kthread_exit)); break;
-        case 0x13: __asm__ volatile("call %0" :: "i" (kthread_dispatch)); break;
-        case 0x14: __asm__ volatile("call %0" :: "i" (kthread_join)); break;
-        case 0x21: __asm__ volatile("call %0" :: "i" (ksem_open)); break;
-        case 0x22: __asm__ volatile("call %0" :: "i" (ksem_close)); break;
-        case 0x23: __asm__ volatile("call %0" :: "i" (ksem_wait)); break;
-        case 0x24: __asm__ volatile("call %0" :: "i" (ksem_signal)); break;
-        case 0x31: __asm__ volatile("call %0" :: "i" (ktime_sleep)); break;
-        case 0x41: __asm__ volatile("call %0" :: "i" (kgetc)); break;
-        case 0x42: __asm__ volatile("call %0" :: "i" (kputc)); break;
+        case 0x01: kmem_alloc((size_t) arg1); break;
+        case 0x02: kmem_free((void*) arg1); break;
+        case 0x11: kthread_create((thread_t*) arg1, (void(*)(void*))arg2, (void*)arg3); break;
+        case 0x12: kthread_exit(); break;
+        case 0x13: kthread_dispatch(); break;
+        case 0x14: kthread_join((thread_t)arg1); break;
+        case 0x21: ksem_open((sem_t*) arg1, (unsigned int) arg2); break;
+        case 0x22: ksem_close((sem_t) arg1); break;
+        case 0x23: ksem_wait((sem_t) arg1); break;
+        case 0x24: ksem_signal((sem_t) arg1); break;
+        case 0x31: ktime_sleep((time_t) arg1); break;
+        case 0x41: kgetc(); break;
+        case 0x42: kputc((char) arg1); break;
     }
     uint64 volatile a0; __asm__ volatile("sd a0, %0" : "=m" (a0));
     TCB::timeSliceCounter = 0;
