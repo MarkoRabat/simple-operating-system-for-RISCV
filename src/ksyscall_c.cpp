@@ -1,17 +1,17 @@
 #include "../h/ksyscall_c.hpp"
 #include "../h/print.hpp"
 #include "../lib/hw.h"
+#include "../h/memoryAllocator.hpp"
 
 void* kmem_alloc(size_t size) {
-    printString("\nkmem_alloc\n");
-
-    return (uint64*) 14;
+    return MemoryAllocator::instance()->kmem_alloc(size);
 }
 
-int kmem_free(void*) {
-    printString("\nkmem_free\n");
-
-    return 0;
+int kmem_free(void* p) {
+    printString("Here1\n");
+    int val = MemoryAllocator::instance()->kmem_free(p);
+    printString("Here2\n");
+    return val;
 }
 
 int kthread_create ( thread_t* handle, void (*start_routine) (void*), void* arg ) {

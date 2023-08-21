@@ -30,7 +30,8 @@ void TCB::dispatch()
 
 void TCB::threadWrapper()
 {
-    Riscv::popSppSpie();
+    // Riscv::popSppSpie((uint64)&&continueFrom);
+    Riscv::enterUserMode();
     running->body();
     running->setFinished(true);
     TCB::yield();

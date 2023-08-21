@@ -4,10 +4,10 @@
 #include "../h/print.hpp"
 #include "../h/ksyscall_c.hpp"
 
-void Riscv::popSppSpie()
-{
-    __asm__ volatile("csrw sepc, ra");
-    __asm__ volatile("sret");
+void Riscv::enterUserMode() {
+    uint64 volatile x;
+    x = 0x99; __asm__ volatile("ld a0, %0" :: "m" (x));
+    __asm__ volatile ("ecall");
 }
 
 
@@ -27,17 +27,18 @@ void Riscv::handleSyncSupervisorTrap() {
 
     switch(sysCallNum) {
         case 0x01: __asm__ volatile("call %0" :: "i" (kmem_alloc)); break;
-        case 0x02: __asm__ volatile("call %0" :: "i" (kthread_create)); break;
-        case 0x11: __asm__ volatile("call %0" :: "i" (kthread_exit)); break;
-        case 0x12: __asm__ volatile("call %0" :: "i" (kthread_dispatch)); break;
-        case 0x13: __asm__ volatile("call %0" :: "i" (kthread_join)); break;
-        case 0x14: __asm__ volatile("call %0" :: "i" (ksem_open)); break;
-        case 0x21: __asm__ volatile("call %0" :: "i" (ksem_close)); break;
-        case 0x22: __asm__ volatile("call %0" :: "i" (ksem_wait)); break;
-        case 0x23: __asm__ volatile("call %0" :: "i" (ksem_signal)); break;
-        case 0x24: __asm__ volatile("call %0" :: "i" (ktime_sleep)); break;
-        case 0x31: __asm__ volatile("call %0" :: "i" (kgetc)); break;
-        case 0x32: __asm__ volatile("call %0" :: "i" (kputc)); break;
+        case 0x02: __asm__ volatile("call %0" :: "i" (kmem_free)); break;
+        case 0x11: __asm__ volatile("call %0" :: "i" (kthread_create)); break;
+        case 0x12: __asm__ volatile("call %0" :: "i" (kthread_exit)); break;
+        case 0x13: __asm__ volatile("call %0" :: "i" (kthread_dispatch)); break;
+        case 0x14: __asm__ volatile("call %0" :: "i" (kthread_join)); break;
+        case 0x21: __asm__ volatile("call %0" :: "i" (ksem_open)); break;
+        case 0x22: __asm__ volatile("call %0" :: "i" (ksem_close)); break;
+        case 0x23: __asm__ volatile("call %0" :: "i" (ksem_wait)); break;
+        case 0x24: __asm__ volatile("call %0" :: "i" (ksem_signal)); break;
+        case 0x31: __asm__ volatile("call %0" :: "i" (ktime_sleep)); break;
+        case 0x41: __asm__ volatile("call %0" :: "i" (kgetc)); break;
+        case 0x42: __asm__ volatile("call %0" :: "i" (kputc)); break;
     }
     uint64 volatile a0; __asm__ volatile("sd a0, %0" : "=m" (a0));
     TCB::timeSliceCounter = 0;
@@ -52,7 +53,7 @@ void Riscv::handleSyncSupervisorTrap() {
 void Riscv::handleAsyncSupervisorTrap()
 {
 
-    printString("Asynch\n");
+    //printString("Asynch\n");
     uint64 scause = r_scause();
     if (scause == 0x8000000000000001UL) {
         // interrupt: yes; cause code: supervisor software interrupt (CLINT; machine timer interrupt)
@@ -67,11 +68,11 @@ void Riscv::handleAsyncSupervisorTrap()
             w_sepc(sepc);
         }
     }
-    else if (scause == 0x8000000000000009UL) {
+     if (scause == 0x8000000000000009UL) {
         // interrupt: yes; cause code: supervisor external interrupt (PLIC; could be keyboard)
         console_handler();
     }
-    else {
+    else { //} if (scause == 0x8000000000000005UL || scause == 0x8000000000000007UL){
         printString("sepc: "); printInteger(r_sepc()); printString("\n");
         printString("scause: "); printInteger(scause); printString("\n");
         printString("ERROR: unexpected trap cause"); printString("\n");

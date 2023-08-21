@@ -31,8 +31,23 @@ async:
 
 
 sync:
+
+    mv s3, a0
+    addi s3, s3, -0x99
+    beqz s3, userMode
+
     call _ZN5Riscv24handleSyncSupervisorTrapEv
 
+    andi s2, s2, 0
+    beqz s2, retBack
+
+userMode:
+    # clear SSP bit 8 to return to user mode
+    andi s2, s2, 0
+    addi s2, s2, 0x100
+    csrc sstatus, s2
+
+retBack:
     # load all registers from stack except x10, already loaded in called function
     .irp index, 1,2,3,4,5,6,7,8,9,11,12,13,14,15,16,17,18,19,20,21,22,23,24,25,26,27,28,29,30,31
     ld x\index, \index * 8(sp)
