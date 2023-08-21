@@ -23,9 +23,12 @@ int main() {
 
     Riscv::w_stvec((uint64) Riscv::supervisorTrap);
     //Riscv::popSppSpie((uint64)&&continueFrom);
-    Riscv::enterUserMode();
+    //Riscv::enterUserMode();
     void* p = mem_alloc(1);
-    printString("\nmem_free:"); printInteger((uint64)mem_free(p)); printString("\n");
+    printString("p = "); printInteger((uint64)p); printString("\nsegm: ");
+    printString("\nmem_free:");
+    printInteger((uint64)mem_free(p));
+    printString("\n");
     printString("\nthread_create:"); printInteger((uint64)thread_create(0, 0, 0)); printString("\n");
     printString("\nthread_exit:"); printInteger((uint64)thread_exit()); printString("\n");
     printString("\nthread_dispatch:"); thread_dispatch(); printString("\n");

@@ -81,7 +81,15 @@ void* MemoryAllocator::kmem_alloc(size_t size) {
 
 int MemoryAllocator::kmem_free(void* newFree) {
     if (newFree == nullptr) return 0;
+    printString("\nnewFree: ");
+    printInteger((uint64)newFree);
+    printString("\n");
     SegmentDescriptor* newFreeSegment = (SegmentDescriptor*) ((uint8*) newFree - sizeof(SegmentDescriptor));
+    printString("\nnewFreeSegment: ");
+    printInteger((uint64)newFreeSegment);
+    printString("\nnewFreeSegment->noBlocks: ");
+    printInteger(newFreeSegment->noBlocks);
+    printString("\n");
     freeBlockNo += newFreeSegment->noBlocks;
     totalFree += newFreeSegment->noBlocks * MEM_BLOCK_SIZE;
     totalTaken -= newFreeSegment->noBlocks * MEM_BLOCK_SIZE;

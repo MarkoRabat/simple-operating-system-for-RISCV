@@ -58,7 +58,7 @@ void Riscv::handleAsyncSupervisorTrap()
     if (scause == 0x8000000000000001UL) {
         // interrupt: yes; cause code: supervisor software interrupt (CLINT; machine timer interrupt)
         mc_sip(SIP_SSIP);
-        TCB::timeSliceCounter++;
+        /*TCB::timeSliceCounter++;
         if (TCB::timeSliceCounter >= TCB::running->getTimeSlice()) {
             uint64 volatile sepc = r_sepc();
             uint64 volatile sstatus = r_sstatus();
@@ -66,9 +66,9 @@ void Riscv::handleAsyncSupervisorTrap()
             //TCB::dispatch();
             w_sstatus(sstatus);
             w_sepc(sepc);
-        }
+        }*/
     }
-     if (scause == 0x8000000000000009UL) {
+    else if (scause == 0x8000000000000009UL) {
         // interrupt: yes; cause code: supervisor external interrupt (PLIC; could be keyboard)
         console_handler();
     }
