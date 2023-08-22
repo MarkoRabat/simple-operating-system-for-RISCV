@@ -47,24 +47,20 @@ int main() {
 
     Riscv::enterUserMode();
 
-    int* volatile arr = (int*) mem_alloc(10 * sizeof(int));
-    printString("\narr= "); printInteger((uint64)arr); printString("\n");
-    printString("\n&arr= "); printInteger((uint64)&arr); printString("\n");
-    for (int i = 0; i < 10; ++i) arr[i] = i;
-    int sum = 0;
-    for (int i = 0; i < 10; ++i) {
-        printString("\ni="); printInteger(i); printString("\n");
-        printString("\narr= "); printInteger((uint64)arr); printString("\n");
-        //printString("\n&arr= "); printInteger((uint64)&arr); printString("\n");
-        t->printSp();
-        sum += arr[i];
-        printInteger(sum); printString(" ");
-        if ((i + 1) % 3 == 0) {
-            thread_dispatch();
-            printString("\n"); }
+    int* arr = (int*) MemoryAllocator::instance()->kmem_alloc(5 * sizeof(int));
+    for (int i = 0; i < 5; ++i) arr[i] = i * i * i;
+    for (int i = 0; i < 5; ++i) {
+        printInteger(arr[i]);
+        printString(" ");
     }
-    printString("\n");
-    mem_free(arr);
+
+    size_t cnt = 0;
+    while (true) {
+        ++cnt;
+        //if (cnt % 4 == 0) printString("\n");
+        printString("\n");
+        thread_dispatch();
+    }
 
     return 0;
 }
