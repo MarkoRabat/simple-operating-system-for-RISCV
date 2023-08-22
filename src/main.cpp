@@ -11,11 +11,11 @@
 #include "../h/kObjectAllocatorTest.hpp"
 
 void f() {
-    int i = 0;
-    for (; i < 10; ++i)
-        i *= i;
-    printString("\ni = ");
-    printInteger(i);
+    for (int i = 0; i < 10; ++i) {
+        printInteger(-i);
+        printString(" ");
+        if ((i + 1) % 3 == 0) thread_dispatch();
+    }
 }
 
 int main() {
@@ -34,32 +34,32 @@ int main() {
     //Riscv::popSppSpie((uint64)&&continueFrom);
     //Riscv::enterUserMode();
 
-    List l;
-    TCB* arr[5];
-    for (int i = 0; i < 5; ++i) {
-        arr[i] = new TCB(f);
-        arr[i]->val = i;
-    }
-    for (int i = 0; i < 5; ++i) l.addFirst(arr[i]);
-    printString("\npeekFirst(): "); printInteger(l.peekFirst()->val);
-    printString("\npeekLast(): "); printInteger(l.peekLast()->val);
-    printString("\n");
-    for (int i = 0; i < 5; ++i) {
-        TCB* t = l.removeFirst();
-        arr[i] = new TCB(f);
-        arr[i]->val = i * i;
-        l.addLast(arr[i]);
-        printInteger(t->val);
-        printString(" ");
-        delete t;
-    }
+    TCB* t = new TCB(0);
+    TCB::running = t;
+    TCB* thread2 = new TCB(f);
+    printString("\nthread2: ");
+    printInteger((uint64)thread2); printString("\n");
 
-    for (int i = 0; i < 5; ++i) {
-        TCB *t = l.removeFirst();
-        printInteger(t->val);
-        printString(" ");
-        delete t;
+    TCB* thread3 = new TCB(f);
+    printString("\nthread3: ");
+    printInteger((uint64)thread3); printString("\n");
+
+
+    TCB* thread4 = new TCB(f);
+    printString("\nthread4: ");
+    printInteger((uint64)thread4); printString("\n");
+
+    Riscv::enterUserMode();
+
+    int* arr = (int*) mem_alloc(10 * sizeof(int));
+    for (int i = 0; i < 10; ++i) arr[i] = i;
+    int sum = 0;
+    for (int i = 0; i < 10; ++i) {
+        sum += arr[i]; printInteger(sum); printString(" ");
+        if ((i + 1) % 3 == 0) thread_dispatch();
     }
+    printString("\n");
+    mem_free(arr);
 
 
     printString("\nKObjectAllocator tests:\n");

@@ -3,6 +3,7 @@
 #include "../lib/console.h"
 #include "../h/print.hpp"
 #include "../h/ksyscall_c.hpp"
+#include "../h/scheduler.hpp"
 
 void Riscv::enterUserMode() {
     uint64 volatile x;
@@ -42,7 +43,9 @@ void Riscv::handleSyncSupervisorTrap() {
     }
     uint64 volatile a0; __asm__ volatile("sd a0, %0" : "=m" (a0));
     TCB::timeSliceCounter = 0;
-    // TCB::dispatch();
+
+    Scheduler::instance()->put(TCB::running);
+    Scheduler::instance()->get();
 
     w_sstatus(sstatus);
     w_sepc(sepc);

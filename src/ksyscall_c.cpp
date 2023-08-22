@@ -25,8 +25,7 @@ int kthread_exit() {
 }
 
 void kthread_dispatch() {
-    printString("\nkthread_dispatch\n");
-
+    ;
 }
 
 void kthread_join ( thread_t handle ) {
