@@ -10,10 +10,11 @@ class TCB
 {
 public:
     void* operator new(size_t size) {
-        return MemoryAllocator::instance()->kmem_alloc(size);
+        if (!myElemAllocator) myElemAllocator = new KObjectAllocator(sizeof(TCB));
+        return myElemAllocator->allocateNewObject();
     }
     void operator delete(void* p) {
-        MemoryAllocator::instance()->kmem_free(((TCB*) p)->stack);
+        myElemAllocator->freeObject(p);
     }
     bool isFinished() const { return finished; }
     void setFinished(bool value) { finished = value; }
@@ -47,7 +48,7 @@ private:
     friend class Riscv;
     static void threadWrapper();
     static void contextSwitch(Context *oldContext, Context *runningContext);
-    // static void dispatch();
+    static KObjectAllocator* myElemAllocator;
     static uint64 timeSliceCounter;
     static uint64 constexpr STACK_SIZE = 1024;
     static uint64 constexpr TIME_SLICE = 2;

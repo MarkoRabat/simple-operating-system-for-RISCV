@@ -3,7 +3,7 @@
 
 TCB *TCB::running = nullptr;
 uint64 TCB::timeSliceCounter = 0;
-
+KObjectAllocator* TCB::myElemAllocator = nullptr;
 
 /*
 void TCB::dispatch() {
