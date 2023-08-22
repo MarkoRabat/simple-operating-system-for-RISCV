@@ -48,17 +48,11 @@ void KObjectAllocator::printInternalMemory() {
 
 void* KObjectAllocator::allocateNewObject() {
     void* returnedObject = allocateFreeObject();
-    if (returnedObject) {
-        //printString("\nreturn1: ");
-        //printInteger((uint64) returnedObject);
-        return returnedObject;
-    }
+    if (returnedObject) { return returnedObject; }
 
     nextNonTakenByte = 0;   // start search from start
     returnedObject = allocateFreeObject();
     if (returnedObject) {
-        //printString("\nreturn2: ");
-        //printInteger((uint64) returnedObject);
         return returnedObject;
     }
 

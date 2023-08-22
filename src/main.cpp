@@ -38,17 +38,27 @@ int main() {
     TCB* arr[5];
     for (int i = 0; i < 5; ++i) {
         arr[i] = new TCB(f);
-        printString("here1");
         arr[i]->val = i;
     }
-    printString("here1");
     for (int i = 0; i < 5; ++i) l.addFirst(arr[i]);
     printString("\npeekFirst(): "); printInteger(l.peekFirst()->val);
     printString("\npeekLast(): "); printInteger(l.peekLast()->val);
     printString("\n");
     for (int i = 0; i < 5; ++i) {
-        printInteger(l.removeFirst()->val);
+        TCB* t = l.removeFirst();
+        arr[i] = new TCB(f);
+        arr[i]->val = i * i;
+        l.addLast(arr[i]);
+        printInteger(t->val);
         printString(" ");
+        delete t;
+    }
+
+    for (int i = 0; i < 5; ++i) {
+        TCB *t = l.removeFirst();
+        printInteger(t->val);
+        printString(" ");
+        delete t;
     }
 
 

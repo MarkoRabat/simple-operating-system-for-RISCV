@@ -33,7 +33,7 @@ private:
             stack(body != nullptr ? (uint64*) MemoryAllocator::instance()->kmem_alloc(STACK_SIZE * sizeof(uint64)) : nullptr),
             context({ (uint64) &threadWrapper, stack != nullptr ? (uint64) (stack + STACK_SIZE) : 0 }),
             timeSlice(timeSlice), finished(false) {
-        if (body != nullptr) { printString("here"); Scheduler::instance()->put(this); printString("hello there"); }
+        if (body != nullptr) { Scheduler::instance()->put(this); }
     }
     struct Context {
         uint64 ra;

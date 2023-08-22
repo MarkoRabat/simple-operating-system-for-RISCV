@@ -76,8 +76,6 @@ void* MemoryAllocator::kmem_alloc(size_t size) {
     totalFree -= newTaken->noBlocks * MEM_BLOCK_SIZE;
     totalTaken += newTaken->noBlocks * MEM_BLOCK_SIZE;
 
-    printString("\nnewTaken= "); printInteger((uint64) newTaken); printString("\n");
-
     return (uint8*) newTaken + sizeof(SegmentDescriptor);
 }
 

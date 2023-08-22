@@ -5,9 +5,10 @@
 Scheduler* Scheduler::onlyInstance = nullptr;
 
 Scheduler* Scheduler::instance() {
-    if (!onlyInstance)
+    if (!onlyInstance) {
         onlyInstance = (Scheduler*) MemoryAllocator::instance()->kmem_alloc(sizeof(Scheduler));
-    printString("\nhello3\n");
+        onlyInstance->readyThreadQueue.initializationForDynamicAllocation();
+    }
     return onlyInstance;
 }
 
@@ -19,7 +20,5 @@ void Scheduler::get() {
 }
 
 void Scheduler::put(TCB *ccb) {
-    printString("\nhere5\n");
     readyThreadQueue.addLast(ccb);
-    printString("\nhere50\n");
 }
