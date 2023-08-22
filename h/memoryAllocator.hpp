@@ -3,49 +3,9 @@
 
 #include "../lib/hw.h"
 
-class MemoryAllocatorTest;
-class KObjectAllocatorTest;
-
-/*          ^
- *          |
- *          |
- *          |
- * DELETE THIS CLASS DECLARATION
- */
-
 // singleton
 class MemoryAllocator {
 public:
-
-    /*
-     *
-     *
-     *
-     *
-     *
-     *
-     *                      #####################################
-     *                      #####################################
-     *                      #####################################
-     *                     ### NE SMEJU SE PREDATI TESTOVI !!! ###
-     *                      #####################################
-     *                      #####################################
-     *                      #####################################
-     *
-     *
-     *
-     *
-     *
-     *
-     */
-    friend MemoryAllocatorTest;
-    friend KObjectAllocatorTest;
-
-    /*                         ^
-     *                         |
-     *      DELETE THIS FRIEND |
-     *
-     */
 
     static MemoryAllocator* instance();
     static void printMemorySpaceParams();

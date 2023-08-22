@@ -6,12 +6,8 @@
 #include "../h/tcb.hpp"
 #include "../h/list.hpp"
 
-// tests delete this before submition !!!!!!!!!!!
-#include "../h/memoryAllocatorTest.hpp"
-#include "../h/kObjectAllocatorTest.hpp"
-
 void f() {
-    for (int i = 0; i < 10; ++i) {
+    for (int i = 0; true; ++i) {
         printInteger(-i);
         printString(" ");
         if ((i + 1) % 3 == 0) thread_dispatch();
@@ -32,7 +28,7 @@ int main() {
 
     Riscv::w_stvec((uint64) Riscv::supervisorTrap);
     //Riscv::popSppSpie((uint64)&&continueFrom);
-    //Riscv::enterUserMode();
+    Riscv::enterUserMode();
 
     TCB* t = new TCB(0);
     TCB::running = t;
@@ -51,26 +47,24 @@ int main() {
 
     Riscv::enterUserMode();
 
-    int* arr = (int*) mem_alloc(10 * sizeof(int));
+    int* volatile arr = (int*) mem_alloc(10 * sizeof(int));
+    printString("\narr= "); printInteger((uint64)arr); printString("\n");
+    printString("\n&arr= "); printInteger((uint64)&arr); printString("\n");
     for (int i = 0; i < 10; ++i) arr[i] = i;
     int sum = 0;
     for (int i = 0; i < 10; ++i) {
-        sum += arr[i]; printInteger(sum); printString(" ");
-        if ((i + 1) % 3 == 0) thread_dispatch();
+        printString("\ni="); printInteger(i); printString("\n");
+        printString("\narr= "); printInteger((uint64)arr); printString("\n");
+        //printString("\n&arr= "); printInteger((uint64)&arr); printString("\n");
+        t->printSp();
+        sum += arr[i];
+        printInteger(sum); printString(" ");
+        if ((i + 1) % 3 == 0) {
+            thread_dispatch();
+            printString("\n"); }
     }
     printString("\n");
     mem_free(arr);
-
-
-    printString("\nKObjectAllocator tests:\n");
-    KObjectAllocatorTest* t2 = new KObjectAllocatorTest;
-    t2->runTests();
-    delete t2;
-
-    printString("\nMemory tests:\n");
-    MemoryAllocatorTest t1;
-    t1.runTests();
-
 
     return 0;
 }

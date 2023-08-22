@@ -15,33 +15,33 @@ void Riscv::enterUserMode() {
 void Riscv::handleSyncSupervisorTrap() {
     // interrupt: no; cause code: environment call from U-mode(8) or S-mode(9)
     uint64 volatile sepc = r_sepc() + 4;
-    /*printString("sepc: ");
-    printInteger(sepc);
-    printString("\n");*/
     uint64 volatile sstatus = r_sstatus();
 
-    uint64 volatile ra; __asm__ volatile("sd ra, %0" : "=m" (ra));
     uint64 volatile sysCallNum; __asm__ volatile("sd a0, %0" : "=m" (sysCallNum));
+    uint64 volatile sp; __asm__ volatile("csrr %0, sscratch" : "=r" (sp));
     uint64 volatile arg1; __asm__ volatile("sd a1, %0" : "=m" (arg1));
     uint64 volatile arg2; __asm__ volatile("sd a1, %0" : "=m" (arg2));
     uint64 volatile arg3; __asm__ volatile("sd a1, %0" : "=m" (arg3));
 
+    uint64 volatile ret = 0;
+
     switch(sysCallNum) {
-        case 0x01: kmem_alloc((size_t) arg1); break;
-        case 0x02: kmem_free((void*) arg1); break;
-        case 0x11: kthread_create((thread_t*) arg1, (void(*)(void*))arg2, (void*)arg3); break;
-        case 0x12: kthread_exit(); break;
+        case 0x01: ret = (uint64) kmem_alloc((size_t) arg1); break;
+        case 0x02: ret = (uint64) kmem_free((void*) arg1); break;
+        case 0x11: ret = (uint64) kthread_create((thread_t*) arg1, (void(*)(void*))arg2, (void*)arg3); break;
+        case 0x12: ret = (uint64) kthread_exit(); break;
         case 0x13: kthread_dispatch(); break;
         case 0x14: kthread_join((thread_t)arg1); break;
-        case 0x21: ksem_open((sem_t*) arg1, (unsigned int) arg2); break;
-        case 0x22: ksem_close((sem_t) arg1); break;
-        case 0x23: ksem_wait((sem_t) arg1); break;
-        case 0x24: ksem_signal((sem_t) arg1); break;
-        case 0x31: ktime_sleep((time_t) arg1); break;
-        case 0x41: kgetc(); break;
+        case 0x21: ret = (uint64) ksem_open((sem_t*) arg1, (unsigned int) arg2); break;
+        case 0x22: ret = (uint64) ksem_close((sem_t) arg1); break;
+        case 0x23: ret = (uint64) ksem_wait((sem_t) arg1); break;
+        case 0x24: ret = (uint64) ksem_signal((sem_t) arg1); break;
+        case 0x31: ret = (uint64) ktime_sleep((time_t) arg1); break;
+        case 0x41: ret = (uint64) kgetc(); break;
         case 0x42: kputc((char) arg1); break;
     }
-    uint64 volatile a0; __asm__ volatile("sd a0, %0" : "=m" (a0));
+    *((uint64*) sp - 21) = ret;
+
     TCB::timeSliceCounter = 0;
 
     Scheduler::instance()->put(TCB::running);
@@ -49,8 +49,6 @@ void Riscv::handleSyncSupervisorTrap() {
 
     w_sstatus(sstatus);
     w_sepc(sepc);
-    __asm__ volatile("ld a0, %0" :: "m" (a0));
-    __asm__ volatile ("ld ra, %0" :: "m" (ra));
 }
 
 void Riscv::handleAsyncSupervisorTrap()

@@ -23,8 +23,8 @@ public:
         return new TCB(body, TIME_SLICE);
     }*/
     TCB(Body body) : TCB(body, TIME_SLICE) {}
-    void saveContext();
     void switchTo();
+    void printSp() { printString("\nsp= "); printInteger(context.sp); printString("\n"); }
     static TCB *running;
     int val;
 private:

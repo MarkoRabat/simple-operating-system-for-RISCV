@@ -20,10 +20,6 @@ void TCB::threadWrapper() {
     running->setFinished(true);
 }
 
-void TCB::saveContext() {
-    contextSwitch(&context, &context);
-}
-
 void TCB::switchTo() {
     TCB *old = running;
     running = this;

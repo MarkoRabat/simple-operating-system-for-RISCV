@@ -3,49 +3,8 @@
 
 #include "../h/memoryAllocator.hpp"
 
-class KObjectAllocatorTest;
-
-/*          ^
- *          |
- *          |
- *          |
- * DELETE THIS CLASS DECLARATION
- */
-
-
 class KObjectAllocator {
 public:
-
-    /*
-     *
-     *
-     *
-     *
-     *
-     *
-     *                      #####################################
-     *                      #####################################
-     *                      #####################################
-     *                     ### NE SMEJU SE PREDATI TESTOVI !!! ###
-     *                      #####################################
-     *                      #####################################
-     *                      #####################################
-     *
-     *
-     *
-     *
-     *
-     *
-     */
-    friend KObjectAllocatorTest;
-
-    /*                         ^
-     *                         |
-     *      DELETE THIS FRIEND |
-     *
-     */
-
-
     KObjectAllocator(size_t objectSize) : KObjectAllocator(objectSize, 320) {}
     KObjectAllocator(size_t objectSize, size_t initialObjectNumber)
             : initialNumberOfObjects(initialObjectNumber), numberOfObjects(initialObjectNumber),  objectSize(objectSize) {
