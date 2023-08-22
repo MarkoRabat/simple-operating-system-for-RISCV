@@ -12,9 +12,7 @@ private:
 
 public:
     static TCB *get();
-
     static void put(TCB *ccb);
-
 };
 
 #endif

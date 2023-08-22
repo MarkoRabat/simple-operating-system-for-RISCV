@@ -1,7 +1,3 @@
-//
-// Created by marko on 20.4.22..
-//
-
 #include "../h/tcb.hpp"
 #include "../h/riscv.hpp"
 
@@ -9,18 +5,15 @@ TCB *TCB::running = nullptr;
 
 uint64 TCB::timeSliceCounter = 0;
 
-TCB *TCB::createThread(Body body)
-{
+TCB *TCB::createThread(Body body) {
     return new TCB(body, TIME_SLICE);
 }
 
-void TCB::yield()
-{
+void TCB::yield() {
     __asm__ volatile ("ecall");
 }
 
-void TCB::dispatch()
-{
+void TCB::dispatch() {
     TCB *old = running;
     if (!old->isFinished()) { Scheduler::put(old); }
     running = Scheduler::get();
@@ -28,11 +21,20 @@ void TCB::dispatch()
     TCB::contextSwitch(&old->context, &running->context);
 }
 
-void TCB::threadWrapper()
-{
+void TCB::threadWrapper() {
     // Riscv::popSppSpie((uint64)&&continueFrom);
     Riscv::enterUserMode();
     running->body();
     running->setFinished(true);
     TCB::yield();
+}
+
+void TCB::saveContext() {
+    contextSwitch(&context, &context);
+}
+
+void switchTo() {
+    TCB *old = running;
+    running = this;
+    contextSwitch(&old->context, &context);
 }
