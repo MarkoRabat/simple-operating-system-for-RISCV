@@ -1,52 +1,71 @@
 #ifndef LIST_HPP
 #define LIST_HPP
 
-template<typename T>
+#include "kObjectAllocator.hpp"
+
+class TCB;
+
 class List
 {
 private:
     struct Elem {
-        T *data;
+        TCB *data;
         Elem *next;
-        Elem(T *data, Elem *next) : data(data), next(next) {}
+        static void* newElem(TCB* data, Elem* next, KObjectAllocator* myAllocator) {
+            if (!myAllocator) myAllocator = new KObjectAllocator(sizeof(Elem));
+            Elem* e = (Elem*) myAllocator->allocateNewObject();
+            e->setData(data);
+            e->setNext(next);
+            return e;
+        }
+        static void deleteElem(void* p, KObjectAllocator* myAllocator) { myAllocator->freeObject(p); }
+        void setData(TCB* ddata) { data = ddata; }
+        void setNext(Elem* nnext) { next = nnext; }
     };
     Elem *head, *tail;
+    KObjectAllocator* myElemAllocator = nullptr;
 public:
     List() : head(0), tail(0) {}
-    List(const List<T> &) = delete;
-    List<T> &operator=(const List<T> &) = delete;
-    void addFirst(T *data) {
-        Elem *elem = new Elem(data, head);
-        head = elem; if (!tail) { tail = head; }
+    List(const List &) = delete;
+    List &operator=(const List &) = delete;
+    ~List() { delete myElemAllocator; }
+    void addFirst(TCB *data) {
+        Elem *elem = (Elem*) Elem::newElem(data, head, myElemAllocator);
+        head = elem; if (!tail) tail = head;
     }
-    void addLast(T *data) {
-        Elem *elem = new Elem(data, 0);
+    void addLast(TCB *data) {
+        Elem *elem = (Elem*) Elem::newElem(data, 0, myElemAllocator);
         if (tail) { tail->next = elem; tail = elem; }
         else head = tail = elem;
     }
-    T *removeFirst() {
+    TCB *removeFirst() {
         if (!head) { return 0; }
         Elem *elem = head;
         head = head->next;
-        if (!head) { tail = 0; }
-        T *ret = elem->data;
-        delete elem; return ret;
+        if (!head) tail = 0;
+        TCB *ret = elem->data;
+        Elem::deleteElem(elem, myElemAllocator);
+        return ret;
     }
-    T *peekFirst() {
-        if (!head) { return 0; }
+    TCB *peekFirst() {
+        if (!head) return 0;
         return head->data;
     }
-    T *removeLast() {
-        if (!head) { return 0; }
+    TCB *removeLast() {
+        if (!head) return 0;
         Elem *prev = 0;
         for (Elem *curr = head; curr && curr != tail; curr = curr->next) prev = curr;
         Elem *elem = tail;
         if (prev) prev->next = 0; else head = 0; tail = prev;
-        T *ret = elem->data; delete elem; return ret;
+        TCB *ret = elem->data;
+        Elem::deleteElem(elem, myElemAllocator);
+        return ret;
     }
 
-    T *peekLast() {
-        if (!tail) return 0; return tail->data; }
+    TCB *peekLast() {
+        if (!tail) return 0;
+        return tail->data;
+    }
 };
 
 #endif

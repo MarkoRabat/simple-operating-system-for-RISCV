@@ -1,8 +1,9 @@
 #include "../h/scheduler.hpp"
+#include "../h/tcb.hpp"
 
-List<TCB> Scheduler::readyThreadQueue;
+List Scheduler::readyThreadQueue;
 
-TCB *Scheduler::get() {
+void Scheduler::get() {
     TCB* next = readyThreadQueue.removeFirst();
     while (next->isFinished()) {
         delete next; next = readyThreadQueue.removeFirst(); }

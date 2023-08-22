@@ -8,10 +8,10 @@ class TCB;
 class Scheduler
 {
 private:
-    static List<TCB> readyThreadQueue;
+    static List readyThreadQueue;
 
 public:
-    static TCB *get();
+    static void get();
     static void put(TCB *ccb);
 };
 

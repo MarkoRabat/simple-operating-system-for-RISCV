@@ -16,11 +16,11 @@ public:
     static TCB *createThread(Body body);
     void saveContext();
     void switchTo();
-    static void yield();
     static TCB *running;
+    int val;
 private:
     TCB(Body body, uint64 timeSlice) :
-            body(body), stack(body != nullptr ? new uint64[STACK_SIZE] : nullptr), sstack(new uint64[STACK_SIZE]),
+            body(body), stack(body != nullptr ? new uint64[STACK_SIZE] : nullptr),
             context({
                 (uint64) &threadWrapper,
                 stack != nullptr ? (uint64) &stack[STACK_SIZE] : 0,
@@ -39,7 +39,7 @@ private:
     friend class Riscv;
     static void threadWrapper();
     static void contextSwitch(Context *oldContext, Context *runningContext);
-    static void dispatch();
+    // static void dispatch();
     static uint64 timeSliceCounter;
     static uint64 constexpr STACK_SIZE = 1024;
     static uint64 constexpr TIME_SLICE = 2;

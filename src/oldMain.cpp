@@ -2,6 +2,7 @@
 #include "../h/workers.hpp"
 #include "../h/print.hpp"
 #include "../h/riscv.hpp"
+#include "../h/syscall_c.hpp"
 
 int main2()
 {
@@ -26,9 +27,7 @@ int main2()
              threads[2]->isFinished() &&
              threads[3]->isFinished() &&
              threads[4]->isFinished()))
-    {
-        TCB::yield();
-    }
+    { thread_dispatch(); }
 
     for (auto &thread: threads)
     {

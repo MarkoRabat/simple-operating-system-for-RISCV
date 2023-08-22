@@ -1,10 +1,7 @@
-//
-// Created by marko on 20.4.22..
-//
-
 #include "../lib/hw.h"
 #include "../h/tcb.hpp"
 #include "../h/print.hpp"
+#include "../h/syscall_c.hpp"
 
 void workerBodyA()
 {
@@ -45,7 +42,7 @@ void workerBodyB()
 static uint64 fibonacci(uint64 n)
 {
     if (n == 0 || n == 1) { return n; }
-    if (n % 10 == 0) { TCB::yield(); }
+    if (n % 10 == 0) { thread_dispatch(); }
     return fibonacci(n - 1) + fibonacci(n - 2);
 }
 
@@ -61,7 +58,7 @@ void workerBodyC()
 
     printString("C: yield\n");
     __asm__ ("li t1, 7");
-    TCB::yield();
+    thread_dispatch();
 
     uint64 t1 = 0;
     __asm__ ("mv %[t1], t1" : [t1] "=r"(t1));
@@ -96,7 +93,7 @@ void workerBodyD()
 
     printString("D: yield\n");
     __asm__ ("li t1, 5");
-    TCB::yield();
+    thread_dispatch();
 
     uint64 result = fibonacci(16);
     printString("D: fibonaci=");
