@@ -32,14 +32,15 @@ int main() {
 
     Riscv::w_stvec((uint64) Riscv::supervisorTrap);
     //Riscv::popSppSpie((uint64)&&continueFrom);
-    Riscv::enterUserMode();
+    //Riscv::enterUserMode();
 
     List l;
     TCB* arr[5];
     for (int i = 0; i < 5; ++i) {
-        arr[i] = TCB::createThread(f);
+        arr[i] = new TCB(f);
         arr[i]->val = i;
     }
+    printString("here1");
     for (int i = 0; i < 5; ++i) l.addFirst(arr[i]);
     printString("\npeekFirst(): "); printInteger(l.peekFirst()->val);
     printString("\npeekLast(): "); printInteger(l.peekLast()->val);

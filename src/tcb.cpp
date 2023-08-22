@@ -3,9 +3,7 @@
 
 TCB *TCB::running = nullptr;
 uint64 TCB::timeSliceCounter = 0;
-TCB *TCB::createThread(Body body) {
-    return new TCB(body, TIME_SLICE);
-}
+
 
 /*
 void TCB::dispatch() {

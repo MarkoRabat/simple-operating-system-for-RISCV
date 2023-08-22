@@ -1,7 +1,14 @@
 #include "../h/scheduler.hpp"
+#include "../h/memoryAllocator.hpp"
 #include "../h/tcb.hpp"
 
-List Scheduler::readyThreadQueue;
+Scheduler* Scheduler::onlyInstance = nullptr;
+
+Scheduler* Scheduler::instance() {
+    if (!onlyInstance)
+        onlyInstance = (Scheduler*) MemoryAllocator::instance()->kmem_alloc(sizeof(Scheduler));
+    return onlyInstance;
+}
 
 void Scheduler::get() {
     TCB* next = readyThreadQueue.removeFirst();

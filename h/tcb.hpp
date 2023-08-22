@@ -8,24 +8,31 @@
 class TCB
 {
 public:
-    ~TCB() { delete[] stack; }
+    void* operator new(size_t size) {
+        return MemoryAllocator::instance()->kmem_alloc(size);
+    }
+    void operator delete(void* p) {
+        MemoryAllocator::instance()->kmem_free(((TCB*) p)->stack);
+    }
     bool isFinished() const { return finished; }
     void setFinished(bool value) { finished = value; }
     uint64 getTimeSlice() const { return timeSlice; }
     using Body = void (*)();
-    static TCB *createThread(Body body);
+    /*static TCB *createThread(Body body) {
+        return new TCB(body, TIME_SLICE);
+    }*/
+    TCB(Body body) : TCB(body, TIME_SLICE) {}
     void saveContext();
     void switchTo();
     static TCB *running;
     int val;
 private:
     TCB(Body body, uint64 timeSlice) :
-            body(body), stack(body != nullptr ? new uint64[STACK_SIZE] : nullptr),
-            context({
-                (uint64) &threadWrapper,
-                stack != nullptr ? (uint64) &stack[STACK_SIZE] : 0,
-            }), timeSlice(timeSlice), finished(false) {
-        if (body != nullptr) { Scheduler::put(this); }
+            body(body),
+            stack(body != nullptr ? (uint64*) MemoryAllocator::instance()->kmem_alloc(STACK_SIZE * sizeof(uint64)) : nullptr),
+            context({ (uint64) &threadWrapper, stack != nullptr ? (uint64) (stack + STACK_SIZE) : 0 }),
+            timeSlice(timeSlice), finished(false) {
+        if (body != nullptr) { Scheduler::instance()->put(this); }
     }
     struct Context {
         uint64 ra;

@@ -8,16 +8,16 @@ int main2()
 {
     TCB *threads[5];
 
-    threads[0] = TCB::createThread(nullptr);
+    threads[0] = new TCB(nullptr);
     TCB::running = threads[0];
 
-    threads[1] = TCB::createThread(workerBodyA);
+    threads[1] = new TCB(workerBodyA);
     printString("ThreadA created\n");
-    threads[2] = TCB::createThread(workerBodyB);
+    threads[2] = new TCB(workerBodyB);
     printString("ThreadB created\n");
-    threads[3] = TCB::createThread(workerBodyC);
+    threads[3] = new TCB(workerBodyC);
     printString("ThreadC created\n");
-    threads[4] = TCB::createThread(workerBodyD);
+    threads[4] = new TCB(workerBodyD);
     printString("ThreadD created\n");
 
     Riscv::w_stvec((uint64) &Riscv::supervisorTrap);
@@ -29,8 +29,7 @@ int main2()
              threads[4]->isFinished()))
     { thread_dispatch(); }
 
-    for (auto &thread: threads)
-    {
+    for (auto &thread: threads) {
         delete thread;
     }
     printString("Finished\n");

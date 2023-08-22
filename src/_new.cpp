@@ -1,6 +1,7 @@
 #include "../h/memoryAllocator.hpp"
 
 
+/*
 using size_t = decltype(sizeof(0));
 
 void *operator new(size_t n) {
@@ -18,3 +19,4 @@ void operator delete(void *p) noexcept {
 void operator delete[](void *p) noexcept {
     MemoryAllocator::instance()->kmem_free(p);
 }
+*/
