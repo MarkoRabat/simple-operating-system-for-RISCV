@@ -38,6 +38,7 @@ int main() {
     TCB* arr[5];
     for (int i = 0; i < 5; ++i) {
         arr[i] = new TCB(f);
+        printString("here1");
         arr[i]->val = i;
     }
     printString("here1");

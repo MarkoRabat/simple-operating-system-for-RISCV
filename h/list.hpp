@@ -2,6 +2,7 @@
 #define LIST_HPP
 
 #include "kObjectAllocator.hpp"
+#include "print.hpp"
 
 class TCB;
 
@@ -13,9 +14,13 @@ private:
         Elem *next;
         static void* newElem(TCB* data, Elem* next, KObjectAllocator* myAllocator) {
             if (!myAllocator) myAllocator = new KObjectAllocator(sizeof(Elem));
+            printString("\n1\n");
             Elem* e = (Elem*) myAllocator->allocateNewObject();
+            printString("\n2\n");
             e->setData(data);
+            printString("\n3\n");
             e->setNext(next);
+            printString("\n4\n");
             return e;
         }
         static void deleteElem(void* p, KObjectAllocator* myAllocator) { myAllocator->freeObject(p); }
@@ -34,7 +39,9 @@ public:
         head = elem; if (!tail) tail = head;
     }
     void addLast(TCB *data) {
+        printString("\nhello from last1\n");
         Elem *elem = (Elem*) Elem::newElem(data, 0, myElemAllocator);
+        printString("\nhello from last2\n");
         if (tail) { tail->next = elem; tail = elem; }
         else head = tail = elem;
     }

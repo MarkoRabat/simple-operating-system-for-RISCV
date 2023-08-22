@@ -3,6 +3,7 @@
 
 #include "../lib/hw.h"
 #include "scheduler.hpp"
+#include "print.hpp"
 
 // Thread Control Block
 class TCB
@@ -32,7 +33,7 @@ private:
             stack(body != nullptr ? (uint64*) MemoryAllocator::instance()->kmem_alloc(STACK_SIZE * sizeof(uint64)) : nullptr),
             context({ (uint64) &threadWrapper, stack != nullptr ? (uint64) (stack + STACK_SIZE) : 0 }),
             timeSlice(timeSlice), finished(false) {
-        if (body != nullptr) { Scheduler::instance()->put(this); }
+        if (body != nullptr) { printString("here"); Scheduler::instance()->put(this); printString("hello there"); }
     }
     struct Context {
         uint64 ra;

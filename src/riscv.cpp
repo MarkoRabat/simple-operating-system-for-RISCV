@@ -73,8 +73,13 @@ void Riscv::handleAsyncSupervisorTrap()
         console_handler();
     }
     else { //} if (scause == 0x8000000000000005UL || scause == 0x8000000000000007UL){
-        printString("sepc: "); printInteger(r_sepc()); printString("\n");
-        printString("scause: "); printInteger(scause); printString("\n");
-        printString("ERROR: unexpected trap cause"); printString("\n");
+        static bool once = true;
+        if (once) {
+            once = false;
+            printString("sepc: "); printInteger(r_sepc()); printString("\n");
+            printString("scause: "); printInteger(scause); printString("\n");
+            printString("ERROR: unexpected trap cause"); printString("\n");
+        }
+
     }
 }
