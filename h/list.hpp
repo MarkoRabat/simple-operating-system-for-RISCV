@@ -27,21 +27,25 @@ private:
     };
     Elem *head, *tail;
     KObjectAllocator* myElemAllocator;
+    size_t numberOfElements;
 public:
-    List() : head(0), tail(0), myElemAllocator(0) {}
+    List() : head(0), tail(0), myElemAllocator(0), numberOfElements(0) {}
     List(const List &) = delete;
     List &operator=(const List &) = delete;
     ~List() { delete myElemAllocator; }
     void initializationForDynamicAllocation() {
-        myElemAllocator = nullptr; head = nullptr; tail = nullptr; }
+        myElemAllocator = nullptr; head = nullptr; tail = nullptr; numberOfElements = 0; }
+    size_t getNumberOfElements() { return numberOfElements; }
     void addFirst(TCB *data) {
         Elem *elem = (Elem*) Elem::newElem(data, head, &myElemAllocator);
         head = elem; if (!tail) tail = head;
+        ++numberOfElements;
     }
     void addLast(TCB *data) {
         Elem *elem = (Elem*) Elem::newElem(data, 0, &myElemAllocator);
         if (tail) { tail->next = elem; tail = elem; }
         else head = tail = elem;
+        ++numberOfElements;
     }
     TCB *removeFirst() {
         if (!head) { return 0; }
@@ -50,6 +54,7 @@ public:
         if (!head) tail = 0;
         TCB *ret = elem->data;
         Elem::deleteElem(elem, myElemAllocator);
+        --numberOfElements;
         return ret;
     }
     TCB *peekFirst() {
@@ -64,6 +69,7 @@ public:
         if (prev) prev->next = 0; else head = 0; tail = prev;
         TCB *ret = elem->data;
         Elem::deleteElem(elem, myElemAllocator);
+        --numberOfElements;
         return ret;
     }
 

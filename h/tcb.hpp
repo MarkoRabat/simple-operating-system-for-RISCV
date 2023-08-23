@@ -14,7 +14,7 @@ public:
         return myElemAllocator->allocateNewObject();
     }
     void operator delete(void* p) {
-        myElemAllocator->freeObject(p);
+        if (p) myElemAllocator->freeObject(p);
     }
     bool isFinished() const { return finished; }
     void setFinished(bool value) { finished = value; }
@@ -25,16 +25,14 @@ public:
     }*/
     TCB(Body body, void* arg) : TCB(body, arg, TIME_SLICE) {}
     void switchTo();
+    uint64 getTid() { return tid; }
     static TCB *running;
-    int val;
 private:
     TCB(Body body, void* arg, uint64 timeSlice) :
             body(body), arg(arg),
             stack(body != nullptr ? (uint64*) MemoryAllocator::instance()->kmem_alloc(STACK_SIZE * sizeof(uint64)) : nullptr),
             context({ (uint64) &threadWrapper, stack != nullptr ? (uint64) (stack + STACK_SIZE) : 0 }),
-            timeSlice(timeSlice), finished(false) {
-        if (body != nullptr) { Scheduler::instance()->put(this); }
-    }
+            timeSlice(timeSlice), tid(nextTid++), finished(false) {}
     struct Context {
         uint64 ra;
         uint64 sp;
@@ -44,12 +42,14 @@ private:
     uint64 *stack;
     Context context;
     uint64 timeSlice;
+    uint64 tid;
     bool finished;
     friend class Riscv;
     static void threadWrapper();
     static void contextSwitch(Context *oldContext, Context *runningContext);
     static KObjectAllocator* myElemAllocator;
     static uint64 timeSliceCounter;
+    static uint64 nextTid;
     static uint64 constexpr STACK_SIZE = 1024;
     static uint64 constexpr TIME_SLICE = 2;
 };
