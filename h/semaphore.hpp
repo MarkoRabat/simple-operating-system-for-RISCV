@@ -5,10 +5,11 @@
 
 class Semaphore {
 public:
-    Semaphore(unsigned init=1) : val(init) {}
+    Semaphore(int init=1) : val(init) {}
     void wait();
     void signal();
     int value() const { return val; }
+    void setValue(int newVal) { val = newVal; }
     void* operator new(size_t size) {
         if (!myElemAllocator) myElemAllocator = new KObjectAllocator(sizeof(Semaphore));
         return myElemAllocator->allocateNewObject();
@@ -17,9 +18,9 @@ public:
         myElemAllocator->freeObject(p);
     }
 private:
+    int val;
     static KObjectAllocator* myElemAllocator;
     List blocked;
-    int val;
 };
 
 #endif

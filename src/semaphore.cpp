@@ -6,8 +6,9 @@ KObjectAllocator* Semaphore::myElemAllocator = nullptr;
 
 void Semaphore::wait() {
     printString("\n\nin waiting\n\n");
-    printString("\nval= "); printInteger(val); printString("\n");
-    if (--val < 0) {
+    printString("\nval= "); printInteger((uint64)*val); printString("\n");
+    setValue(value() - 1);
+    if (value() < 0) {
         printString("\nhere1\n");
         blocked.addLast(TCB::running);
         printString("\nhere2\n");
@@ -17,7 +18,9 @@ void Semaphore::wait() {
 }
 
 void Semaphore::signal() {
-    if (++val <= 0) {
+
+    printString("\nval= "); printInteger((uint64)*val); printString("\n");
+    if (++*val <= 0) {
         TCB* t = blocked.removeFirst();
         if (t) Scheduler::instance()->put(t);
     }
