@@ -16,19 +16,9 @@ void Scheduler::get() {
     TCB* next = readyThreadQueue.removeFirst();
     while (next && next->isFinished()) {
         delete next; next = readyThreadQueue.removeFirst(); }
-    /*printString("\nNumber of elements in scheduler= ");
-    printInteger(readyThreadQueue.getNumberOfElements());
-    printString("\n");*/
-
-    /*if (readyThreadQueue.getNumberOfElements() == 1) {
-        printString("\nLast\n");
-        printString("remaining in queue: "); printInteger(readyThreadQueue.peekFirst()->getTid());
-    }*/
-    /*printString("\nnextTid= "); printInteger(next->getTid()); printString("\n");
-    printString("\nTCB::runningTid= "); printInteger(TCB::running->getTid()); printString("\n");*/
-    if (next /*&& next != TCB::running*/) next->switchTo();
-    /*printString("\nAfter\nnextTid= "); printInteger(next->getTid()); printString("\n");
-    printString("\nTCB::runningTid= "); printInteger(TCB::running->getTid()); printString("\n");*/
+    //printString("Number of elements: "); printInteger(readyThreadQueue.getNumberOfElements()); printString("\n");
+    /*printString("Thread id: "); printInteger(readyThreadQueue.peekFirst()->getTid()); printString("\n");*/
+    if (next) next->switchTo();
 }
 
 void Scheduler::put(TCB *ccb) {

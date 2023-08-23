@@ -44,8 +44,12 @@ void Riscv::handleSyncSupervisorTrap() {
 
     TCB::timeSliceCounter = 0;
 
-    Scheduler::instance()->put(TCB::running);
-    Scheduler::instance()->get();
+
+    if (Scheduler::instance()->readyThreadCnt() != 0) {
+        Scheduler::instance()->put(TCB::running);
+        Scheduler::instance()->get();
+    }
+
 
     w_sstatus(sstatus);
     w_sepc(sepc);

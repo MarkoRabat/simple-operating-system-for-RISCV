@@ -14,6 +14,7 @@ public:
     static Scheduler* instance();
     void get();
     void put(TCB *ccb);
+    size_t readyThreadCnt() { return readyThreadQueue.getNumberOfElements(); }
 };
 
 #endif
