@@ -2,31 +2,29 @@
 #include "../h/print.hpp"
 #include "../lib/hw.h"
 #include "../h/memoryAllocator.hpp"
+#include "../h/tcb.hpp"
 
 void* kmem_alloc(size_t size) {
     return MemoryAllocator::instance()->kmem_alloc(size);
 }
 
 int kmem_free(void* p) {
-    int val = MemoryAllocator::instance()->kmem_free(p);
+    int volatile val = MemoryAllocator::instance()->kmem_free(p);
     return val;
 }
 
-int kthread_create ( thread_t* handle, void (*start_routine) (void*), void* arg ) {
-    printString("\nkthread_create\n");
-
-    return 0;
+int kthread_create ( thread_t* handle, void (*start_routine) (void*), void* arg) {
+    *handle = new TCB(start_routine, arg);
+    if (*handle) return 0;
+    return -1;
 }
 
 int kthread_exit() {
-    printString("\nkthread_exit\n");
-
+    TCB::running->setFinished(true);
     return 0;
 }
 
-void kthread_dispatch() {
-    ;
-}
+void kthread_dispatch() { ; }
 
 void kthread_join ( thread_t handle ) {
     printString("\nkthread_join\n");

@@ -17,11 +17,11 @@ void Riscv::handleSyncSupervisorTrap() {
     uint64 volatile sepc = r_sepc() + 4;
     uint64 volatile sstatus = r_sstatus();
 
-    uint64 volatile sysCallNum; __asm__ volatile("sd a0, %0" : "=m" (sysCallNum));
     uint64 volatile sp; __asm__ volatile("csrr %0, sscratch" : "=r" (sp));
-    uint64 volatile arg1; __asm__ volatile("sd a1, %0" : "=m" (arg1));
-    uint64 volatile arg2; __asm__ volatile("sd a1, %0" : "=m" (arg2));
-    uint64 volatile arg3; __asm__ volatile("sd a1, %0" : "=m" (arg3));
+    uint64 volatile sysCallNum; sysCallNum = *((uint64*) sp - 21);
+    uint64 volatile arg1; arg1 = *((uint64*) sp - 20);
+    uint64 volatile arg2; arg2 = *((uint64*) sp - 19);
+    uint64 volatile arg3;arg3 = *((uint64*) sp - 18);
 
     uint64 volatile ret = 0;
 

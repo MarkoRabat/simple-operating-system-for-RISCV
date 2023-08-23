@@ -21,9 +21,9 @@ int mem_free(void* p) {
 
 int thread_create (thread_t* handle, void (*start_routine) (void*), void* arg) {
     uint64 volatile x;
-    x = (uint64) handle; __asm__ volatile("ld a1, %0" :: "m" (x));
-    x = (uint64) start_routine; __asm__ volatile("ld a2, %0" :: "m" (x));
     x = (uint64) arg; __asm__ volatile("ld a3, %0" :: "m" (x));
+    x = (uint64) start_routine; __asm__ volatile("ld a2, %0" :: "m" (x));
+    x = (uint64) handle; __asm__ volatile("ld a1, %0" :: "m" (x));
     x = 0x11; __asm__ volatile("ld a0, %0" :: "m" (x));
     __asm__ volatile ("ecall");
     __asm__ volatile("sd a0, %0" : "=m" (x)); return (int) x;
@@ -50,8 +50,8 @@ void thread_join (thread_t handle) {
 
 int sem_open ( sem_t* handle, unsigned init ) {
     uint64 volatile x;
-    x = (uint64) handle; __asm__ volatile("ld a1, %0" :: "m" (x));
     x = (uint64) init; __asm__ volatile("ld a2, %0" :: "m" (x));
+    x = (uint64) handle; __asm__ volatile("ld a1, %0" :: "m" (x));
     x = 0x21; __asm__ volatile("ld a0, %0" :: "m" (x));
     __asm__ volatile ("ecall");
     __asm__ volatile("sd a0, %0" : "=m" (x)); return (int) x;

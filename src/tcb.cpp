@@ -15,8 +15,9 @@ void TCB::dispatch() {
 */
 
 void TCB::threadWrapper() {
-    Riscv::enterUserMode();
-    running->body();
+    //Riscv::enterUserMode();
+    printString("\n");
+    running->body(running->arg);
     running->setFinished(true);
 }
 

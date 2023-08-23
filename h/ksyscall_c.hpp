@@ -2,12 +2,12 @@
 #define KSYSCALL_C_HPP
 
 #include "../lib/hw.h"
+#include "../h/tcb.hpp"
 
 void* kmem_alloc(size_t size);
 int kmem_free(void*);
 
-class _thread;
-typedef _thread* thread_t;
+typedef TCB* thread_t;
 int kthread_create (
         thread_t* handle,
         void (*start_routine) (void*),

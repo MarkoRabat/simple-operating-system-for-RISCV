@@ -19,18 +19,17 @@ public:
     bool isFinished() const { return finished; }
     void setFinished(bool value) { finished = value; }
     uint64 getTimeSlice() const { return timeSlice; }
-    using Body = void (*)();
+    using Body = void (*)(void*);
     /*static TCB *createThread(Body body) {
         return new TCB(body, TIME_SLICE);
     }*/
-    TCB(Body body) : TCB(body, TIME_SLICE) {}
+    TCB(Body body, void* arg) : TCB(body, arg, TIME_SLICE) {}
     void switchTo();
-    void printSp() { printString("\nsp= "); printInteger(context.sp); printString("\n"); }
     static TCB *running;
     int val;
 private:
-    TCB(Body body, uint64 timeSlice) :
-            body(body),
+    TCB(Body body, void* arg, uint64 timeSlice) :
+            body(body), arg(arg),
             stack(body != nullptr ? (uint64*) MemoryAllocator::instance()->kmem_alloc(STACK_SIZE * sizeof(uint64)) : nullptr),
             context({ (uint64) &threadWrapper, stack != nullptr ? (uint64) (stack + STACK_SIZE) : 0 }),
             timeSlice(timeSlice), finished(false) {
@@ -41,6 +40,7 @@ private:
         uint64 sp;
     };
     Body body;
+    void* arg;
     uint64 *stack;
     Context context;
     uint64 timeSlice;
