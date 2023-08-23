@@ -1,5 +1,6 @@
 #include "../h/tcb.hpp"
 #include "../h/riscv.hpp"
+#include "../h/scheduler.hpp"
 
 TCB *TCB::running = nullptr;
 uint64 TCB::timeSliceCounter = 0;
@@ -16,9 +17,10 @@ void TCB::dispatch() {
 
 void TCB::threadWrapper() {
     //Riscv::enterUserMode();
-    printString("\n");
     running->body(running->arg);
     running->setFinished(true);
+    Scheduler::instance()->put(running);
+    Scheduler::instance()->get();
 }
 
 void TCB::switchTo() {
