@@ -10,7 +10,7 @@ void main() {
     TCB* mainThread = new TCB(0, nullptr);
     TCB::running = mainThread;
 
-    Riscv::enterUserMode();
+    //Riscv::enterUserMode();
     userMain();
 
 }

@@ -16,11 +16,14 @@ void Scheduler::get() {
     TCB* next = readyThreadQueue.removeFirst();
     while (next && next->isFinished()) {
         delete next; next = readyThreadQueue.removeFirst(); }
-    //printString("Number of elements: "); printInteger(readyThreadQueue.getNumberOfElements()); printString("\n");
-    /*printString("Thread id: "); printInteger(readyThreadQueue.peekFirst()->getTid()); printString("\n");*/
+    printString("Number of elements: "); printInteger(readyThreadQueue.getNumberOfElements()); printString("\n");
+    if (readyThreadQueue.peekFirst()) {
+        printString("Thread id: "); printInteger(readyThreadQueue.peekFirst()->getTid()); printString("\n");
+    }
     if (next) next->switchTo();
 }
 
 void Scheduler::put(TCB *ccb) {
     readyThreadQueue.addLast(ccb);
+    //printString("Thread id: "); printInteger(readyThreadQueue.peekFirst()->getTid()); printString("\n");
 }

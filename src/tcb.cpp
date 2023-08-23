@@ -18,7 +18,7 @@ void TCB::dispatch() {
 */
 
 void TCB::threadWrapper() {
-    Riscv::enterUserMode();
+    //Riscv::enterUserMode();
     running->body(running->arg);
     running->setFinished(true);
     /*Scheduler::instance()->put(running);

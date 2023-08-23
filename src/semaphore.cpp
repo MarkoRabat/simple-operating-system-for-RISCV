@@ -5,9 +5,14 @@
 KObjectAllocator* Semaphore::myElemAllocator = nullptr;
 
 void Semaphore::wait() {
+    printString("\n\nin waiting\n\n");
+    printString("\nval= "); printInteger(val); printString("\n");
     if (--val < 0) {
+        printString("\nhere1\n");
         blocked.addLast(TCB::running);
+        printString("\nhere2\n");
         Scheduler::instance()->get();
+        printString("\nhere3\n");
     }
 }
 

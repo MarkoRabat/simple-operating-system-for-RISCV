@@ -40,11 +40,13 @@ void Riscv::handleSyncSupervisorTrap() {
         case 0x41: ret = (uint64) kgetc(); break;
         case 0x42: kputc((char) arg1); break;
     }
-    *((uint64*) sp - 21) = ret;
+    if (sysCallNum != 0x13 && sysCallNum != 0x14) *((uint64*) sp - 21) = ret;
 
     TCB::timeSliceCounter = 0;
 
-
+    printString("\nThreadCnt= ");
+    printInteger(Scheduler::instance()->readyThreadCnt());
+    printString("\n");
     if (Scheduler::instance()->readyThreadCnt() != 0) {
         Scheduler::instance()->put(TCB::running);
         Scheduler::instance()->get();
