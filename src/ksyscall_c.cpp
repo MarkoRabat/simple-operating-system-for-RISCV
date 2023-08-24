@@ -59,11 +59,8 @@ int ktime_sleep(time_t) {
 }
 
 char kgetc() {
-    printString("\nkgetc\n");
-
-    return 0;
+    return 'a';
 }
 
 void kputc(char) {
-    printString("\nkputc\n");
 }
