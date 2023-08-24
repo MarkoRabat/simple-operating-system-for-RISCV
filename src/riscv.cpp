@@ -1,7 +1,7 @@
 #include "../h/riscv.hpp"
 #include "../h/tcb.hpp"
 #include "../lib/console.h"
-#include "../h/print.hpp"
+//#include "../h/print.hpp"
 #include "../h/ksyscall_c.hpp"
 #include "../h/scheduler.hpp"
 
@@ -84,13 +84,13 @@ void Riscv::handleAsyncSupervisorTrap()
         console_handler();
     }
     else { //} if (scause == 0x8000000000000005UL || scause == 0x8000000000000007UL){
-        static bool once = true;
+        /*static bool once = true;
         if (once) {
             once = false;
             printString("sepc: "); printInteger(r_sepc()); printString("\n");
             printString("scause: "); printInteger(scause); printString("\n");
             printString("ERROR: unexpected trap cause"); printString("\n");
-        }
+        }*/
 
     }
 }

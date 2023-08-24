@@ -1,3 +1,4 @@
+/*
 #ifndef PRINT_HPP
 #define PRINT_HPP
 
@@ -8,3 +9,4 @@ extern void printString(char const *string);
 extern void printInteger(uint64 integer);
 
 #endif
+*/

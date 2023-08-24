@@ -1,7 +1,4 @@
-//
-// Created by marko on 20.4.22..
-//
-
+/*
 #include "../h/print.hpp"
 #include "../h/riscv.hpp"
 #include "../lib/console.h"
@@ -41,3 +38,4 @@ void printInteger(uint8 integer)
 {
     printInteger((uint64)integer);
 }
+ */

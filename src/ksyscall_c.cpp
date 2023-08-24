@@ -1,11 +1,11 @@
 #include "../h/ksyscall_c.hpp"
-#include "../h/print.hpp"
 #include "../h/riscv.hpp"
 #include "../lib/hw.h"
 #include "../h/memoryAllocator.hpp"
 #include "../h/tcb.hpp"
 #include "../h/semaphore.hpp"
 #include "../h/scheduler.hpp"
+#include "../lib/console.h"
 
 void* kmem_alloc(size_t size) {
     return MemoryAllocator::instance()->kmem_alloc(size);
@@ -59,8 +59,9 @@ int ktime_sleep(time_t) {
 }
 
 char kgetc() {
-    return 'a';
+    return __getc();
 }
 
-void kputc(char) {
+void kputc(char c) {
+    __putc(c);
 }

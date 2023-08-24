@@ -1,6 +1,5 @@
 #include "../h/syscall_c.hpp"
 #include "../h/riscv.hpp"
-#include "../h/print.hpp"
 #include "../lib/hw.h"
 
 void* mem_alloc(size_t size) {

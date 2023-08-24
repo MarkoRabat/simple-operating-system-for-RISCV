@@ -1,5 +1,4 @@
 #include "../h/userMain.hpp"
-#include "../h/print.hpp"
 #include "../h/memoryAllocator.hpp"
 #include "../h/kObjectAllocator.hpp"
 #include "../h/tcb.hpp"
@@ -9,7 +8,7 @@
 #include "../h/syscall_c.hpp"
 #include "../h/syscall_cpp.hpp"
 
-
+/*
 void f(void* cond) {
     printString("\nhello from f\n");
     Semaphore* s1 = ((Semaphore**) cond)[0];
@@ -76,3 +75,4 @@ void userMain() {
     printString("\ndone\n");
 
 }
+*/

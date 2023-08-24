@@ -4,7 +4,6 @@
 #include "../lib/hw.h"
 #include "scheduler.hpp"
 #include "semaphore.hpp"
-#include "print.hpp"
 
 void infiniteDispatchLoop(void*);
 

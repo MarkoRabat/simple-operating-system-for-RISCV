@@ -8,13 +8,13 @@ class MemoryAllocator {
 public:
 
     static MemoryAllocator* instance();
-    static void printMemorySpaceParams();
+    //static void printMemorySpaceParams();
     static size_t getMinBlockNumber (size_t size);
 
     void* kmem_alloc(size_t size);
     int kmem_free(void* newFree);
-    void printInstanceMemorySpaceParams();
-    void printFreeMemoryHeadData();
+    //void printInstanceMemorySpaceParams();
+    //void printFreeMemoryHeadData();
     size_t getTotalFree() { return totalFree; }
     size_t getTotalTaken() { return totalTaken; }
     size_t getFreeBlockNo() { return freeBlockNo; }

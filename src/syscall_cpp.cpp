@@ -1,6 +1,5 @@
 #include "../h/syscall_cpp.hpp"
 #include "../h/syscall_c.hpp"
-#include "../h/print.hpp"
 
 void* operator new (size_t s) {
     return mem_alloc(s);
@@ -18,7 +17,6 @@ Thread::Thread (void (*body) (void*), void* arg) {
 Thread::~Thread () {}
 
 void threadWrapperRun(void* t) {
-    printString("\nin wrapper\n");
     ((Thread*) t)->run();
 }
 
@@ -58,4 +56,12 @@ int Semaphore::wait () {
 
 int Semaphore::signal () {
     return sem_signal(myHandle);
+}
+
+char Console::getc () {
+    return 'a';
+}
+
+void Console::putc (char) {
+
 }

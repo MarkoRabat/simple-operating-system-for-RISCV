@@ -1,6 +1,5 @@
 #include "../h/memoryAllocator.hpp"
 #include "../lib/hw.h"
-#include "../h/print.hpp"
 
 MemoryAllocator* MemoryAllocator::onlyInstance = nullptr;
 uint8* MemoryAllocator::managedMemorySpaceStart = nullptr;
@@ -106,6 +105,7 @@ int MemoryAllocator::kmem_free(void* newFree) {
     return 0;
 }
 
+/*
 void MemoryAllocator::printInstanceMemorySpaceParams() {
     printString("##################################\n\n");
     printString("MemoryAllocator address: "); printInteger((uint64)this); printString("\n");
@@ -159,3 +159,4 @@ void MemoryAllocator::printFreeMemoryHeadData() {
     printInteger(sizeof(*freeMemoryHead)); printString("\n");
     printString("\n##################################\n");
 }
+*/

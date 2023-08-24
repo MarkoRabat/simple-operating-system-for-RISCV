@@ -30,7 +30,7 @@ public:
         MemoryAllocator::instance()->kmem_free(((KObjectAllocator*) p)->objectVectors);
         MemoryAllocator::instance()->kmem_free(p);
     }
-    void printInternalMemory();
+    //void printInternalMemory();
     size_t getObjectSize() { return objectSize; }
     size_t getInitialNumberOfObjects() { return initialNumberOfObjects; }
     size_t getNumberOfObjects() { return numberOfObjects; }

@@ -23,7 +23,6 @@ void main() {
     //while (!t->isFinished()) thread_dispatch();
     thread_join(t);
 
-    printString("\nBACK IN MAIN\n");
 
     return;
 }
