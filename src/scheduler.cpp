@@ -5,6 +5,7 @@
 Scheduler* Scheduler::onlyInstance = nullptr;
 _thread* Scheduler::mainThread = nullptr;
 _thread* Scheduler::placeHolder = nullptr;
+uint64 Scheduler::mainRet = 0;
 
 Scheduler* Scheduler::instance() {
     if (!onlyInstance) {

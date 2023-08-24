@@ -13,8 +13,11 @@ private:
     static Scheduler* onlyInstance;
     static _thread* mainThread;
     static _thread* placeHolder;
+    static uint64 mainRet;
     friend _thread;
     friend Riscv;
+    friend void main();
+    friend int kthread_exit();
     friend void infiniteDispatchLoop(void*);
 public:
     static Scheduler* instance();

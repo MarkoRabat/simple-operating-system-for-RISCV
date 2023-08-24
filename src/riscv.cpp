@@ -11,7 +11,6 @@ void Riscv::enterUserMode() {
     __asm__ volatile ("ecall");
 }
 
-
 void Riscv::handleSyncSupervisorTrap() {
     // interrupt: no; cause code: environment call from U-mode(8) or S-mode(9)
     uint64 volatile sepc = r_sepc() + 4;
@@ -45,11 +44,13 @@ void Riscv::handleSyncSupervisorTrap() {
     _thread::timeSliceCounter = 0;
 
     /*printString("\nThreadCnt= "); printInteger(Scheduler::instance()->readyThreadCnt()); printString("\n");*/
+
+    if (!(sysCallNum == 0x12 && ret == 7)) return;
+
     if (Scheduler::instance()->readyThreadCnt() == 0) {
         Scheduler::instance()->put(Scheduler::placeHolder);
         if (!Scheduler::mainThread->blocked) Scheduler::instance()->put(Scheduler::mainThread);
-    }
-    else {
+    } else {
         Scheduler::instance()->put(_thread::running);
         Scheduler::instance()->get();
     }
@@ -57,6 +58,7 @@ void Riscv::handleSyncSupervisorTrap() {
 
     w_sstatus(sstatus);
     w_sepc(sepc);
+
 }
 
 void Riscv::handleAsyncSupervisorTrap()

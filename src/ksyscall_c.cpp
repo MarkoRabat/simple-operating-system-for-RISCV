@@ -1,9 +1,11 @@
 #include "../h/ksyscall_c.hpp"
 #include "../h/print.hpp"
+#include "../h/riscv.hpp"
 #include "../lib/hw.h"
 #include "../h/memoryAllocator.hpp"
 #include "../h/tcb.hpp"
 #include "../h/semaphore.hpp"
+#include "../h/scheduler.hpp"
 
 void* kmem_alloc(size_t size) {
     return MemoryAllocator::instance()->kmem_alloc(size);
@@ -22,6 +24,11 @@ int kthread_create (thread_t* handle, void (*start_routine) (void*), void* arg) 
 
 int kthread_exit() {
     _thread::running->setFinished(true);
+    if (_thread::running == Scheduler::mainThread) {
+        Riscv::w_sepc(Scheduler::mainRet);
+        Riscv::ms_sstatus(0x100);
+        return 7;
+    }
     return 0;
 }
 

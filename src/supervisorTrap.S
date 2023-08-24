@@ -71,7 +71,3 @@ userMode:
 
     addi sp, sp, 248
     sret
-
-
-
-

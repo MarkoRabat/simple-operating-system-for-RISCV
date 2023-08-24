@@ -50,6 +50,9 @@ void userMain() {
     for (volatile size_t i = 0; i < 30; ++i) {
         if ((i + 1) % 3 == 0) {
             thread_dispatch();
+            if (i == 11) {
+                thread_exit();
+            }
         }
         printInteger(i); printString(" ");
     }
