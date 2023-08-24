@@ -39,14 +39,14 @@ sync:
 
     call _ZN5Riscv24handleSyncSupervisorTrapEv
 
+    andi s2, s2, 0
+    addi s2, s2, 0x2
+    csrc sip, s2
+
     # load all registers from stack except x10, already loaded in called function
     .irp index, 1,2,3,4,5,6,7,8,9,10,11,12,13,14,15,16,17,18,19,20,21,22,23,24,25,26,27,28,29,30,31
     ld x\index, \index * 8(sp)
     .endr
-
-    andi s2, s2, 0
-    addi s2, s2, 0x2
-    csrc sip, s2
 
     addi sp, sp, 248
     sret

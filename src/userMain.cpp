@@ -11,7 +11,7 @@
 
 void f(void* cond) {
     printString("\nhello from f\n");
-    (*(Semaphore**)cond)->signal(); printString("passed\n");
+    ((Semaphore**)cond)[0]->wait(); printString("passed\n");
     for (int i = 0; i < 10; ++i) {
         if (i % 3) thread_dispatch();
         printInteger(-i);
@@ -41,7 +41,7 @@ void userMain() {
         printString(" ");
     }
     printString("\nsem= "); printInteger((uint64)sem); printString("\n");
-    sem->wait();
+    sem->signal();
     printString("\nsem2= "); printInteger((uint64)sem2); printString("\n");
     sem2->wait();
     printString("\ndone\n");
