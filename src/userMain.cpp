@@ -12,7 +12,6 @@
 
 void f(void* cond) {
     printString("\nhello from f\n");
-    sem_wait(((_sem**)cond)[0]);
     Semaphore* s1 = ((Semaphore**) cond)[0];
     s1->signal();
     printString("passed\n");
@@ -55,8 +54,9 @@ void userMain() {
     s0[0] = &s3; s0[1] = &s4;
 
     NT t2;
+    printString("\nt2 not yet started\n");
     t2.start();
-    printString("\nt1 started\n");
+    printString("\nt2 started\n");
 
 
     for (volatile size_t i = 0; i < 30; ++i) {

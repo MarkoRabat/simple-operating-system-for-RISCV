@@ -18,6 +18,7 @@ public:
 
     static void dispatch ();
     static int sleep (time_t);
+    friend void threadWrapperRun(void*);
 
 protected:
     Thread ();

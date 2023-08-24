@@ -1,5 +1,6 @@
 #include "../h/syscall_cpp.hpp"
 #include "../h/syscall_c.hpp"
+#include "../h/print.hpp"
 
 void* operator new (size_t s) {
     return mem_alloc(s);
@@ -16,15 +17,17 @@ Thread::Thread (void (*body) (void*), void* arg) {
 
 Thread::~Thread () {}
 
-void wrapper(void* t) {
-    ((Thread*) t)->start();
+void threadWrapperRun(void* t) {
+    printString("\nin wrapper\n");
+    ((Thread*) t)->run();
 }
 
 int Thread::start() {
     if (body)
         return thread_create(&myHandle, body, arg);
-    else
-        return thread_create(&myHandle, wrapper, this);
+    else {
+        return thread_create(&myHandle, threadWrapperRun, this);
+    }
     return -1;
 }
 
@@ -40,7 +43,7 @@ int Thread::sleep (time_t t) {
     return time_sleep(t);
 }
 
-Thread::Thread () {}
+Thread::Thread () { body = nullptr; }
 
 
 Semaphore::Semaphore (unsigned init) {
