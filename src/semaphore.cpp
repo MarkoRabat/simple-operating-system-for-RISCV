@@ -2,25 +2,23 @@
 #include "../h/tcb.hpp"
 #include "../h/scheduler.hpp"
 
-KObjectAllocator* Semaphore::myElemAllocator = nullptr;
+KObjectAllocator* _sem::myElemAllocator = nullptr;
 
-void Semaphore::wait() {
-    printString("\n\nin waiting\n\n");
-    printString("\nval= "); printInteger((uint64)&val); printString("\n");
-    if (--val < 0) {
-        printString("\nhere1\n");
-        blocked.addLast(TCB::running);
-        printString("\nhere2\n");
+int _sem::wait(_sem* s) {
+    if (--s->val < 0) {
+        s->blocked.addLast(_thread::running);
+        _thread::running->setBlocked(true);
         Scheduler::instance()->get();
-        printString("\nhere3\n");
     }
+    return s->semDeleted;
 }
 
-void Semaphore::signal() {
-
-    printString("\nval= "); printInteger((uint64)val); printString("\n");
-    if (++val <= 0) {
-        TCB* t = blocked.removeFirst();
+int _sem::signal(_sem* s) {
+    if (++s->val <= 0) {
+        _thread* t = s->blocked.removeFirst();
+        _thread::running->setBlocked(false);
         if (t) Scheduler::instance()->put(t);
     }
+    return s->semDeleted;
+
 }

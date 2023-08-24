@@ -7,10 +7,12 @@
 void main() {
     Riscv::w_stvec((uint64) Riscv::supervisorTrap);
 
-    TCB* mainThread = new TCB(0, nullptr);
-    TCB::running = mainThread;
+    printString("Here");
+    _thread* mainThread = new _thread(0, nullptr);
+    _thread::running = mainThread;
+    printString("Here");
 
-    //Riscv::enterUserMode();
+    Riscv::enterUserMode();
     userMain();
 
 }

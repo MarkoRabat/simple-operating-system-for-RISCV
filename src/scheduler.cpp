@@ -3,6 +3,8 @@
 #include "../h/tcb.hpp"
 
 Scheduler* Scheduler::onlyInstance = nullptr;
+_thread* Scheduler::mainThread = nullptr;
+_thread* Scheduler::placeHolder = nullptr;
 
 Scheduler* Scheduler::instance() {
     if (!onlyInstance) {
@@ -13,17 +15,17 @@ Scheduler* Scheduler::instance() {
 }
 
 void Scheduler::get() {
-    TCB* next = readyThreadQueue.removeFirst();
+    _thread* next = readyThreadQueue.removeFirst();
     while (next && next->isFinished()) {
         delete next; next = readyThreadQueue.removeFirst(); }
-    printString("Number of elements: "); printInteger(readyThreadQueue.getNumberOfElements()); printString("\n");
+    /*printString("Number of elements: "); printInteger(readyThreadQueue.getNumberOfElements()); printString("\n");
     if (readyThreadQueue.peekFirst()) {
         printString("Thread id: "); printInteger(readyThreadQueue.peekFirst()->getTid()); printString("\n");
-    }
+    }*/
     if (next) next->switchTo();
 }
 
-void Scheduler::put(TCB *ccb) {
+void Scheduler::put(_thread *ccb) {
     readyThreadQueue.addLast(ccb);
     //printString("Thread id: "); printInteger(readyThreadQueue.peekFirst()->getTid()); printString("\n");
 }

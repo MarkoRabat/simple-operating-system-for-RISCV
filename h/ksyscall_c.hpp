@@ -7,7 +7,8 @@
 void* kmem_alloc(size_t size);
 int kmem_free(void*);
 
-typedef TCB* thread_t;
+class _thread;
+typedef _thread* thread_t;
 int kthread_create (
         thread_t* handle,
         void (*start_routine) (void*),

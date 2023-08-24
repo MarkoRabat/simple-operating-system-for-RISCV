@@ -3,22 +3,22 @@
 #include "../h/scheduler.hpp"
 #include "../h/syscall_c.hpp"
 
-TCB *TCB::running = nullptr;
-uint64 TCB::timeSliceCounter = 0;
-uint64 TCB::nextTid = 0;
-KObjectAllocator* TCB::myElemAllocator = nullptr;
+_thread *_thread::running = nullptr;
+uint64 _thread::timeSliceCounter = 0;
+uint64 _thread::nextTid = 0;
+KObjectAllocator* _thread::myElemAllocator = nullptr;
 
 /*
-void TCB::dispatch() {
-    TCB *old = running;
+void _thread::dispatch() {
+    _thread *old = running;
     if (!old->isFinished()) { Scheduler::put(old); }
     running = Scheduler::get();
-    TCB::contextSwitch(&old->context, &running->context);
+    _thread::contextSwitch(&old->context, &running->context);
 }
 */
 
-void TCB::threadWrapper() {
-    //Riscv::enterUserMode();
+void _thread::threadWrapper() {
+    Riscv::enterUserMode();
     running->body(running->arg);
     running->setFinished(true);
     /*Scheduler::instance()->put(running);
@@ -26,7 +26,18 @@ void TCB::threadWrapper() {
     thread_dispatch();
 }
 
-void TCB::switchTo() {
-    TCB *old = running; running = this;
+void _thread::switchTo() {
+    _thread *old = running; running = this;
     contextSwitch(&old->context, &context);
+}
+
+void infiniteDispatchLoop(void*) {
+    while(true) {
+        if (Scheduler::mainThread->isFinished())
+            printString("Main Finished\n");
+        printString("Number of elements in Scheduler= ");
+        printInteger(Scheduler::instance()->readyThreadCnt());
+        printString("\n");
+        thread_dispatch();
+    }
 }

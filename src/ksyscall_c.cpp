@@ -3,24 +3,25 @@
 #include "../lib/hw.h"
 #include "../h/memoryAllocator.hpp"
 #include "../h/tcb.hpp"
+#include "../h/semaphore.hpp"
 
 void* kmem_alloc(size_t size) {
     return MemoryAllocator::instance()->kmem_alloc(size);
 }
 
 int kmem_free(void* p) {
-    int volatile val = MemoryAllocator::instance()->kmem_free(p);
-    return val;
+    return MemoryAllocator::instance()->kmem_free(p);
 }
 
-int kthread_create ( thread_t* handle, void (*start_routine) (void*), void* arg) {
-    *handle = new TCB(start_routine, arg);
+int kthread_create (thread_t* handle, void (*start_routine) (void*), void* arg) {
+    *handle = new _thread(start_routine, arg);
+    Scheduler::instance()->put(*handle);
     if (*handle) return 0;
     return -1;
 }
 
 int kthread_exit() {
-    TCB::running->setFinished(true);
+    _thread::running->setFinished(true);
     return 0;
 }
 
@@ -32,32 +33,25 @@ void kthread_join ( thread_t handle ) {
 }
 
 int ksem_open ( sem_t* handle, unsigned init ) {
-    printString("\nksem_open\n");
-
-    return 0;
+    *handle = new _sem(init);
+    if (*handle) return 0;
+    return -1;
 }
 
 int ksem_close(sem_t handle) {
-    printString("\nksem_close\n");
-
+    delete handle;
     return 0;
 }
 
 int ksem_wait(sem_t id) {
-    printString("\nksem_wait\n");
-
-    return 0;
+    return _sem::wait(id);
 }
 
 int ksem_signal(sem_t id) {
-    printString("\nksem_signal\n");
-
-    return 0;
+    return _sem::signal(id);
 }
 
 int ktime_sleep(time_t) {
-    printString("\nstime_sleep\n");
-
     return 0;
 }
 

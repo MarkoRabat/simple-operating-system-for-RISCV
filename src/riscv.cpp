@@ -42,13 +42,15 @@ void Riscv::handleSyncSupervisorTrap() {
     }
     if (sysCallNum != 0x13 && sysCallNum != 0x14) *((uint64*) sp - 21) = ret;
 
-    TCB::timeSliceCounter = 0;
+    _thread::timeSliceCounter = 0;
 
-    printString("\nThreadCnt= ");
-    printInteger(Scheduler::instance()->readyThreadCnt());
-    printString("\n");
-    if (Scheduler::instance()->readyThreadCnt() != 0) {
-        Scheduler::instance()->put(TCB::running);
+    /*printString("\nThreadCnt= "); printInteger(Scheduler::instance()->readyThreadCnt()); printString("\n");*/
+    if (Scheduler::instance()->readyThreadCnt() == 0) {
+        Scheduler::instance()->put(Scheduler::placeHolder);
+        if (!Scheduler::mainThread->blocked) Scheduler::instance()->put(Scheduler::mainThread);
+    }
+    else {
+        Scheduler::instance()->put(_thread::running);
         Scheduler::instance()->get();
     }
 
@@ -65,12 +67,12 @@ void Riscv::handleAsyncSupervisorTrap()
     if (scause == 0x8000000000000001UL) {
         // interrupt: yes; cause code: supervisor software interrupt (CLINT; machine timer interrupt)
         mc_sip(SIP_SSIP);
-        /*TCB::timeSliceCounter++;
-        if (TCB::timeSliceCounter >= TCB::running->getTimeSlice()) {
+        /*_thread::timeSliceCounter++;
+        if (_thread::timeSliceCounter >= _thread::running->getTimeSlice()) {
             uint64 volatile sepc = r_sepc();
             uint64 volatile sstatus = r_sstatus();
-            TCB::timeSliceCounter = 0;
-            //TCB::dispatch();
+            _thread::timeSliceCounter = 0;
+            //_thread::dispatch();
             w_sstatus(sstatus);
             w_sepc(sepc);
         }*/

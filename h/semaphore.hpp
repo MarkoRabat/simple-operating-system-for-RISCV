@@ -3,22 +3,25 @@
 
 #include "list.hpp"
 
-class Semaphore {
+class _sem {
 public:
-    Semaphore(int init=1) : val(init) {}
-    void wait();
-    void signal();
+    _sem(int init=1) : _sem(init, 0) {}
+    _sem(int init, int ssemDeleted) : val(init), semDeleted(ssemDeleted) {}
+    static int wait(_sem*);
+    static int signal(_sem*);
     int value() const { return val; }
-    void setValue(int newVal) { val = newVal; }
     void* operator new(size_t size) {
-        if (!myElemAllocator) myElemAllocator = new KObjectAllocator(sizeof(Semaphore));
+        if (!myElemAllocator) myElemAllocator = new KObjectAllocator(sizeof(_sem));
         return myElemAllocator->allocateNewObject();
     }
     void operator delete(void* p) {
+        ((_sem*) p)->semDeleted = 1;
+        while (((_sem*) p)->val > 0) signal((_sem*)p);
         myElemAllocator->freeObject(p);
     }
 private:
     int val;
+    int semDeleted;
     static KObjectAllocator* myElemAllocator;
     List blocked;
 };

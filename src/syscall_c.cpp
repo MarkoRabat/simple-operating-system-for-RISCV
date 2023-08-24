@@ -48,7 +48,7 @@ void thread_join (thread_t handle) {
     __asm__ volatile ("ecall");
 }
 
-int sem_open ( sem_t* handle, unsigned init ) {
+int sem_open (sem_t* handle, unsigned init ) {
     uint64 volatile x;
     x = (uint64) init; __asm__ volatile("ld a2, %0" :: "m" (x));
     x = (uint64) handle; __asm__ volatile("ld a1, %0" :: "m" (x));
