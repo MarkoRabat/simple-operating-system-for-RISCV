@@ -3,6 +3,7 @@
 
 #include "../lib/hw.h"
 #include "scheduler.hpp"
+#include "semaphore.hpp"
 #include "print.hpp"
 
 void infiniteDispatchLoop(void*);
@@ -17,28 +18,31 @@ public:
         return myElemAllocator->allocateNewObject();
     }
     void operator delete(void* p) {
-        if (p) myElemAllocator->freeObject(p);
+        delete ((_thread*)p)->mySem;
+        myElemAllocator->freeObject(p);
     }
+    using Body = void (*)(void*);
+    _thread(Body body, void* arg) : _thread(body, arg, TIME_SLICE) {}
     bool isFinished() const { return finished; }
     void setFinished(bool value) { finished = value; }
     uint64 getTimeSlice() const { return timeSlice; }
-    using Body = void (*)(void*);
-    /*static _thread *createThread(Body body) {
-        return new _thread(body, TIME_SLICE);
-    }*/
-    _thread(Body body, void* arg) : _thread(body, arg, TIME_SLICE) {}
     void switchTo();
+    void join() { _sem::wait(mySem); }
     uint64 getTid() { return tid; }
-    static _thread *running;
-    friend class Riscv;
     void setBlocked(bool b) { blocked = b; }
     bool getBlocked() { return blocked; }
+    friend class Riscv;
+    static _thread *running;
 private:
     _thread(Body body, void* arg, uint64 timeSlice) :
             body(body), arg(arg),
             stack(body != nullptr ? (uint64*) MemoryAllocator::instance()->kmem_alloc(STACK_SIZE * sizeof(uint64)) : nullptr),
             context({ (uint64) &threadWrapper, stack != nullptr ? (uint64) (stack + STACK_SIZE) : 0 }),
             timeSlice(timeSlice), tid(nextTid++), finished(false) {
+
+        mySem = new _sem(0);
+        printString("\n&mySem = "); printInteger((uint64)mySem); printString("\n");
+
         if (body == nullptr && Scheduler::mainThread == nullptr) {
             Scheduler::mainThread = this;
             Scheduler::placeHolder = new _thread(infiniteDispatchLoop, nullptr, TIME_SLICE);
@@ -57,6 +61,7 @@ private:
     uint64 tid;
     bool blocked = false;
     bool finished;
+    _sem* mySem;
     static void threadWrapper();
     static void contextSwitch(Context *oldContext, Context *runningContext);
     static KObjectAllocator* myElemAllocator;

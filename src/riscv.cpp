@@ -45,7 +45,7 @@ void Riscv::handleSyncSupervisorTrap() {
 
     /*printString("\nThreadCnt= "); printInteger(Scheduler::instance()->readyThreadCnt()); printString("\n");*/
 
-    if (!(sysCallNum == 0x12 && ret == 7)) return;
+    //if (!(sysCallNum == 0x12 && ret == 7)) return;
 
     if (Scheduler::instance()->readyThreadCnt() == 0) {
         Scheduler::instance()->put(Scheduler::placeHolder);

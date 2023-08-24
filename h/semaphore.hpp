@@ -16,7 +16,7 @@ public:
     }
     void operator delete(void* p) {
         ((_sem*) p)->semDeleted = 1;
-        while (((_sem*) p)->val > 0) signal((_sem*)p);
+        while (((_sem*) p)->val < 0) signal((_sem*)p);
         myElemAllocator->freeObject(p);
     }
 private:

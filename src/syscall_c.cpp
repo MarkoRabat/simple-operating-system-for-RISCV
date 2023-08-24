@@ -44,6 +44,7 @@ void thread_dispatch() {
 
 void thread_join (thread_t handle) {
     uint64 volatile x;
+    x = (uint64) handle; __asm__ volatile("ld a1, %0" :: "m" (x));
     x = 0x14; __asm__ volatile("ld a0, %0" :: "m" (x));
     __asm__ volatile ("ecall");
 }

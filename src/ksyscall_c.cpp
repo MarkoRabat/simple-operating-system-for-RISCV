@@ -24,19 +24,15 @@ int kthread_create (thread_t* handle, void (*start_routine) (void*), void* arg) 
 
 int kthread_exit() {
     _thread::running->setFinished(true);
-    if (_thread::running == Scheduler::mainThread) {
-        Riscv::w_sepc(Scheduler::mainRet);
-        Riscv::ms_sstatus(0x100);
-        return 7;
-    }
     return 0;
 }
 
 void kthread_dispatch() { ; }
 
-void kthread_join ( thread_t handle ) {
-    printString("\nkthread_join\n");
-
+void kthread_join (thread_t handle) {
+    printString("\nbefore\n");
+    handle->join();
+    printString("\nafter\n");
 }
 
 int ksem_open ( sem_t* handle, unsigned init ) {
