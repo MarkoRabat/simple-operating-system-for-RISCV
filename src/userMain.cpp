@@ -53,9 +53,8 @@ void userMain() {
     sem_signal(sem);
     thread_dispatch();
     sem_signal(sem3);
-    printString("here 1 ");
     thread_join(new_t2);
-    printString("here 2 ");
+    thread_join(new_t1);
 
     mem_free(s);
     printString("\ndone\n");

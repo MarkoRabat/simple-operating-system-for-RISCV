@@ -17,9 +17,10 @@ int kmem_free(void* p) {
 
 int kthread_create (thread_t* handle, void (*start_routine) (void*), void* arg) {
     *handle = new _thread(start_routine, arg);
+    if(!*handle) return -1;
+    (*handle)->setPointerToMe(handle);
     Scheduler::instance()->put(*handle);
-    if (*handle) return 0;
-    return -1;
+    return 0;
 }
 
 int kthread_exit() {
@@ -30,9 +31,8 @@ int kthread_exit() {
 void kthread_dispatch() { ; }
 
 void kthread_join (thread_t handle) {
-    printString("\nbefore\n");
+    if (handle == 0) return;
     handle->join();
-    printString("\nafter\n");
 }
 
 int ksem_open ( sem_t* handle, unsigned init ) {

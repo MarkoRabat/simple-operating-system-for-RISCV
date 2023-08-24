@@ -12,7 +12,6 @@ void _thread::threadWrapper() {
     Riscv::enterUserMode();
     running->body(running->arg);
     running->setFinished(true);
-    printString("\nFinished thread\n");
     thread_dispatch();
 }
 

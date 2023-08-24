@@ -19,6 +19,7 @@ public:
     }
     void operator delete(void* p) {
         delete ((_thread*)p)->mySem;
+        *(((_thread*) p)->pointerToMe) = nullptr;
         myElemAllocator->freeObject(p);
     }
     using Body = void (*)(void*);
@@ -31,6 +32,7 @@ public:
     uint64 getTid() { return tid; }
     void setBlocked(bool b) { blocked = b; }
     bool getBlocked() { return blocked; }
+    void setPointerToMe(_thread** ptm) { pointerToMe = ptm; }
     friend class Riscv;
     static _thread *running;
 private:
@@ -41,7 +43,7 @@ private:
             timeSlice(timeSlice), tid(nextTid++), finished(false) {
 
         mySem = new _sem(0);
-        printString("\n&mySem = "); printInteger((uint64)mySem); printString("\n");
+        pointerToMe = nullptr;
 
         if (body == nullptr && Scheduler::mainThread == nullptr) {
             Scheduler::mainThread = this;
@@ -62,6 +64,7 @@ private:
     bool blocked = false;
     bool finished;
     _sem* mySem;
+    _thread** pointerToMe;
     static void threadWrapper();
     static void contextSwitch(Context *oldContext, Context *runningContext);
     static KObjectAllocator* myElemAllocator;

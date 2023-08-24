@@ -11,10 +11,7 @@ void callUserMain(void*) {
 void main() {
     Riscv::w_stvec((uint64) Riscv::supervisorTrap);
 
-    /*Scheduler::mainRet = (uint64) &&mainReturn;
-    printString("mainRet: ");
-    printInteger(Scheduler::mainRet);
-    printString("\n");*/
+    //Scheduler::mainRet = (uint64) &&mainReturn;
 
     _thread* mainThread = new _thread(0, nullptr);
     _thread::running = mainThread;
@@ -22,12 +19,11 @@ void main() {
     Riscv::enterUserMode();
     thread_t t;
     thread_create(&t, callUserMain, nullptr);
-    while (!t->isFinished()) thread_dispatch();
 
+    //while (!t->isFinished()) thread_dispatch();
+    thread_join(t);
 
-    //mainReturn:
+    printString("\nBACK IN MAIN\n");
 
-    printString("\n\n\n\nIM BACK IN MAIN here\n\n\n\n");
     return;
-
 }

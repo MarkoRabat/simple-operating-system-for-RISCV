@@ -5,8 +5,6 @@
 KObjectAllocator* _sem::myElemAllocator = nullptr;
 
 int _sem::wait(_sem* s) {
-    printString("s= "); printInteger((uint64) s); printString("\n");
-    printString("s= "); printInteger(s->value()); printString("\n");
     if (--s->val < 0) {
         s->blocked.addLast(_thread::running);
         _thread::running->setBlocked(true);
